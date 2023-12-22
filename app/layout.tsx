@@ -1,4 +1,7 @@
+import { Providers } from "@/components/auth-provider";
+import Sidebar from "@/components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -24,7 +27,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Providers>
+            <Sidebar />
+            {children}
+          </Providers>
+          <ModeToggle />
         </ThemeProvider>
       </body>
     </html>

@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  chats     Chat[]
+  notes     Note[]
+  folders   Folder[]
+}
+
+model Chat {
+  id           String        @id @default(uuid())
+  userId       String
+  title        String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  messages     ChatMessage[]
+  mathResponse MathResponse?
+  notes        Note[]
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model ChatMessage {
+  id            String   @id @default(uuid())
+  chatId        String
+  content       String   @db.Text
+  role          String
+  extractedText String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  chat Chat @relation(fields: [chatId], references: [id])
+
+  @@index([chatId])
+}
+
+model MathResponse {
+  id                String   @id @default(uuid())
+  chatId            String   @unique
+  input             String
+  solution          String
+  intermediateSteps String?
+  plotImageURL      String?
+  numberLineURL     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  chat Chat @relation(fields: [chatId], references: [id])
+
+  @@index([chatId])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  userId    String
+  chatId    String
+  title     String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tags      Tag[]
+  folderId  String?
+  user      User     @relation(fields: [userId], references: [id])
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  folder    Folder?  @relation(fields: [folderId], references: [id])
+
+  @@index([userId, chatId])
+  @@index([folderId])
+  @@index([chatId])
+}
+
+model Folder {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  notes     Note[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String
+  notes     Note[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
