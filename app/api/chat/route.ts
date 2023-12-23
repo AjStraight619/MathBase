@@ -75,8 +75,12 @@ const updateMessages = async (
   conversationUpdate: Message[],
   chatId: string
 ) => {
+  const baseUrl =
+    process.env.NODE_ENV === "production"
+      ? "https://math-base.vercel.app"
+      : "http://localhost:3000";
   try {
-    const res = await fetch("http://localhost:3000/api/users-chats", {
+    const res = await fetch(`${baseUrl}/api/users-chats`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
