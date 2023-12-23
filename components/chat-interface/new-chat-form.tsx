@@ -3,6 +3,7 @@
 import { addChat } from "@/actions/chatActions";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -18,7 +19,10 @@ export default function NewChatForm() {
   const [title, setTitle] = useState("New Chat");
 
   const handleAddChat = async (formData: FormData) => {
+    formData.append("title", title);
     await addChat(formData);
+    setIsOpen(false);
+    toast.success("Chat added successfully!");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,20 +32,18 @@ export default function NewChatForm() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full">New Chat</Button>
+        <Button className="w-full mb-4">New Chat</Button>
       </DialogTrigger>
-      <DialogTitle>New Chat</DialogTitle>
+
       <DialogContent>
-        <form action={handleAddChat}>
+        <DialogTitle className="text-center">New Chat</DialogTitle>
+
+        <form action={handleAddChat} className="flex flex-col">
           <Label htmlFor="title">Title</Label>
-          <Input
-            type="text"
-            defaultValue={title}
-            value={title}
-            id="title"
-            onChange={handleChange}
-          />
-          <SubmitButton>Add Chat</SubmitButton>
+          <Input type="text" value={title} id="title" onChange={handleChange} />
+          <SubmitButton variant="secondary" className="justify-end mt-2">
+            Add Chat
+          </SubmitButton>
         </form>
       </DialogContent>
     </Dialog>

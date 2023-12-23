@@ -1,7 +1,7 @@
 import { Logout } from "@/components/auth";
 import Link from "next/link";
 import { RxExit } from "react-icons/rx";
-import { UserAvatar } from "../avatar/Avatars";
+import { UserAvatar } from "../avatar/avatars";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 type AvatarDropDownProps = {

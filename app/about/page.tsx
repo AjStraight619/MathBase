@@ -10,7 +10,7 @@ import { HiDownload } from "react-icons/hi";
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col items-center justify-start w-full h-screen p-8">
+    <div className="flex flex-col items-center justify-start h-screen p-8">
       <motion.section
         className="mb-28 max-w-[45rem] text-center leading-8 sm:mb-40 scroll-mt-28"
         initial={{ opacity: 0, y: 100 }}

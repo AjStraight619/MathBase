@@ -1,7 +1,7 @@
 import { useFormStatus } from "react-dom";
 import { FaPaperPlane } from "react-icons/fa";
 
-export default function EmailSubmitButton() {
+export default function SubmitBtn() {
   const { pending } = useFormStatus();
 
   return (

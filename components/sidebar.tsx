@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Login, Signup } from "./auth";
 import AvatarDropDown from "./avatar/avatar-dropdown";
+import SidebarChat from "./chat-interface/sidebar-chat";
 import SearchBar from "./dashboard-interface/searchbar";
 import SidebarToggle from "./ui/sidebar-toggle";
 
@@ -23,7 +24,7 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
   const user = session?.user as User;
   const userName = user?.name;
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const mostRecentChatId = chatMetaData[0].id;
+  const mostRecentChatId = chatMetaData[0]?.id;
 
   const sidebarVariants = {
     open: { opacity: 1, x: 0 },
@@ -95,28 +96,7 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
 
         <div className="overflow-y-auto px-2 py-8">
           {isChatPath ? (
-            <nav>
-              {chatMetaData.map((item) => (
-                <motion.div
-                  key={item.id}
-                  variants={itemVariants}
-                  initial="closed"
-                  animate="open"
-                  exit="closed"
-                >
-                  <Link
-                    href={`/chat/${item.id}`}
-                    className={`flex items-center space-x-2 py-1 px-4 rounded-md ${
-                      pathname === `/chat/${item.id}`
-                        ? "bg-muted/80 "
-                        : "hover:bg-muted/40"
-                    }`}
-                  >
-                    <span className="text-md">{item.title}</span>
-                  </Link>
-                </motion.div>
-              ))}
-            </nav>
+            <SidebarChat chatMetaData={chatMetaData} pathname={pathname} />
           ) : isDashboardPath ? (
             <nav>
               <Link

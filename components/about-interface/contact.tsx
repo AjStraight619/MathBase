@@ -40,9 +40,9 @@ export default function Contact() {
 
       <form
         ref={formRef}
-        className="mt-10 flex flex-col text-primary"
+        className="mt-10 flex flex-col"
         action={async (formData) => {
-          const { data, error, success } = await sendEmail(formData);
+          const { data, error } = await sendEmail(formData);
 
           if (error) {
             toast.error(error);
@@ -68,6 +68,7 @@ export default function Contact() {
           required
           maxLength={5000}
         />
+
         <EmailSubmitButton />
       </form>
     </motion.section>

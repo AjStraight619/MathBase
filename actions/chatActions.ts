@@ -6,6 +6,7 @@ import { ChatWithMessages } from "@/lib/types";
 import { User } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const getMostRecentChat = async () => {
   const session = await getServerSession(authOptions);
@@ -25,6 +26,9 @@ export const getMostRecentChat = async () => {
 
 export const getChatMetaData = async () => {
   const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/");
+  }
   const user = session?.user as User;
   const userId = user.id;
 
@@ -89,6 +93,9 @@ export const addExtractedTextToDb = async (
 };
 
 export const getChatById = async (id: string) => {
+  const session = await getServerSession(authOptions);
+  if (!session) return;
+
   const chatById = (await prisma.chat.findUnique({
     where: {
       id: id,
@@ -101,6 +108,7 @@ export const getChatById = async (id: string) => {
       },
     },
   })) as unknown as ChatWithMessages;
+
   return chatById;
 };
 
@@ -112,10 +120,12 @@ export const addChat = async (formData: FormData) => {
   const user = session.user as User;
   const userId = user.id;
 
-  const newChat = await prisma.chat.create({
+  await prisma.chat.create({
     data: {
       title,
-      userId,
+      user: {
+        connect: { id: userId },
+      },
     },
   });
   revalidatePath("/chat/");

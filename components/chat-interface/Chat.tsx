@@ -1,5 +1,5 @@
 "use client";
-import { AssistantAvatar, UserAvatar } from "@/components/avatar/Avatars";
+import { AssistantAvatar, UserAvatar } from "@/components/avatar/avatars";
 import ProcessFiles from "@/components/files/process-files";
 import UploadFiles from "@/components/files/upload-files";
 import { Input } from "@/components/ui/input";
