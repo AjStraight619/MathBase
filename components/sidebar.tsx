@@ -25,7 +25,7 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
   const user = session?.user as User;
   const userName = user?.name;
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  let mostRecentChatId = chatMetaData[0].id;
+  let mostRecentChatId = chatMetaData[0]?.id;
   if (!mostRecentChatId) mostRecentChatId = "New Chat";
 
   const sidebarVariants = {
