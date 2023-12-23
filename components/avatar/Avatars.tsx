@@ -10,13 +10,13 @@ type AvatarProps = {
 
 export const UserAvatar = ({ className }: AvatarProps) => {
   const { data: session } = useSession();
-  console.log("This is the session in UserAvatar", session);
+  if (!session) return null;
 
   const user = session?.user as User;
   const userName = user?.name;
 
   return (
-    <Avatar className={`bg-indigo-500 ${className}`}>
+    <Avatar className={` ${className}`}>
       <AvatarFallback>{getInitials(userName)}</AvatarFallback>
     </Avatar>
   );
@@ -24,7 +24,7 @@ export const UserAvatar = ({ className }: AvatarProps) => {
 
 export const AssistantAvatar = () => {
   return (
-    <Avatar className="bg-cyan-700">
+    <Avatar className="text-cyan-500">
       <AvatarFallback>NG</AvatarFallback>
     </Avatar>
   );

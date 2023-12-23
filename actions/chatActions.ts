@@ -1,8 +1,10 @@
 "use server";
 
 import { authOptions } from "@/lib/authOptions";
+import { ChatWithMessages } from "@/lib/types";
 import { User } from "@prisma/client";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 export const getMostRecentChat = async () => {
   const session = await getServerSession(authOptions);
@@ -43,6 +45,7 @@ export const getChatMetaData = async () => {
 
 export const getAllChats = async () => {
   const session = await getServerSession(authOptions);
+  if (!session) return null;
   const user = session?.user as User;
   const userId = user.id;
 
@@ -53,7 +56,66 @@ export const getAllChats = async () => {
     orderBy: {
       updatedAt: "desc",
     },
+    include: {
+      messages: true,
+    },
   });
 
   return allChats;
+};
+
+export const addExtractedTextToDb = async (
+  chatId: string,
+  extractedTexts: string[]
+) => {
+  const session = await getServerSession(authOptions);
+  if (!session) return;
+  const user = session.user as User;
+  const userId = user.id;
+  if (!userId || !chatId) return;
+
+  extractedTexts.forEach(async (text) => {
+    const addedText = await prisma.chatMessage.create({
+      data: {
+        chatId,
+        content: text,
+        role: "user",
+      },
+    });
+    console.log("This is the added text: ", addedText);
+  });
+  revalidatePath("/chat/");
+};
+
+export const getChatById = async (id: string) => {
+  const chatById = (await prisma.chat.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      messages: {
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
+    },
+  })) as unknown as ChatWithMessages;
+  return chatById;
+};
+
+export const addChat = async (formData: FormData) => {
+  const title = formData.get("title") as unknown as string;
+
+  const session = await getServerSession(authOptions);
+  if (!session) return;
+  const user = session.user as User;
+  const userId = user.id;
+
+  const newChat = await prisma.chat.create({
+    data: {
+      title,
+      userId,
+    },
+  });
+  revalidatePath("/chat/");
 };

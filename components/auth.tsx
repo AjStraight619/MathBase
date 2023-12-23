@@ -9,7 +9,7 @@ export const Login = () => {
 
 export const Logout = () => {
   return (
-    <button className="dark:text-gray-50 text-black" onClick={() => signOut()}>
+    <button className="text-primary" onClick={() => signOut()}>
       Log out
     </button>
   );

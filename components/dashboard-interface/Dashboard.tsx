@@ -1,45 +1,25 @@
 "use client";
-
-import { Chat, Note } from "@prisma/client";
-import { useEffect, useState } from "react";
-import ListItem from "./ListItem";
+import { Chat, ChatMessage, Note } from "@prisma/client";
+import { usePathname } from "next/navigation";
+import ListItem from "./list-item";
 import { DashboardSeparator } from "./separator";
 
 type DashboardProps = {
   notes: Note[];
-  chats: Chat[];
-  searchTerm: string | string[] | undefined;
+  chats: (Chat & { messages: ChatMessage[] })[];
 };
 
-type CurrentListType = "notes" | "chats";
+export default function Dashboard({ notes, chats }: DashboardProps) {
+  const pathname = usePathname();
 
-export default function Dashboard({
-  notes,
-  chats,
-  searchTerm,
-}: DashboardProps) {
-  const [currentListItems, setCurrentListItems] = useState<Note[] | Chat[]>(
-    notes
-  );
+  const currentListType = pathname.includes("notes") ? "notes" : "chats";
 
-  const [currentListType, setCurrentListType] =
-    useState<CurrentListType>("notes");
-
-  useEffect(() => {
-    if (currentListType === "notes") {
-      setCurrentListItems(notes);
-    } else {
-      setCurrentListItems(chats);
-    }
-  }, [chats, currentListType, notes]);
+  const currentListItems = currentListType === "notes" ? notes : chats;
 
   return (
     <div className="flex flex-col w-full p-4">
-      <DashboardSeparator
-        setCurrentListType={setCurrentListType}
-        currentListType={currentListType}
-      />
-      <ListItem currentListItems={currentListItems} searchTerm={searchTerm} />
+      <DashboardSeparator currentListType={currentListType} />
+      <ListItem currentListItems={currentListItems} />
     </div>
   );
 }

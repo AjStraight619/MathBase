@@ -1,22 +1,25 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
-
-import { Dispatch, SetStateAction } from "react";
+import { useRouter } from "next/navigation";
 
 type DashboardSeparatorProps = {
-  setCurrentListType: Dispatch<SetStateAction<"notes" | "chats">>;
   currentListType: "notes" | "chats";
 };
 
 export function DashboardSeparator({
-  setCurrentListType,
   currentListType,
 }: DashboardSeparatorProps) {
+  const router = useRouter();
+
+  const handleChangeItemRoute = (listType: "notes" | "chats") => {
+    router.push(`/dashboard/${listType}`);
+  };
+
   return (
     <div>
       <div className="space-y-1">
-        <h4 className="text-sm font-medium leading-none">Dashboard</h4>
-        <p className="text-sm text-muted-foreground">
+        <h4 className="text-lg font-medium leading-none pb-2">Dashboard</h4>
+        <p className="text-xs text-muted-foreground">
           Your personalized hub for tracking progress, accessing resources, and
           managing your AI-driven math learning journey.
         </p>
@@ -27,7 +30,7 @@ export function DashboardSeparator({
           className={`${
             currentListType === "chats" ? "" : "text-muted-foreground"
           }`}
-          onClick={() => setCurrentListType("chats")}
+          onClick={() => handleChangeItemRoute("chats")}
         >
           Chats
         </button>
@@ -36,7 +39,7 @@ export function DashboardSeparator({
           className={`${
             currentListType === "notes" ? "" : "text-muted-foreground"
           }`}
-          onClick={() => setCurrentListType("notes")}
+          onClick={() => handleChangeItemRoute("notes")}
         >
           Notes
         </button>

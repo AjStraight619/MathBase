@@ -1,29 +1,32 @@
 "use client";
-
 import { Input } from "@/components/ui/input";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
-
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 export default function SearchBar() {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const { replace } = useRouter();
 
-  const updateSearchParam = useCallback(
-    (searchTerm: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set("search", searchTerm);
-      router.push(`?${params.toString()}`);
-    },
-
-    [router, searchParams]
-  );
+  const handleSearch = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("search", term);
+    } else {
+      params.delete("search");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   return (
-    <div className="fixed top-14 left-2 w-[10rem]">
+    <div className="fixed top-14 left-2 w-[11rem]">
       <Input
+        className="text-muted-foreground"
         type="text"
-        onChange={(e) => updateSearchParam(e.target.value)}
         placeholder="Search..."
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        defaultValue={searchParams.get("search")?.toString()}
       />
     </div>
   );

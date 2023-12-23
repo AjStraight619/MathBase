@@ -1,4 +1,5 @@
 import { Logout } from "@/components/auth";
+import Link from "next/link";
 import { RxExit } from "react-icons/rx";
 import { UserAvatar } from "../avatar/Avatars";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -22,12 +23,14 @@ export default function AvatarDropDown({
           </span>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="max-w-[10rem] dark:bg-zinc-950 bg-gray-300 shadow-lg rounded-md p-[0.3rem]">
+      <PopoverContent className="max-w-[10rem] rounded-md p-[0.3rem]">
         <div className="flex flex-col p-[0.5rem]">
-          <button className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2">
-            <UserAvatar className="w-5 h-5 text-sm" />
-            <span>Profile</span>
-          </button>
+          <Link
+            className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2"
+            href="/dashboard/chats"
+          >
+            Dashboard
+          </Link>
 
           <button className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2">
             <RxExit className="w-5 h-5 text-sm" />
