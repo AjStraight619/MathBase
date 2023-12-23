@@ -52,8 +52,8 @@ export default function AboutPage() {
           <span className="font-bold">2 years</span> of experience. I am
           currently studying <span className="underline">Computer Science</span>{" "}
           at <span className="font-bold">San Diego State Univeristy</span> I
-          enjoy building <span className="italic">web applications</span>. My
-          focus is <span className="underline">React (Next.js)</span>.
+          enjoy building <span className="italic">web apps</span>. My focus is{" "}
+          <span className="underline">React (Next.js)</span>.
         </motion.h1>
 
         <motion.div
