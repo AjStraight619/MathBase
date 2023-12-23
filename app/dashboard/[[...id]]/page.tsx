@@ -1,7 +1,6 @@
 import { getAllChats } from "@/actions/chatActions";
 import { getAllNotes } from "@/actions/noteActions";
 import Dashboard from "@/components/dashboard-interface/Dashboard";
-import SearchBar from "@/components/dashboard-interface/searchbar";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 
 type DashboardProps = {
@@ -50,7 +49,6 @@ export default async function DashboardPage({
 
   return (
     <div className="flex h-screen ml-[12rem]">
-      <SearchBar />
       <Dashboard notes={filteredNotes} chats={filteredChats} />
     </div>
   );

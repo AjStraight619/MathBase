@@ -18,7 +18,7 @@ export default function SearchBar() {
   }, 300);
 
   return (
-    <div className="fixed top-14 left-2 w-[11rem]">
+    <div className="w-full p-2">
       <Input
         className="text-muted-foreground"
         type="text"

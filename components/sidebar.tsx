@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Login, Signup } from "./auth";
 import AvatarDropDown from "./avatar/avatar-dropdown";
+import SearchBar from "./dashboard-interface/searchbar";
 import SidebarToggle from "./ui/sidebar-toggle";
 
 type SidebarProps = {
@@ -79,9 +80,13 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
         className={`fixed top-0 left-0 h-screen w-48 flex flex-col border border-r bg-background`}
       >
         <div className="flex flex-row justify-between p-2">
-          <h1 className="text-xl font-bold">Math Base</h1>
+          <h1 className="text-xl font-bold">
+            <Link href="/">Math Base</Link>
+          </h1>
           <SidebarToggle handleSidebarToggle={handleSidebarToggle} />
         </div>
+        {isDashboardPath && <SearchBar />}
+
         <div className="overflow-y-auto px-2 py-8">
           {isChatPath ? (
             <nav>
@@ -110,13 +115,13 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
             <nav>
               <Link
                 href={`/chat/${mostRecentChatId}`}
-                className={`flex items-center space-x-2 py-2 px-4 rounded-md ${
+                className={`flex items-center space-x-2 py-1 px-4 rounded-md ${
                   pathname === `/chat/${mostRecentChatId}`
                     ? "bg-muted/80"
                     : "hover:bg-muted/40"
                 }`}
               >
-                <span className="text-lg">Chat</span>
+                <span className="group text-md">Chats</span>
               </Link>
             </nav>
           ) : null}
