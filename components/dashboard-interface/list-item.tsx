@@ -30,7 +30,7 @@ export default function ListItem({ currentListItems }: ListItemProps) {
   };
 
   return (
-    <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-4 pt-4">
+    <div className="grid lg:grid-cols-8 md:grid-cols-3 gap-4 pt-4">
       {currentListItems?.map((item, index) => (
         <motion.div
           key={item.id}

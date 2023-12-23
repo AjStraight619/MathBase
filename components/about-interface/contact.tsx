@@ -1,7 +1,5 @@
 "use client";
-
 import { sendEmail } from "@/actions/sendEmail";
-
 import EmailSubmitButton from "@/email/email-submit-button";
 import { motion } from "framer-motion";
 import { useRef } from "react";
@@ -32,7 +30,7 @@ export default function Contact() {
     >
       <SectionHeading>Contact me</SectionHeading>
 
-      <p className="text-gray-700 -mt-6 dark:text-white/80">
+      <p className="text-primary -mt-6 dark:text-primary/80">
         Please contact me directly at{" "}
         <a className="underline" href="mailto:astraight9409@sdsu.edu">
           astraight9409@sdsu.edu
@@ -51,10 +49,8 @@ export default function Contact() {
             return;
           }
 
-          if (success) {
-            toast.success("Email sent successfully!");
-            formRef.current?.reset();
-          }
+          toast.success("Email sent successfully!");
+          formRef.current?.reset();
         }}
       >
         <Input
