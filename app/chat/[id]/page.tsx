@@ -9,6 +9,7 @@ type ChatPageProps = {
 };
 export default async function ChatPage({ params }: ChatPageProps) {
   const { id } = params;
+  console.log("id", id);
   const chatById = (await getChatById(id)) as unknown as ChatWithMessages;
   return <ChatEdgeRuntime chatById={chatById} />;
 }

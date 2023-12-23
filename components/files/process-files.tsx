@@ -33,7 +33,7 @@ export default function ProcessFiles({ files, setFiles }: ProcessFilesProps) {
           }`}
         />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-zinc-950">
+      <DialogContent className="sm:max-w-md ">
         <DialogHeader>
           <DialogTitle className="flex justify-center items-center">
             Process Files

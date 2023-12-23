@@ -11,6 +11,7 @@ import { Login, Signup } from "./auth";
 import AvatarDropDown from "./avatar/avatar-dropdown";
 import SidebarChat from "./chat-interface/sidebar-chat";
 import SearchBar from "./dashboard-interface/searchbar";
+import SidebarHome from "./home/sidebar-home";
 import SidebarToggle from "./ui/sidebar-toggle";
 
 type SidebarProps = {
@@ -24,7 +25,8 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
   const user = session?.user as User;
   const userName = user?.name;
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const mostRecentChatId = chatMetaData[0]?.id;
+  let mostRecentChatId = chatMetaData[0].id;
+  if (!mostRecentChatId) mostRecentChatId = "New Chat";
 
   const sidebarVariants = {
     open: { opacity: 1, x: 0 },
@@ -58,16 +60,12 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  if (
-    pathname === "/" ||
-    pathname === "/register" ||
-    pathname === "/about" ||
-    pathname === "/blog"
-  )
+  if (pathname === "/register" || pathname === "/about" || pathname === "/blog")
     return null;
 
   const isDashboardPath = pathname.startsWith("/dashboard");
   const isChatPath = pathname.startsWith("/chat");
+  const isHomePath = pathname === "/";
 
   return (
     <>
@@ -110,6 +108,8 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
                 <span className="group text-md">Chats</span>
               </Link>
             </nav>
+          ) : isHomePath ? (
+            <SidebarHome mostRecentChatId={mostRecentChatId} />
           ) : null}
 
           <div className="absolute bottom-0 w-full py-4 bg-none">
