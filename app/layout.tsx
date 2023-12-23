@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,6 +34,7 @@ export default async function RootLayout({
           <Providers>
             <Sidebar chatMetaData={chatMetaData} />
             {children}
+            <Toaster />
           </Providers>
           <ModeToggle />
         </ThemeProvider>

@@ -1,4 +1,5 @@
 "use client";
+import Contact from "@/components/about-interface/contact";
 import SectionHeading from "@/components/ui/section-heading";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -120,9 +121,10 @@ export default function AboutPage() {
           <span className="font-medium">learning new things</span>. I am
           currently enhancing my skills in fine-tuning the GPT-3 Turbo model to
           improve its proficiency in solving mathematical problems, with the
-          goal of integrating this advanced capability into my application.
+          goal of integrating this advanced capability into this application.
         </p>
       </motion.section>
+      <Contact />
     </div>
   );
 }
