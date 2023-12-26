@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Detailed Explanation
 
-## Getting Started
+### Overview
 
-First, run the development server:
+This Math Tutoring App is designed to offer an interactive and comprehensive learning experience for users looking to understand and solve complex math problems. It integrates the computational intelligence of Wolfram Alpha with the conversational and explanatory prowess of ChatGPT, wrapped in a user-friendly interface built with Next.js, React.js, and TypeScript.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### How It Works
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Problem Solving with Wolfram Alpha
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Input Handling**: Users can input a wide range of mathematical problems into the app's interface.
+- **Wolfram Alpha API**: Upon submission, these problems are sent to the Wolfram Alpha API, renowned for its ability to handle complex mathematical computations and provide detailed solutions.
+- **Solution Retrieval**: The app retrieves the step-by-step solution from Wolfram Alpha, presenting it in an understandable format.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### Explanatory Insights with ChatGPT
 
-## Learn More
+- **Processing Solutions**: Each step of the solution provided by Wolfram Alpha is then fed into ChatGPT's API.
+- **Generating Explanations**: ChatGPT processes this information to generate clear, detailed explanations for each step. This helps in breaking down complex mathematical concepts into easier-to-understand narratives.
+- **Interactive Learning**: Users can interact with ChatGPT for further clarifications, making the learning process more engaging and personalized.
 
-To learn more about Next.js, take a look at the following resources:
+#### Note Exporting Feature
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Integration of Notes**: Users have the option to save the problem, its solution, and the explanations as a note within the app.
+- **Export Functionality**: These notes can be exported for future reference, facilitating continuous learning and review.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Technology Stack
 
-## Deploy on Vercel
+#### Next.js and React.js
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Frontend Development**: The app's user interface is built using Next.js and React.js, offering a seamless and responsive experience.
+- **Server-Side Rendering**: Next.js enhances performance and SEO, benefiting from its server-side rendering capabilities.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### TypeScript
+
+- **Enhanced Code Quality**: TypeScript is used to ensure type safety and better code structuring, leading to more reliable and maintainable code.
+
+#### Prisma ORM with PlanetScale and MySQL
+
+- **Database Management**: Prisma ORM is used for interacting with the MySQL database provided by PlanetScale.
+- **Data Handling**: This setup allows for efficient handling of user data, including storing and retrieving problem statements, solutions, and notes.
+
+### Conclusion
+
+This Math Tutoring App is not just a tool for solving math problems but an educational platform aimed at enhancing understanding and retention of mathematical concepts. It leverages cutting-edge technologies and APIs to create a unique and effective learning environment.
