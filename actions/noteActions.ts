@@ -21,3 +21,23 @@ export const getAllNotes = async () => {
   });
   return allNotes;
 };
+
+export const addNote = async (formData: FormData) => {
+  const session = await getServerSession(authOptions);
+  if (!session) return null;
+  const user = session?.user as User;
+  const userId = user.id;
+
+  const title = formData.get("title") as string;
+
+  const note = await prisma.note.create({
+    data: {
+      title: title,
+      userId: userId,
+      chatId: "",
+      content: "",
+    },
+  });
+
+  return note;
+};

@@ -3,14 +3,13 @@ import { AssistantAvatar, UserAvatar } from "@/components/avatar/avatars";
 import ProcessFiles from "@/components/files/process-files";
 import UploadFiles from "@/components/files/upload-files";
 import { Input } from "@/components/ui/input";
-// import { useChatData } from "@/hooks/useChatData";
 import { useItemId } from "@/hooks/useItemId";
-import { ChatWithMessages, LocalFile } from "@/lib/types";
+import { ChatWithMessages } from "@/lib/types";
 import { User } from "@prisma/client";
 import { Message } from "ai";
 import { useChat } from "ai/react";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BiSolidUpArrowCircle } from "react-icons/bi";
 
 /**
@@ -29,7 +28,7 @@ export default function Chat({ chatById }: ChatProps): React.ReactElement {
   const { data: session } = useSession();
   const user = session?.user as User;
   const userId = user?.id;
-  const [files, setFiles] = useState<LocalFile[]>([]);
+
   const chatId = useItemId();
 
   // const { wolframAlphaData, isLoadingWolframAlpha, isError, isValidating } =
@@ -65,9 +64,9 @@ export default function Chat({ chatById }: ChatProps): React.ReactElement {
     }
   }, [setMessages, chatById]);
 
-  const isCodeMessage = (content: string) => {
-    return content.startsWith("```");
-  };
+  // const isCodeMessage = (content: string) => {
+  //   return content.startsWith("```");
+  // };
 
   return (
     <div className="flex flex-col justify-between h-full relative pb-[4rem]">
@@ -87,10 +86,10 @@ export default function Chat({ chatById }: ChatProps): React.ReactElement {
 
       <div className="fixed bottom-4 left-[10rem] right-0 mx-auto w-full max-w-xl">
         <div className="flex items-center justify-center">
-          <ProcessFiles files={files} setFiles={setFiles} />
+          <ProcessFiles />
           <form
             onSubmit={handleSubmit}
-            className="flex-1 flex items-center relative"
+            className="flex-1 flex items-center relative sm:w-3/4 md:w-2/3 lg:w-1/2"
           >
             <Input
               value={input}
@@ -105,11 +104,7 @@ export default function Chat({ chatById }: ChatProps): React.ReactElement {
                 } w-6 h-6 absolute bottom-3 right-3`}
               />
             </button>
-            <UploadFiles
-              files={files}
-              setFiles={setFiles}
-              className="absolute left-0 "
-            />
+            <UploadFiles className="absolute left-0 " />
           </form>
         </div>
       </div>

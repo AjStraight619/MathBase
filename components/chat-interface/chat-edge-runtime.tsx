@@ -3,7 +3,7 @@ import Chat from "./Chat";
 
 export const runtime = "edge";
 
-export default function ChatEdgeRuntime({
+export default async function ChatEdgeRuntime({
   chatById,
 }: {
   chatById: ChatWithMessages;

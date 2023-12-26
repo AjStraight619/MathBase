@@ -11,23 +11,27 @@ export default function SidebarChat({
   chatMetaData,
   pathname,
 }: SidebarChatProps) {
+  const chatId = pathname.split("/")[2];
+
+  // TODO: Add text fading animation to chat title
+
   return (
     <>
       <NewChatForm />
-      {chatMetaData.map((item) => (
-        <div key={item.id}>
-          <Link
-            href={`/chat/${item.id}`}
-            className={`flex items-center space-x-2 py-1 px-4 rounded-md ${
-              pathname === `/chat/${item.id}`
-                ? "bg-muted/80 "
-                : "hover:bg-muted/40"
-            }`}
-          >
-            <span className="text-md">{item.title}</span>
-          </Link>
-        </div>
-      ))}
+      {chatMetaData.map((chat) => {
+        return (
+          <div className="flex flex-col space-y-2" key={chat.id}>
+            <Link
+              href={`/chat/${chat.id}`}
+              className={`w-full py-1 px-2 rounded-md hover:cursor-pointer whitespace-nowrap text-clip overflow-hidden ${
+                chatId === chat.id ? "bg-muted/80 " : "hover:bg-muted/40"
+              }`}
+            >
+              <div className="">{chat.title}</div>
+            </Link>
+          </div>
+        );
+      })}
     </>
   );
 }

@@ -8,21 +8,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { LocalFile } from "@/lib/types";
+import { useFileContext } from "@/context/FileProvider";
 import { DialogClose } from "@radix-ui/react-dialog";
-import React, { useState } from "react";
+import { useState } from "react";
 import { RxStack } from "react-icons/rx";
 import { Button } from "../ui/button";
 import ProcessFileForm from "./process-files-form";
 import UploadFiles from "./upload-files";
 
-type ProcessFilesProps = {
-  files: LocalFile[];
-  setFiles: React.Dispatch<React.SetStateAction<LocalFile[]>>;
-};
-
-export default function ProcessFiles({ files, setFiles }: ProcessFilesProps) {
+export default function ProcessFiles() {
   const [isOpen, setIsOpen] = useState(false);
+  const { files } = useFileContext();
 
   return (
     <Dialog>
@@ -38,7 +34,7 @@ export default function ProcessFiles({ files, setFiles }: ProcessFilesProps) {
           <DialogTitle className="flex justify-center items-center">
             Process Files
           </DialogTitle>
-          <DialogDescription className="text-xs text-gray-50/50">
+          <DialogDescription className="text-xs text-black">
             Select the files you want to process. The text will be extracted and
             added to the chat.
           </DialogDescription>
@@ -46,18 +42,14 @@ export default function ProcessFiles({ files, setFiles }: ProcessFilesProps) {
         <div className="flex items-center space-x-2 pb-[2rem]">
           <div className="grid flex-1 gap-2">
             {files.length ? (
-              <ProcessFileForm
-                files={files}
-                setFiles={setFiles}
-                setIsOpen={setIsOpen}
-              />
+              <ProcessFileForm setIsOpen={setIsOpen} />
             ) : (
               <div className="flex flex-row justify-start items-center">
-                <span className="text-xs text-gray-50/50">
+                <span className="text-xs text-muted-foreground">
                   Click the icon to select files.{" "}
                 </span>
                 <span>
-                  <UploadFiles files={files} setFiles={setFiles} />
+                  <UploadFiles />
                 </span>
               </div>
             )}

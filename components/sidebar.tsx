@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Login, Signup } from "./auth";
 import AvatarDropDown from "./avatar/avatar-dropdown";
+import NewChatForm from "./chat-interface/new-chat-form";
 import SidebarChat from "./chat-interface/sidebar-chat";
 import SearchBar from "./dashboard-interface/searchbar";
 import SidebarHome from "./home/sidebar-home";
@@ -31,11 +32,6 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
   const sidebarVariants = {
     open: { opacity: 1, x: 0 },
     closed: { opacity: 0, x: "-100%" },
-  };
-
-  const itemVariants = {
-    open: { opacity: 1, x: 0, transition: { duration: 0.3 } },
-    closed: { opacity: 0, x: -50, transition: { duration: 0.3 } },
   };
 
   useEffect(() => {
@@ -97,6 +93,7 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
             <SidebarChat chatMetaData={chatMetaData} pathname={pathname} />
           ) : isDashboardPath ? (
             <nav>
+              <NewChatForm />
               <Link
                 href={`/chat/${mostRecentChatId}`}
                 className={`flex items-center space-x-2 py-1 px-4 rounded-md ${

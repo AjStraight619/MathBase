@@ -4,6 +4,7 @@ import { addChat } from "@/actions/chatActions";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { FiPlus } from "react-icons/fi";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -32,7 +33,10 @@ export default function NewChatForm() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full mb-4">New Chat</Button>
+        <Button className="w-full mb-4 justify-evenly">
+          New Chat
+          <FiPlus />
+        </Button>
       </DialogTrigger>
 
       <DialogContent>

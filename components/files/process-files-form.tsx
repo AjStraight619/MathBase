@@ -1,7 +1,7 @@
 import { addExtractedTextToDb } from "@/actions/chatActions";
+import { useFileContext } from "@/context/FileProvider";
 import { useFileManager } from "@/hooks/useFileManager";
 import { useItemId } from "@/hooks/useItemId";
-import { LocalFile } from "@/lib/types";
 import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
@@ -10,18 +10,13 @@ import SubmitButton from "../ui/submit-button";
 import UploadFiles from "./upload-files";
 
 type ProcessFileFormProps = {
-  files: LocalFile[];
-  setFiles: React.Dispatch<React.SetStateAction<LocalFile[]>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function ProcessFileForm({
-  files,
-  setFiles,
-  setIsOpen,
-}: ProcessFileFormProps) {
+export default function ProcessFileForm({ setIsOpen }: ProcessFileFormProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const chatId = useItemId();
+  const { files, setFiles } = useFileContext();
   const { toggleFileChecked } = useFileManager({
     files,
     setFiles,
@@ -68,7 +63,7 @@ export default function ProcessFileForm({
         </div>
       ))}
       <div className="flex gap-2 items-center absolute bottom-2 right-2">
-        {files.length > 0 && <UploadFiles files={files} setFiles={setFiles} />}
+        {files.length > 0 && <UploadFiles />}
         <SubmitButton>Process File</SubmitButton>
       </div>
     </form>

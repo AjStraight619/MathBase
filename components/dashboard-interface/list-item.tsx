@@ -3,7 +3,6 @@
 import { isChat } from "@/lib/typeGuards";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 type ListItemProps = {
@@ -13,14 +12,6 @@ type ListItemProps = {
 type Item = Note | (Chat & { messages: ChatMessage[] });
 
 export default function ListItem({ currentListItems }: ListItemProps) {
-  const counterRef = useRef(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    counterRef.current++;
-    console.log("rendered", counterRef.current);
-  });
-
   const renderItemContent = (item: Item) => {
     if (isChat(item) && item.messages.length > 0) {
       return item.messages[0].content;

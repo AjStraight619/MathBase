@@ -3,6 +3,7 @@ import { Providers } from "@/components/auth-provider";
 import Sidebar from "@/components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { FileProvider } from "@/context/FileProvider";
 import { authOptions } from "@/lib/authOptions";
 import { ListMetaData } from "@/lib/types";
 import type { Metadata } from "next";
@@ -39,8 +40,10 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Providers>
-            <Sidebar chatMetaData={chatMetaData} />
-            {children}
+            <FileProvider>
+              <Sidebar chatMetaData={chatMetaData} />
+              {children}
+            </FileProvider>
             <Toaster />
           </Providers>
           <ModeToggle />
