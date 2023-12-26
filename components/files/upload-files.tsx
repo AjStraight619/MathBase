@@ -1,7 +1,6 @@
 "use client";
 import { UploadIcon } from "@/components/ui/upload-icon";
 import { useFileContext } from "@/context/FileProvider";
-import { useFileManager } from "@/hooks/useFileManager";
 import { LocalFile } from "@/lib/types";
 import React, { useRef } from "react";
 
@@ -11,8 +10,7 @@ type UploadFilesProps = {
 
 export default function UploadFiles({ className }: UploadFilesProps) {
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const { files, setFiles } = useFileContext();
-  const { addFiles } = useFileManager({ files, setFiles });
+  const { state, dispatch } = useFileContext();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -22,7 +20,7 @@ export default function UploadFiles({ className }: UploadFilesProps) {
         checked: true,
       }));
       console.log("fileArray", fileArray);
-      addFiles(fileArray);
+      dispatch({ type: "ADD_FILE", payload: fileArray });
     }
   };
 

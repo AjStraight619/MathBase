@@ -8,6 +8,7 @@ type SubmitButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  disabled?: boolean;
   variant?:
     | "link"
     | "default"
@@ -23,6 +24,7 @@ export default function SubmitButton({
   children,
   onClick,
   className,
+  disabled,
   variant,
 }: SubmitButtonProps) {
   const { pending } = useFormStatus();
@@ -32,7 +34,7 @@ export default function SubmitButton({
         className={cn(className)}
         onClick={onClick}
         type="submit"
-        disabled={pending}
+        disabled={pending || disabled}
         variant={variant}
       >
         {pending ? <CgSpinner className="animate-spin" /> : children}

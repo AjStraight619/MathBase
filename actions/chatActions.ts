@@ -8,6 +8,13 @@ import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+const getUser = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session) return null;
+  const user = session?.user as User;
+  return user;
+};
+
 export const getMostRecentChat = async () => {
   const session = await getServerSession(authOptions);
   const user = session?.user as User;
@@ -120,7 +127,7 @@ export const addChat = async (formData: FormData) => {
   const user = session.user as User;
   const userId = user.id;
 
-  await prisma.chat.create({
+  const newChat = await prisma.chat.create({
     data: {
       title,
       user: {
@@ -128,5 +135,37 @@ export const addChat = async (formData: FormData) => {
       },
     },
   });
+  revalidatePath("/chat/");
+  return newChat;
+};
+
+export const deleteChat = async (id: string) => {
+  const user = await getUser();
+  if (!user) return;
+  const userId = user.id;
+
+  // Delete associated chat messages
+  await prisma.chatMessage.deleteMany({
+    where: {
+      chatId: id,
+    },
+  });
+
+  await prisma.note.updateMany({
+    where: {
+      chatId: id,
+    },
+    data: {
+      chatId: { set: null },
+    },
+  });
+
+  await prisma.chat.delete({
+    where: {
+      id: id,
+      userId: userId,
+    },
+  });
+
   revalidatePath("/chat/");
 };

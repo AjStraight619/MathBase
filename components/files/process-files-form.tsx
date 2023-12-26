@@ -1,8 +1,5 @@
-import { addExtractedTextToDb } from "@/actions/chatActions";
 import { useFileContext } from "@/context/FileProvider";
 import { useFileManager } from "@/hooks/useFileManager";
-import { useItemId } from "@/hooks/useItemId";
-import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -10,42 +7,16 @@ import SubmitButton from "../ui/submit-button";
 import UploadFiles from "./upload-files";
 
 type ProcessFileFormProps = {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
 };
 
-export default function ProcessFileForm({ setIsOpen }: ProcessFileFormProps) {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const chatId = useItemId();
-  const { files, setFiles } = useFileContext();
-  const { toggleFileChecked } = useFileManager({
-    files,
-    setFiles,
-  });
-
-  const processFiles = async (formData: FormData) => {
-    files.forEach((file) => {
-      formData.append("file", file.file);
-    });
-    const res = await fetch(`/api/parse-file`, {
-      method: "POST",
-      body: formData,
-    });
-    if (!res.ok) {
-      throw new Error(`Error parsing file`);
-    }
-    const data = await res.json();
-    const { extractedTexts, success } = data;
-    if (!success) {
-      throw new Error(`Error parsing file`);
-    } else {
-      await addExtractedTextToDb(chatId ?? "", extractedTexts);
-    }
-    setIsOpen(false);
-  };
+export default function ProcessFileForm({ className }: ProcessFileFormProps) {
+  const { state, dispatch } = useFileContext();
+  const { processFiles } = useFileManager();
 
   return (
     <form action={processFiles}>
-      {files.map((file) => (
+      {state.map((file) => (
         <div key={file.file.name} className="flex items-center space-x-2">
           <Label htmlFor="file" className="sr-only">
             File
@@ -58,13 +29,15 @@ export default function ProcessFileForm({ setIsOpen }: ProcessFileFormProps) {
           />
           <Checkbox
             checked={file.checked}
-            onClick={() => toggleFileChecked(file.file.name)}
+            onClick={() =>
+              dispatch({ type: "TOGGLE_FILE", payload: file.file.name })
+            }
           />
         </div>
       ))}
-      <div className="flex gap-2 items-center absolute bottom-2 right-2">
-        {files.length > 0 && <UploadFiles />}
-        <SubmitButton>Process File</SubmitButton>
+      <div className={className}>
+        {state.length > 0 && <UploadFiles />}
+        <SubmitButton disabled={state.length === 0}>Process Files</SubmitButton>
       </div>
     </form>
   );

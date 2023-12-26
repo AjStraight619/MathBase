@@ -68,7 +68,7 @@ model MathResponse {
 model Note {
   id        String   @id @default(uuid())
   userId    String
-  chatId    String
+  chatId    String?
   title     String
   content   String   @db.Text
   createdAt DateTime @default(now())
@@ -76,7 +76,7 @@ model Note {
   tags      Tag[]
   folderId  String?
   user      User     @relation(fields: [userId], references: [id])
-  chat      Chat     @relation(fields: [chatId], references: [id])
+  chat      Chat?    @relation(fields: [chatId], references: [id])
   folder    Folder?  @relation(fields: [folderId], references: [id])
 
   @@index([userId, chatId])

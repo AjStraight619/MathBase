@@ -1,17 +1,22 @@
 "use client";
-
 import { isChat } from "@/lib/typeGuards";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 type ListItemProps = {
   currentListItems: Array<Note | (Chat & { messages: ChatMessage[] })>;
+  currentListType: string;
 };
 
 type Item = Note | (Chat & { messages: ChatMessage[] });
 
-export default function ListItem({ currentListItems }: ListItemProps) {
+export default function ListItem({
+  currentListItems,
+  currentListType,
+}: ListItemProps) {
+  const router = useRouter();
   const renderItemContent = (item: Item) => {
     if (isChat(item) && item.messages.length > 0) {
       return item.messages[0].content;
@@ -19,6 +24,14 @@ export default function ListItem({ currentListItems }: ListItemProps) {
       return item.content;
     }
     return "No content available";
+  };
+
+  const handleRouteChange = (id: string, listType: string) => {
+    if (listType === "notes") {
+      router.push(`/note/${id}`);
+    } else if (listType === "chats") {
+      router.push(`/chat/${id}`);
+    }
   };
 
   return (
@@ -40,6 +53,7 @@ export default function ListItem({ currentListItems }: ListItemProps) {
             scaleZ: 1.05,
             zIndex: 0.5,
           }}
+          onClick={() => handleRouteChange(item.id, currentListType)}
         >
           <Card className="w-[14rem] h-[20rem] hover:cursor-pointer relative">
             <CardHeader className="text-left">{item.title}</CardHeader>

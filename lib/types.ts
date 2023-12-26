@@ -134,3 +134,10 @@ export type FolderMetaData = {
   id: string;
   title: string;
 };
+
+export type FileActionType = "ADD_FILE" | "DELETE_FILE" | "UPDATE_FILE";
+
+export type FileAction = {
+  type: FileActionType;
+  payload: FileMetaData;
+};
