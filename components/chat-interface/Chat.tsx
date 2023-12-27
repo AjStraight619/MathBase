@@ -25,13 +25,9 @@ import CodeRenderer from "./code-renderer";
 
 export type ChatProps = {
   chatById: ChatWithMessages | null;
-  searchTerm?: string;
 };
 
-export default function Chat({
-  chatById,
-  searchTerm,
-}: ChatProps): React.ReactElement {
+export default function Chat({ chatById }: ChatProps): React.ReactElement {
   const { data: session } = useSession();
   const user = session?.user as User;
   const userId = user?.id;
