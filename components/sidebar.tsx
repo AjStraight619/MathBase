@@ -56,7 +56,15 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  if (pathname === "/register" || pathname === "/about" || pathname === "/blog")
+  if (
+    pathname === "/register" ||
+    pathname === "/about" ||
+    pathname === "/blog" ||
+    pathname === "/sign-in" ||
+    pathname === "/forgot-password" ||
+    pathname == "/forgot-password/success" ||
+    pathname === "/reset-password"
+  )
     return null;
 
   const isDashboardPath = pathname.startsWith("/dashboard");

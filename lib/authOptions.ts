@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { compare } from "bcrypt";
 import { NextAuthOptions } from "next-auth";
+import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
+import DiscordProvider from "next-auth/providers/discord";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -19,6 +22,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log(credentials);
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -46,22 +50,22 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID as string,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    // }),
-    // AppleProvider({
-    //   clientId: process.env.APPLE_CLIENT_ID as string,
-    //   clientSecret: process.env.APPLE_CLIENT_SECRET as string,
-    // }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    AppleProvider({
+      clientId: process.env.APPLE_CLIENT_ID as string,
+      clientSecret: process.env.APPLE_CLIENT_SECRET as string,
+    }),
     // GitHubProvider({
     //   clientId: process.env.GITHUB_CLIENT_ID as string,
     //   clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     // }),
-    // DiscordProvider({
-    //   clientId: process.env.DISCORD_CLIENT_ID as string,
-    //   clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
-    // }),
+    DiscordProvider({
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+    }),
     // InstagramProvider({
     //   clientId: process.env.INSTAGRAM_CLIENT_ID as string,
     //   clientSecret: process.env.INSTAGRAM_CLIENT_SECRET as string,
@@ -80,8 +84,6 @@ export const authOptions: NextAuthOptions = {
     },
 
     jwt: ({ token, user }) => {
-      // console.log("JWT Callback", { token, user });
-      // Fallback JWT object, in case `user` is not defined.
       const fallbackJWT = {
         ...token,
       };
@@ -97,5 +99,6 @@ export const authOptions: NextAuthOptions = {
 
   pages: {
     signOut: "/",
+    signIn: "/sign-in",
   },
 };

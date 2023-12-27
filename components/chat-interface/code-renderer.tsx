@@ -27,7 +27,6 @@ const CodeRenderer = ({ content }: { content: string }) => {
       setCopiedIndices((prev) =>
         prev.map((copied, idx) => (idx === index ? true : copied))
       );
-      console.log("copiedIndices", copiedIndices);
       setTimeout(() => {
         setCopiedIndices((prev) =>
           prev.map((copied, idx) => (idx === index ? false : copied))
