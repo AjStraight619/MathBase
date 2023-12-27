@@ -1,4 +1,5 @@
 "use client";
+import { useMathModeContext } from "@/context/MathModeProvider";
 import { ExtractedText } from "@/lib/types";
 import { useState } from "react";
 
@@ -10,6 +11,7 @@ import { useState } from "react";
  */
 
 export const useExtractedText = (initialText: ExtractedText) => {
+  const { mathMode } = useMathModeContext();
   const [extractedText, setExtractedText] =
     useState<ExtractedText>(initialText);
 
