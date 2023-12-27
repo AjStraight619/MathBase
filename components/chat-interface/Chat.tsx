@@ -22,9 +22,13 @@ import { BiSolidUpArrowCircle } from "react-icons/bi";
 
 export type ChatProps = {
   chatById: ChatWithMessages | null;
+  searchTerm?: string;
 };
 
-export default function Chat({ chatById }: ChatProps): React.ReactElement {
+export default function Chat({
+  chatById,
+  searchTerm,
+}: ChatProps): React.ReactElement {
   const { data: session } = useSession();
   const user = session?.user as User;
   const userId = user?.id;
@@ -64,17 +68,13 @@ export default function Chat({ chatById }: ChatProps): React.ReactElement {
     }
   }, [setMessages, chatById]);
 
-  // const isCodeMessage = (content: string) => {
-  //   return content.startsWith("```");
-  // };
-
   return (
     <div className="flex flex-col justify-between h-full relative pb-[4rem]">
       <ul className="overflow-auto overflow-x-hidden">
         {messages.map((m, index) => (
           <li
             key={index}
-            className="list-none whitespace-pre-line text-sm my-6"
+            className="list-none whitespace-pre-line text-sm my-8"
           >
             <div className="flex items-start space-x-3 ml-[1.5rem]">
               {m.role === "user" ? <UserAvatar /> : <AssistantAvatar />}

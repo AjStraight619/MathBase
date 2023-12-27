@@ -1,5 +1,6 @@
 "use client";
 
+import SearchBar from "@/components/searchbar";
 import { SidebarItem } from "@/lib/types";
 import { User } from "@prisma/client";
 import { motion } from "framer-motion";
@@ -10,7 +11,6 @@ import { useEffect, useState } from "react";
 import { Login, Signup } from "./auth";
 import AvatarDropDown from "./avatar/avatar-dropdown";
 import SidebarChat from "./chat-interface/sidebar-chat";
-import SearchBar from "./dashboard-interface/searchbar";
 import SidebarDashboard from "./dashboard-interface/sidebar-dashboard";
 import SidebarHome from "./home/sidebar-home";
 import SidebarToggle from "./ui/sidebar-toggle";

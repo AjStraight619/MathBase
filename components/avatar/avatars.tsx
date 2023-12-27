@@ -2,6 +2,7 @@
 import { Avatar } from "@/components/ui/avatar";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { WiStars } from "react-icons/wi";
 import { AvatarFallback } from "../ui/avatar";
 
 type AvatarProps = {
@@ -16,7 +17,7 @@ export const UserAvatar = ({ className }: AvatarProps) => {
   const userName = user?.name;
 
   return (
-    <Avatar className={` ${className}`}>
+    <Avatar className={`${className}`}>
       <AvatarFallback>{getInitials(userName)}</AvatarFallback>
     </Avatar>
   );
@@ -24,8 +25,10 @@ export const UserAvatar = ({ className }: AvatarProps) => {
 
 export const AssistantAvatar = () => {
   return (
-    <Avatar className="text-cyan-500">
-      <AvatarFallback>NG</AvatarFallback>
+    <Avatar>
+      <AvatarFallback className="bg-slate-500">
+        <WiStars className="w-12 h-12 text-cyan-400" />
+      </AvatarFallback>
     </Avatar>
   );
 };

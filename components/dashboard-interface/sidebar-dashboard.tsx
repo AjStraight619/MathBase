@@ -16,6 +16,10 @@ export default function SidebarDashboard({
       name: "Chats",
       path: `/chat/${mostRecentChatId}`,
     },
+    {
+      name: "Notes",
+      path: "/notes",
+    },
   ];
   const isNotePath = pathname.includes("notes");
   const isChatPath = pathname.includes("chats");

@@ -17,10 +17,8 @@ export default function AvatarDropDown({
     <Popover>
       <PopoverTrigger className="hover:cursor-pointer w-[10rem]">
         <div className="flex flex-row gap-3 items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md">
-          <UserAvatar className="w-8 h-8" />
-          <span className="text-md text-gray-700 dark:text-gray-50">
-            {usersName}
-          </span>
+          <UserAvatar className="w-10 h-10" />
+          <span className="text-md text-primary ">{usersName}</span>
         </div>
       </PopoverTrigger>
       <PopoverContent className="max-w-[10rem] rounded-md p-[0.3rem]">

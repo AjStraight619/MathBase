@@ -11,11 +11,9 @@ type DashboardProps = {
 
 export default function Dashboard({ notes, chats }: DashboardProps) {
   const pathname = usePathname();
-
   const currentListType = pathname.includes("notes") ? "notes" : "chats";
-
   const currentListItems = currentListType === "notes" ? notes : chats;
-  console.log("This is the current list type in Dashboard", currentListType);
+
   return (
     <div className="flex flex-col w-full p-4">
       <DashboardSeparator currentListType={currentListType} />

@@ -2,8 +2,10 @@ import { getChatMetaData } from "@/actions/chatActions";
 import { Providers } from "@/components/auth-provider";
 import Sidebar from "@/components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
+import MathModeToggle from "@/components/ui/math-mode-toggle";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { FileProvider } from "@/context/FileProvider";
+import MathModeProvider from "@/context/MathModeProvider";
 import { authOptions } from "@/lib/authOptions";
 import { ListMetaData } from "@/lib/types";
 import type { Metadata } from "next";
@@ -41,8 +43,11 @@ export default async function RootLayout({
         >
           <Providers>
             <FileProvider>
-              <Sidebar chatMetaData={chatMetaData} />
-              {children}
+              <MathModeProvider>
+                <Sidebar chatMetaData={chatMetaData} />
+                {children}
+                <MathModeToggle />
+              </MathModeProvider>
             </FileProvider>
             <Toaster />
           </Providers>

@@ -21,21 +21,11 @@ export const useFileManager = () => {
 
     for (const file of filesToProcess) {
       const fileType = getFileType(file.file);
-      let apiUrl;
-
-      if (fileType.startsWith("image/")) {
-        apiUrl = `/api/parse-image?chatId=${chatId}`;
-      } else if (fileType === "application/pdf") {
-        apiUrl = `/api/parse-pdf?chatId=${chatId}`;
-      } else {
-        console.error(`Unsupported file type: ${fileType}`);
-        continue;
-      }
 
       formData.append("file", file.file);
 
       try {
-        const res = await fetch(apiUrl, {
+        const res = await fetch(`/api/parse-file?chatId=${chatId}`, {
           method: "POST",
           body: formData,
         });

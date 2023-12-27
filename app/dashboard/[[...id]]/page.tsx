@@ -19,8 +19,6 @@ export default async function DashboardPage({
   const searchTerm = searchParams.search || "";
   const { id } = params;
 
-  console.log(id);
-
   const filterNotes = (items: Note[], term: string) => {
     if (!term) return items;
     const searchTermStr = term.toLowerCase();
