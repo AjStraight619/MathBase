@@ -1,3 +1,4 @@
+"use client";
 import { resetPassword } from "@/actions/userActions";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
