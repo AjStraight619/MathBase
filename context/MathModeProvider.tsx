@@ -18,7 +18,7 @@ const defaultMathContext: MathContext = {
 export const MathModeContext = createContext<MathContext>(defaultMathContext);
 
 export default function MathModeProvider({ children }: MathModeProviderProps) {
-  const [mathMode, setMathMode] = useState(false);
+  const [mathMode, setMathMode] = useState(true);
 
   const toggleMathMode = () => {
     setMathMode(!mathMode);

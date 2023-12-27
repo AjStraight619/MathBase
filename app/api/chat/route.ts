@@ -35,6 +35,8 @@ export async function POST(req: NextRequest) {
         messages,
       });
 
+      console.log("this is the response: ", response);
+
       const stream = OpenAIStream(response, {
         onCompletion: async (completion: string) => {
           const conversationUpdate: Message[] = [
@@ -54,6 +56,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
       const { name, status, headers, message } = error;
+      console.log("OpenAI API error: ", error);
       return NextResponse.json({ name, status, headers, message }, { status });
     } else {
       return NextResponse.json(

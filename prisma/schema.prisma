@@ -36,13 +36,14 @@ model Chat {
 }
 
 model ChatMessage {
-  id            String   @id @default(uuid())
-  chatId        String
-  content       String   @db.Text
-  role          String
-  extractedText String?  @db.Text
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  chatId              String
+  content             String   @db.Text
+  role                String
+  isExtractedEquation Boolean  @default(false)
+  extractedText       String?  @db.Text
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   chat Chat @relation(fields: [chatId], references: [id])
 

@@ -104,6 +104,7 @@ export type ChatWithMessages = {
     chatId: string;
     content: string;
     role: MsgRole;
+    isExtractedEquation: boolean;
     extractedText: string | null;
     createdAt: Date;
     updatedAt: Date;

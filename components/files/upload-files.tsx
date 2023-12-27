@@ -10,7 +10,7 @@ type UploadFilesProps = {
 
 export default function UploadFiles({ className }: UploadFilesProps) {
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const { state, dispatch } = useFileContext();
+  const { dispatch } = useFileContext();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -19,7 +19,6 @@ export default function UploadFiles({ className }: UploadFilesProps) {
         file,
         checked: true,
       }));
-      console.log("fileArray", fileArray);
       dispatch({ type: "ADD_FILE", payload: fileArray });
     }
   };

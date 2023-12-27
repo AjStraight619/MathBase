@@ -3,6 +3,7 @@ import { AssistantAvatar, UserAvatar } from "@/components/avatar/avatars";
 import ProcessFiles from "@/components/files/process-files";
 import UploadFiles from "@/components/files/upload-files";
 import { Input } from "@/components/ui/input";
+import { useFileManager } from "@/hooks/useFileManager";
 import { useItemId } from "@/hooks/useItemId";
 import { ChatWithMessages } from "@/lib/types";
 import { User } from "@prisma/client";
@@ -11,6 +12,8 @@ import { useChat } from "ai/react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { BiSolidUpArrowCircle } from "react-icons/bi";
+import EquationProcessor from "../equation-processor";
+import CodeRenderer from "./code-renderer";
 
 /**
  * The Chat component is responsible for rendering the chat interface.
@@ -35,11 +38,8 @@ export default function Chat({
 
   const chatId = useItemId();
 
-  // const { wolframAlphaData, isLoadingWolframAlpha, isError, isValidating } =
-  //   useWolframAlpha("3x + 2 = 8");
-
-  // console.log("This is the wolframAlphaData: ", wolframAlphaData);
-
+  const { extractedEquations, isExtractedEquation, setIsExtractedEquation } =
+    useFileManager();
   const {
     messages,
     setMessages,
@@ -61,12 +61,17 @@ export default function Chat({
         chatId: msg.chatId,
         content: msg.content,
         role: msg.role,
+        isExtractedEquation: msg.isExtractedEquation,
         createdAt: msg.createdAt,
         updatedAt: msg.updatedAt,
       }));
       setMessages([...formattedMessages]);
     }
   }, [setMessages, chatById]);
+
+  const isCodeMessage = (content: string) => {
+    return content.includes("```");
+  };
 
   return (
     <div className="flex flex-col justify-between h-full relative pb-[4rem]">
@@ -78,7 +83,19 @@ export default function Chat({
           >
             <div className="flex items-start space-x-3 ml-[1.5rem]">
               {m.role === "user" ? <UserAvatar /> : <AssistantAvatar />}
-              <span className="break-words">{m.content}</span>
+              <span className="break-words">
+                {isCodeMessage(m.content) ? (
+                  <CodeRenderer content={m.content} />
+                ) : (
+                  m.content
+                )}
+              </span>
+              {isExtractedEquation && (
+                <EquationProcessor
+                  extractedEquations={extractedEquations}
+                  setIsExtractedEquation={setIsExtractedEquation}
+                />
+              )}
             </div>
           </li>
         ))}
@@ -94,7 +111,7 @@ export default function Chat({
             <Input
               value={input}
               onChange={handleInputChange}
-              className="flex-1 h-12 outline-none border rounded-xl px-4 py-2 mr-2 pl-[1.5rem] sm:w-3/4 md:w-2/3 lg:w-1/2 pr-2"
+              className="flex-1 h-12 outline-none border rounded-xl px-4 py-2 mr-2 pl-[1.5rem] sm:w-3/4 md:w-2/3 lg:w-1/2 pr-2 bg-primary-foreground"
               placeholder="Message Note Genius..."
             />
             <button disabled={isLoading} type="submit">

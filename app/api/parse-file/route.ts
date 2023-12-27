@@ -1,9 +1,11 @@
+import { addExtractedTextToDb } from "@/actions/chatActions";
 import { NextRequest, NextResponse } from "next/server";
 import PDFParser from "pdf2json";
 import { createWorker } from "tesseract.js";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
+  const chatId = req.nextUrl.searchParams.get("chatId") as unknown as string;
 
   const fileEntries = formData.getAll("file");
   let extractedTexts: string[] = [];
@@ -22,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     extractedTexts.push(text);
   }
-
+  await addExtractedTextToDb(chatId, extractedTexts);
   return NextResponse.json({ success: true, extractedTexts });
 }
 
@@ -36,7 +38,6 @@ async function parseImages(file: File) {
     data: { text },
   } = await worker.recognize(buffer);
   await worker.terminate();
-  console.log("This is the text after being parsed from img: ", text);
   return text;
 }
 

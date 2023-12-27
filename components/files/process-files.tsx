@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useFileContext } from "@/context/FileProvider";
+import { useMathModeContext } from "@/context/MathModeProvider";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { RxStack } from "react-icons/rx";
@@ -19,6 +20,7 @@ import UploadFiles from "./upload-files";
 export default function ProcessFiles() {
   const [isOpen, setIsOpen] = useState(false);
   const { state } = useFileContext();
+  const { mathMode } = useMathModeContext();
 
   return (
     <Dialog>
@@ -34,9 +36,20 @@ export default function ProcessFiles() {
           <DialogTitle className="flex justify-center items-center">
             Process Files
           </DialogTitle>
-          <DialogDescription className="text-xs text-muted-foreground">
-            Select the files you want to process. The text will be extracted and
-            added to the chat.
+          <DialogDescription className="flex flex-col gap-2">
+            <span className="text-xs text-muted-foreground">
+              Select the files you want to process. The text will be extracted
+              and added to the chat.
+            </span>
+            {mathMode && (
+              <>
+                <span className="text-md text-primary">Math Mode: </span>
+                <span className="text-xs text-muted-foreground">
+                  Math Mode is enabled. Math mode will extract equations from
+                  the files you submit for processing.
+                </span>
+              </>
+            )}
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2 pb-[2rem]">

@@ -8,6 +8,15 @@ import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+type CompletionResponse = {
+  message: {
+    role: string;
+    content: string; // The content is a stringified array
+  };
+  finish_reason: string;
+  index: number;
+};
+
 const getUser = async () => {
   const session = await getServerSession(authOptions);
   if (!session) return null;
@@ -87,14 +96,13 @@ export const addExtractedTextToDb = async (
   if (!userId || !chatId) return;
 
   extractedTexts.forEach(async (text) => {
-    const addedText = await prisma.chatMessage.create({
+    await prisma.chatMessage.create({
       data: {
         chatId,
         content: text,
         role: "user",
       },
     });
-    console.log("This is the added text: ", addedText);
   });
   revalidatePath("/chat/");
 };
@@ -117,6 +125,33 @@ export const getChatById = async (id: string) => {
   })) as unknown as ChatWithMessages;
 
   return chatById;
+};
+
+export const addExtractedEquationsToDb = async (
+  data: CompletionResponse,
+  chatId: string
+) => {
+  const user = await getUser();
+  if (!user) return;
+  const { message } = data;
+  const { content, role } = message;
+
+  await prisma.chatMessage.create({
+    data: {
+      chatId,
+      content,
+      role,
+      isExtractedEquation: true,
+    },
+  });
+
+  let equationsArray: string[] = [];
+  const equationsMatch = content.match(/\[(.*?)\]/);
+  if (equationsMatch && equationsMatch[1]) {
+    equationsArray = equationsMatch[1].split(",").map((eq) => eq.trim());
+  }
+  revalidatePath("/chat/");
+  return equationsArray;
 };
 
 export const addChat = async (formData: FormData) => {

@@ -10,10 +10,13 @@ import { useState } from "react";
  * @returns {object} - An object containing the extractedText state and a setter function
  */
 
-export const useExtractedText = (initialText: ExtractedText) => {
+export const useExtractedText = () => {
   const { mathMode } = useMathModeContext();
-  const [extractedText, setExtractedText] =
-    useState<ExtractedText>(initialText);
+  const [extractedText, setExtractedText] = useState<ExtractedText>({
+    role: "user",
+    content: [""],
+    math: mathMode,
+  });
 
   return { extractedText, setExtractedText };
 };

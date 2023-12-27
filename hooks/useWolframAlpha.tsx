@@ -16,9 +16,9 @@ export type ExtractedWolframData = {
  * @param {string} equation - The equation to be processed
  * @returns {object} - An object containing the fetched data and related states (loading, error, etc.)
  */
-export const useWolframAlpha = (equation: string): object => {
+export const useWolframAlpha = (equation: string) => {
   const { data, error, isValidating } = useSWR(
-    equation ? `/api/math/wolfram-alpha?equation=${equation}` : null,
+    equation ? `/api/wolfram-alpha?equation=${equation}` : null,
     fetcher,
     {
       revalidateOnReconnect: false,
