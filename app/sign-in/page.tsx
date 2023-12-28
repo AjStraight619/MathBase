@@ -7,6 +7,7 @@ import { Login } from "./Login";
 export default async function SignIn() {
   const session = await getServerSession(authOptions);
   const providers = await getProviders();
+  console.log(providers);
 
   if (session) {
     redirect("/");
