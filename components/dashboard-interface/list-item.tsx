@@ -56,9 +56,12 @@ export default function ListItem({
           onClick={() => handleRouteChange(item.id, currentListType)}
         >
           <Card className="w-[14rem] h-[20rem] hover:cursor-pointer relative">
-            <CardHeader className="text-left">{item.title}</CardHeader>
-            <CardContent className="text-center text-opacity-90">
+            <CardHeader className="text-left font-semibold">
+              {item.title}
+            </CardHeader>
+            <CardContent className="relative text-center text-opacity-90 line-clamp-5 overflow-hidden">
               {renderItemContent(item)}
+              <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-white dark:to-zinc-950"></div>
             </CardContent>
             <CardFooter>
               <div className="flex flex-row absolute bottom-1 left-1">

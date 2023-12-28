@@ -36,8 +36,6 @@ export default async function RootLayout({
     allFolders = (await getAllFolders()) as unknown as AllFolders[];
   }
 
-  console.log("These are all of the folders: ", allFolders);
-
   return (
     <html lang="en">
       <body className={`${inter.className} dark:bg-background bg-background`}>

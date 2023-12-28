@@ -4,7 +4,7 @@ import SearchBar from "@/components/searchbar";
 import { useSidebarContext } from "@/context/SidebarContext";
 import { AllFolders, SidebarItem } from "@/lib/types";
 import { User } from "@prisma/client";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -68,47 +68,55 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
           handleSidebarToggle={handleSidebarToggle}
         />
       )}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            animate="open"
+            exit="closed"
+            variants={sidebarVariants}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            className="fixed top-0 left-0 h-screen w-64 flex flex-col bg-background border-r"
+          >
+            <div className="flex flex-row justify-between p-2">
+              <h1 className="text-xl font-bold">
+                <Link href="/">Math Base</Link>
+              </h1>
+              <SidebarToggle handleSidebarToggle={handleSidebarToggle} />
+            </div>
+            {isDashboardPath && <SearchBar />}
 
-      <motion.div
-        initial="closed"
-        animate={isSidebarOpen ? "open" : "closed"}
-        exit="closed"
-        variants={sidebarVariants}
-        transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className={`fixed top-0 left-0 h-screen w-64 flex flex-col border border-r bg-background`}
-      >
-        <div className="flex flex-row justify-between p-2">
-          <h1 className="text-xl font-bold">
-            <Link href="/">Math Base</Link>
-          </h1>
-          <SidebarToggle handleSidebarToggle={handleSidebarToggle} />
-        </div>
-        {isDashboardPath && <SearchBar />}
+            {/* Content container */}
+            <div className="flex flex-col flex-1 overflow-y-auto px-2 py-8">
+              {/* Conditional rendering of content based on path */}
+              {isChatPath ? (
+                <SidebarChat
+                  allFolders={allFolders}
+                  chatMetaData={chatMetaData}
+                />
+              ) : isDashboardPath ? (
+                <SidebarDashboard
+                  mostRecentChatId={mostRecentChatId}
+                  pathname={pathname}
+                />
+              ) : isHomePath ? (
+                <SidebarHome mostRecentChatId={mostRecentChatId} />
+              ) : null}
+            </div>
 
-        <div className="overflow-y-auto px-2 py-8">
-          {isChatPath ? (
-            <SidebarChat allFolders={allFolders} chatMetaData={chatMetaData} />
-          ) : isDashboardPath ? (
-            <SidebarDashboard
-              mostRecentChatId={mostRecentChatId}
-              pathname={pathname}
-            />
-          ) : isHomePath ? (
-            <SidebarHome mostRecentChatId={mostRecentChatId} />
-          ) : null}
-
-          <div className="fixed bottom-0 w-calc([100% - 2.5rem]) py-4 bg-background">
-            {session ? (
-              <AvatarDropDown usersName={userName} />
-            ) : (
-              <div className="flex flex-col items-center space-y-2 text-lg font-bold">
-                <Signup />
-                <Login />
-              </div>
-            )}
-          </div>
-        </div>
-      </motion.div>
+            {/* Auth buttons container */}
+            <div className="p-4 mt-auto">
+              {session ? (
+                <AvatarDropDown usersName={userName} />
+              ) : (
+                <div className="flex flex-col space-y-2">
+                  <Signup />
+                  <Login />
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

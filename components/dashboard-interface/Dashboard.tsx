@@ -19,7 +19,7 @@ export default function Dashboard({ notes, chats }: DashboardProps) {
   return (
     <div
       className={`flex flex-col w-full p-4 ${
-        isSidebarOpen ? "ml-[12rem]" : "ml-0 justify-start items-center p-4"
+        isSidebarOpen ? "ml-[16rem]" : "ml-0"
       }`}
     >
       <DashboardSeparator currentListType={currentListType} />
