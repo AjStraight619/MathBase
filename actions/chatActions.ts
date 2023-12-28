@@ -1,32 +1,22 @@
 "use server";
 
-import { authOptions } from "@/lib/authOptions";
 import { prisma } from "@/lib/prisma";
+import { getUserSession } from "@/lib/session";
 import { ChatWithMessages } from "@/lib/types";
-import { User } from "@prisma/client";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 type CompletionResponse = {
   message: {
     role: string;
-    content: string; // The content is a stringified array
+    content: string;
   };
   finish_reason: string;
   index: number;
 };
 
-const getUser = async () => {
-  const session = await getServerSession(authOptions);
-  if (!session) return null;
-  const user = session?.user as User;
-  return user;
-};
-
 export const getMostRecentChat = async () => {
-  const session = await getServerSession(authOptions);
-  const user = session?.user as User;
+  const user = await getUserSession();
+  if (!user) return null;
   const userId = user.id;
 
   const mostRecentChat = await prisma.chat.findFirst({
@@ -37,15 +27,13 @@ export const getMostRecentChat = async () => {
       createdAt: "desc",
     },
   });
+  if (!mostRecentChat) return null;
   return mostRecentChat;
 };
 
 export const getChatMetaData = async () => {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/");
-  }
-  const user = session?.user as User;
+  const user = await getUserSession();
+  if (!user) return null;
   const userId = user.id;
 
   const chatMetaData = await prisma.chat.findMany({
@@ -65,9 +53,8 @@ export const getChatMetaData = async () => {
 };
 
 export const getAllChats = async () => {
-  const session = await getServerSession(authOptions);
-  if (!session) return null;
-  const user = session?.user as User;
+  const user = await getUserSession();
+  if (!user) return null;
   const userId = user.id;
 
   const allChats = await prisma.chat.findMany({
@@ -89,11 +76,8 @@ export const addExtractedTextToDb = async (
   chatId: string,
   extractedTexts: string[]
 ) => {
-  const session = await getServerSession(authOptions);
-  if (!session) return;
-  const user = session.user as User;
-  const userId = user.id;
-  if (!userId || !chatId) return;
+  const user = await getUserSession();
+  if (!user) return null;
 
   extractedTexts.forEach(async (text) => {
     await prisma.chatMessage.create({
@@ -108,8 +92,8 @@ export const addExtractedTextToDb = async (
 };
 
 export const getChatById = async (id: string) => {
-  const session = await getServerSession(authOptions);
-  if (!session) return;
+  const user = await getUserSession();
+  if (!user) return null;
 
   const chatById = (await prisma.chat.findUnique({
     where: {
@@ -131,8 +115,8 @@ export const addExtractedEquationsToDb = async (
   data: CompletionResponse,
   chatId: string
 ) => {
-  const user = await getUser();
-  if (!user) return;
+  const user = await getUserSession();
+  if (!user) return null;
   const { message } = data;
   const { content, role } = message;
 
@@ -157,9 +141,8 @@ export const addExtractedEquationsToDb = async (
 export const addChat = async (formData: FormData) => {
   const title = formData.get("title") as unknown as string;
 
-  const session = await getServerSession(authOptions);
-  if (!session) return;
-  const user = session.user as User;
+  const user = await getUserSession();
+  if (!user) return null;
   const userId = user.id;
 
   const newChat = await prisma.chat.create({
@@ -175,8 +158,8 @@ export const addChat = async (formData: FormData) => {
 };
 
 export const deleteChat = async (id: string) => {
-  const user = await getUser();
-  if (!user) return;
+  const user = await getUserSession();
+  if (!user) return null;
   const userId = user.id;
 
   // Delete associated chat messages

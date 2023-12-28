@@ -73,7 +73,6 @@ export const forgotPassword = async (formData: FormData) => {
         senderEmail: email,
       }),
     });
-    console.log(data);
   } catch (error: unknown) {
     return {
       error: getErrorMessage(error),

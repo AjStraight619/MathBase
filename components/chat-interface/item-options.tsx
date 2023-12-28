@@ -1,5 +1,5 @@
 "use client";
-import { deleteChat } from "@/actions/chatActions";
+import { addChat, deleteChat } from "@/actions/chatActions";
 import { useItemId } from "@/hooks/useItemId";
 import { ListMetaData } from "@/lib/types";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,12 @@ import { BsThreeDots } from "react-icons/bs";
 import { CiTrash } from "react-icons/ci";
 import { GiPencil } from "react-icons/gi";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+
+/**
+ * Represents the options for each chat item, like delete and edit.
+ * @param {Object} props - Component props.
+ * @param {ListMetaData[]} props.chatMetaData - Metadata for the chat items.
+ */
 
 export default function ItemOptions({
   chatMetaData,
@@ -20,10 +26,13 @@ export default function ItemOptions({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDeleteChat = async () => {
-    setIsOpen(false);
     await deleteChat(chatId);
+    setIsOpen(false);
     toast.success("Chat deleted successfully!");
-    router.push(`/chat/${chatMetaData[0]?.id}`);
+    if (chatMetaData.length === 0) {
+      await addChat(getDefaultFormData());
+    }
+    router.replace(`/chat/${chatMetaData[0]?.id}`);
   };
 
   const handleEditChat = async () => {};
@@ -57,3 +66,9 @@ export default function ItemOptions({
     </Popover>
   );
 }
+
+const getDefaultFormData = (): FormData => {
+  const formData = new FormData();
+  formData.append("title", "New Chat");
+  return formData;
+};

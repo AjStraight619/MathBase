@@ -1,5 +1,6 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
+import { useSidebarContext } from "@/context/SidebarContext";
 import { useRouter } from "next/navigation";
 
 type DashboardSeparatorProps = {
@@ -10,15 +11,15 @@ export function DashboardSeparator({
   currentListType,
 }: DashboardSeparatorProps) {
   const router = useRouter();
-
+  const { isSidebarOpen } = useSidebarContext();
   const handleChangeItemRoute = (listType: "notes" | "chats") => {
     router.push(`/dashboard/${listType}`);
   };
 
   return (
-    <div>
+    <div className={`${!isSidebarOpen ? "ml-[2rem]" : ""}`}>
       <div className="space-y-1">
-        <h4 className="text-lg font-medium leading-none pb-2">Dashboard</h4>
+        <h4 className="text-lg font-semibold leading-none pb-2">Dashboard</h4>
         <p className="text-xs text-muted-foreground">
           Your personalized hub for tracking progress, accessing resources, and
           managing your AI-driven math learning journey.

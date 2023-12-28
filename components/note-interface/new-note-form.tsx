@@ -23,7 +23,7 @@ type NoteForm = {
   file?: LocalFile;
 };
 
-export default function NewNoteForm() {
+export default function NewNoteForm({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [noteForm, setNoteForm] = useState<NoteForm>({
     title: "",
@@ -55,7 +55,7 @@ export default function NewNoteForm() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full mb-4 justify-evenly">
+        <Button className={`w-full mb-4 justify-evenly ${className}`}>
           New Note
           <FiPlus />
         </Button>

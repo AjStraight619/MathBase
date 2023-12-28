@@ -1,4 +1,5 @@
 import { getChatMetaData } from "@/actions/chatActions";
+import { getAllFolders } from "@/actions/noteActions";
 import { Providers } from "@/components/auth-provider";
 import Sidebar from "@/components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -6,8 +7,9 @@ import MathModeToggle from "@/components/ui/math-mode-toggle";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { FileProvider } from "@/context/FileProvider";
 import MathModeProvider from "@/context/MathModeProvider";
+import SidebarProvider from "@/context/SidebarContext";
 import { authOptions } from "@/lib/authOptions";
-import { ListMetaData } from "@/lib/types";
+import { AllFolders, ListMetaData } from "@/lib/types";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
@@ -27,10 +29,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   let chatMetaData: ListMetaData[] = [];
+  let allFolders: AllFolders[] = [];
   const session = await getServerSession(authOptions);
   if (session) {
-    chatMetaData = await getChatMetaData();
+    chatMetaData = (await getChatMetaData()) as unknown as ListMetaData[];
+    allFolders = (await getAllFolders()) as unknown as AllFolders[];
   }
+
+  console.log("These are all of the folders: ", allFolders);
 
   return (
     <html lang="en">
@@ -44,8 +50,13 @@ export default async function RootLayout({
           <Providers>
             <FileProvider>
               <MathModeProvider>
-                <Sidebar chatMetaData={chatMetaData} />
-                {children}
+                <SidebarProvider>
+                  <Sidebar
+                    allFolders={allFolders}
+                    chatMetaData={chatMetaData ?? []}
+                  />
+                  {children}
+                </SidebarProvider>
                 <MathModeToggle />
               </MathModeProvider>
             </FileProvider>

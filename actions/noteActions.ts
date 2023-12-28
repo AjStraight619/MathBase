@@ -1,14 +1,11 @@
 "use server";
 
-import { authOptions } from "@/lib/authOptions";
 import { prisma } from "@/lib/prisma";
-import { User } from "@prisma/client";
-import { getServerSession } from "next-auth";
+import { getUserSession } from "@/lib/session";
 
 export const getAllNotes = async () => {
-  const session = await getServerSession(authOptions);
-  if (!session) return null;
-  const user = session?.user as User;
+  const user = await getUserSession();
+  if (!user) return null;
   const userId = user.id;
 
   const allNotes = await prisma.note.findMany({
@@ -23,9 +20,8 @@ export const getAllNotes = async () => {
 };
 
 export const addNote = async (formData: FormData) => {
-  const session = await getServerSession(authOptions);
-  if (!session) return null;
-  const user = session?.user as User;
+  const user = await getUserSession();
+  if (!user) return null;
   const userId = user.id;
 
   const title = formData.get("title") as string;
@@ -40,4 +36,52 @@ export const addNote = async (formData: FormData) => {
   });
 
   return note;
+};
+
+export const addNoteContent = async (formData: FormData) => {
+  const user = await getUserSession();
+  if (!user) return null;
+  const userId = user.id;
+
+  const noteId = formData.get("noteId") as string;
+  const content = formData.get("content") as string;
+
+  const note = await prisma.note.update({
+    where: {
+      id: noteId,
+    },
+    data: {
+      content: content,
+    },
+  });
+
+  return note;
+};
+
+export const getAllFolders = async () => {
+  const user = await getUserSession();
+  if (!user) return null;
+  const userId = user.id;
+
+  const allFolders = await prisma.folder.findMany({
+    where: {
+      userId: userId,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+    include: {
+      notes: {
+        select: {
+          id: true,
+          title: true,
+          updatedAt: true,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+      },
+    },
+  });
+  return allFolders;
 };

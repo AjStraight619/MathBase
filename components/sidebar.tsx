@@ -1,13 +1,13 @@
 "use client";
 
 import SearchBar from "@/components/searchbar";
-import { SidebarItem } from "@/lib/types";
+import { useSidebarContext } from "@/context/SidebarContext";
+import { AllFolders, SidebarItem } from "@/lib/types";
 import { User } from "@prisma/client";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Login, Signup } from "./auth";
 import AvatarDropDown from "./avatar/avatar-dropdown";
 import SidebarChat from "./chat-interface/sidebar-chat";
@@ -16,40 +16,29 @@ import SidebarHome from "./home/sidebar-home";
 import SidebarToggle from "./ui/sidebar-toggle";
 
 type SidebarProps = {
-  children?: React.ReactNode;
   chatMetaData: SidebarItem[];
+  allFolders: AllFolders[];
 };
 
-export default function Sidebar({ children, chatMetaData }: SidebarProps) {
+/**
+ * Represents the sidebar component with navigation and chat options.
+ * @param {Object} props - Component props.
+ * @param {React.ReactNode} props.children - Children components.
+ * @param {SidebarItem[]} props.chatMetaData - Metadata for chats.
+ */
+
+export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const user = session?.user as User;
   const userName = user?.name;
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
   let mostRecentChatId = chatMetaData[0]?.id;
   if (!mostRecentChatId) mostRecentChatId = "New Chat";
 
   const sidebarVariants = {
     open: { opacity: 1, x: 0 },
     closed: { opacity: 0, x: "-100%" },
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
-    handleResize();
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const handleResize = () => {
-    const width = window.innerWidth;
-    if (width > 768) {
-      setIsSidebarOpen(true);
-    } else {
-      setIsSidebarOpen(false);
-    }
   };
 
   const handleSidebarToggle = () => {
@@ -86,7 +75,7 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
         exit="closed"
         variants={sidebarVariants}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className={`fixed top-0 left-0 h-screen w-48 flex flex-col border border-r bg-background`}
+        className={`fixed top-0 left-0 h-screen w-64 flex flex-col border border-r bg-background`}
       >
         <div className="flex flex-row justify-between p-2">
           <h1 className="text-xl font-bold">
@@ -98,7 +87,7 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
 
         <div className="overflow-y-auto px-2 py-8">
           {isChatPath ? (
-            <SidebarChat chatMetaData={chatMetaData} />
+            <SidebarChat allFolders={allFolders} chatMetaData={chatMetaData} />
           ) : isDashboardPath ? (
             <SidebarDashboard
               mostRecentChatId={mostRecentChatId}
@@ -108,7 +97,7 @@ export default function Sidebar({ children, chatMetaData }: SidebarProps) {
             <SidebarHome mostRecentChatId={mostRecentChatId} />
           ) : null}
 
-          <div className="absolute bottom-0 w-full py-4 bg-none">
+          <div className="fixed bottom-0 w-calc([100% - 2.5rem]) py-4 bg-background">
             {session ? (
               <AvatarDropDown usersName={userName} />
             ) : (

@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { BiSolidUpArrowCircle } from "react-icons/bi";
 import EquationProcessor from "../equation-processor";
-import CodeRenderer from "./code-renderer";
+import MarkdownContentRenderer from "./markdown-renderer";
 
 /**
  * The Chat component is responsible for rendering the chat interface.
@@ -69,6 +69,11 @@ export default function Chat({ chatById }: ChatProps): React.ReactElement {
     return content.includes("```");
   };
 
+  const containsMarkdown = (content: string) => {
+    const markdownPatterns = /(\*|_|`|\$|\[|\]|\(|\)|\!\[|\]\(|\$\$)/;
+    return markdownPatterns.test(content);
+  };
+
   return (
     <div className="flex flex-col justify-between h-full relative pb-[4rem]">
       <ul className="overflow-auto overflow-x-hidden">
@@ -80,10 +85,10 @@ export default function Chat({ chatById }: ChatProps): React.ReactElement {
             <div className="flex items-start space-x-3 ml-[1.5rem]">
               {m.role === "user" ? <UserAvatar /> : <AssistantAvatar />}
               <span className="break-words">
-                {isCodeMessage(m.content) ? (
-                  <CodeRenderer content={m.content} />
+                {containsMarkdown(m.content) ? (
+                  <MarkdownContentRenderer content={m.content} />
                 ) : (
-                  m.content
+                  <p>{m.content}</p>
                 )}
               </span>
               {isExtractedEquation && (

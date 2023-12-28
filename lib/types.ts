@@ -1,4 +1,4 @@
-import { Chat, ChatMessage, Note } from "@prisma/client";
+import { Chat, ChatMessage } from "@prisma/client";
 
 export type ListMetaData = {
   id: string;
@@ -142,3 +142,20 @@ export type FileAction = {
   type: FileActionType;
   payload: FileMetaData;
 };
+
+export type Note = {
+  id: string;
+  title: string;
+  updatedAt: Date;
+};
+
+export type Folder = {
+  id: string;
+  userId: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  notes: Note[];
+};
+
+export type AllFolders = Folder;

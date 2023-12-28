@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { CodeBlock, atomOneDark } from "react-code-blocks";
 import { BsClipboard, BsClipboardCheck } from "react-icons/bs";
 
-const CodeRenderer = ({ content }: { content: string }) => {
+// TODO: Make sure the code blocks line up with other text
+
+type CodRendererProps = {
+  language: string;
+  value: string;
+};
+
+const CodeRenderer = ({ language, value }: CodRendererProps) => {
   const [copiedIndices, setCopiedIndices] = useState<boolean[]>([]);
 
   const extractContent = (content: string) => {
@@ -37,7 +44,7 @@ const CodeRenderer = ({ content }: { content: string }) => {
     }
   };
 
-  const { text, codeBlocks } = extractContent(content);
+  const { text, codeBlocks } = extractContent(value);
 
   useEffect(() => {
     setCopiedIndices(new Array(codeBlocks.length).fill(false));
@@ -49,7 +56,7 @@ const CodeRenderer = ({ content }: { content: string }) => {
       {codeBlocks.map((block, index) => (
         <div key={index} className="relative my-4">
           <div className="absolute top-0 left-0 right-0 flex justify-between items-center bg-gray-800 text-primary text-xs uppercase px-2 py-1 rounded-t-md">
-            <span>{block.language || "plaintext"}</span>
+            <span>{language || "plaintext"}</span>
             <button
               onClick={() => handleCopyToClipboard(block.code, index)}
               className="opacity-50 hover:opacity-100 transition-opacity duration-300 ease-in-out text-primary"
@@ -63,7 +70,7 @@ const CodeRenderer = ({ content }: { content: string }) => {
           </div>
           <CodeBlock
             text={block.code}
-            language={block.language || ""}
+            language={language || ""}
             showLineNumbers={false}
             theme={atomOneDark}
             wrapLongLines={true}

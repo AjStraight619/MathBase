@@ -24,18 +24,23 @@ export const runtime = "edge";
 export async function POST(req: NextRequest) {
   const chatId = req.nextUrl.searchParams.get("chatId") as unknown as string;
   try {
-    const { messages } = await req.json();
+    const { messages: userMessages } = await req.json();
 
-    const lastUserMessage = messages.slice(-1)[0];
+    const lastUserMessage = userMessages.slice(-1)[0];
 
     if (lastUserMessage && lastUserMessage.role === "user") {
       const response = await openai.chat.completions.create({
         model: "gpt-4-1106-preview",
         stream: true,
-        messages,
+        messages: [
+          {
+            role: "system",
+            content:
+              "The assistant MathBase, based on GPT-4 technology, is designed to provide helpful and precise answers in mathematics. For all mathematical responses, please format equations and expressions using LaTeX syntax. Ensure that the LaTeX is suitable for rendering in Markdown with rehype-katex and remark-math plugins. Examples include inline equations like $E = mc^2$ and display equations like $$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$.",
+          },
+          ...userMessages,
+        ],
       });
-
-      console.log("this is the response: ", response);
 
       const stream = OpenAIStream(response, {
         onCompletion: async (completion: string) => {

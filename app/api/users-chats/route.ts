@@ -1,6 +1,5 @@
-import { authOptions } from "@/lib/authOptions";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
+import { getUserSession } from "@/lib/session";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -12,8 +11,10 @@ import { NextRequest, NextResponse } from "next/server";
  */
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const user = await getUserSession();
+  if (!user) return null;
+  const userId = user.id;
+  if (!userId) {
     return NextResponse.json({ error: "No Valid Session" });
   }
 

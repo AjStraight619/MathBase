@@ -46,7 +46,7 @@ export default async function DashboardPage({
   const filteredChats = filterChats(chats, searchTerm);
 
   return (
-    <div className="flex h-screen ml-[12rem]">
+    <div className="flex h-screen">
       <Dashboard notes={filteredNotes} chats={filteredChats} />
     </div>
   );
