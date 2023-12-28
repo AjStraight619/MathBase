@@ -12,7 +12,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const user = await getUserSession();
-  if (!user) return null;
   const userId = user.id;
   if (!userId) {
     return NextResponse.json({ error: "No Valid Session" });
