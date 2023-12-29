@@ -7,6 +7,7 @@ import { AvatarFallback } from "../ui/avatar";
 
 type AvatarProps = {
   className?: string;
+  isLoading?: boolean;
 };
 
 export const UserAvatar = ({ className }: AvatarProps) => {
@@ -23,11 +24,15 @@ export const UserAvatar = ({ className }: AvatarProps) => {
   );
 };
 
-export const AssistantAvatar = () => {
+export const AssistantAvatar = ({ isLoading }: AvatarProps) => {
   return (
     <Avatar>
       <AvatarFallback className="bg-slate-500">
-        <WiStars className="w-12 h-12 text-cyan-400" />
+        <WiStars
+          className={`w-12 h-12 text-cyan-400 ${
+            isLoading ? "animate-spin" : ""
+          }`}
+        />
       </AvatarFallback>
     </Avatar>
   );

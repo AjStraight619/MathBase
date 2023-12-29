@@ -1,13 +1,6 @@
-import { ChatWithMessages } from "@/lib/types"; // Ensure this import is correct
-import { Message as AIMessage } from "ai";
-import { useChat, UseChatOptions } from "ai/react";
+import { ChatWithMessages, ExtendedMessage } from "@/lib/types"; // Ensure this import is correct
+import { UseChatOptions, useChat } from "ai/react";
 import { useMemo } from "react";
-
-export interface ExtendedMessage extends AIMessage {
-  isExtractedEquation: boolean;
-  extractedText: string | null;
-  chatId: string;
-}
 
 type UseExtendedChatProps = {
   options: UseChatOptions;

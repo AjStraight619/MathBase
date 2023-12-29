@@ -41,13 +41,6 @@ export default function Chat({ chatById }: ChatProps) {
     chatById,
   });
 
-  // useLayoutEffect(() => {
-  //   if (autoScroll && scrollAreaRef.current) {
-  //     const scrollArea = scrollAreaRef.current;
-  //     scrollArea.scrollTop = scrollArea.scrollHeight;
-  //   }
-  // }, [messages, autoScroll]);
-
   useEffect(() => {
     if (autoScroll && bottomOfMessagesRef.current) {
       const timeoutId = setTimeout(() => {
@@ -85,14 +78,14 @@ export default function Chat({ chatById }: ChatProps) {
     >
       <ScrollBar orientation="vertical" />
       <div className="flex flex-col items-center min-h-screen">
-        <div className="container sm:max-w-full md:max-w-lg lg:max-w-lg xl:max-w-xl mx-auto p-4">
+        <div className="container sm:max-w-full md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto p-4">
           <motion.div
             variants={containerVariants}
             initial="closed"
             animate={isSidebarOpen ? "open" : "closed"}
             className="flex flex-col justify-between h-full relative pb-[4rem]"
           >
-            <MessageList messages={messages} />
+            <MessageList isLoading={isLoading} messages={messages} />
             {isExtractedEquation && (
               <EquationProcessor
                 extractedEquations={extractedEquations}

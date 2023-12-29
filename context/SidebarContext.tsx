@@ -18,7 +18,9 @@ const defaultSidebarContext: SidebarContext = {
 const sidebarContext = createContext<SidebarContext>(defaultSidebarContext);
 
 export default function SidebarProvider({ children }: SidebarProvider) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    return window.innerWidth > 975;
+  });
 
   const handleResize = () => {
     setIsSidebarOpen(window.innerWidth > 975);

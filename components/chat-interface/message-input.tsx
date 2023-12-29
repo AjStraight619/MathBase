@@ -1,4 +1,5 @@
 import { useSidebarContext } from "@/context/SidebarContext";
+import { containerVariants } from "@/lib/animationVariants";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { BiSolidUpArrowCircle } from "react-icons/bi";
@@ -23,17 +24,6 @@ export default function MessageInput({
 }: MessageInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { isSidebarOpen } = useSidebarContext();
-
-  const containerVariants = {
-    open: {
-      translateX: "4rem",
-      transition: { type: "spring", stiffness: 260, damping: 20 },
-    },
-    closed: {
-      translateX: "0rem",
-      transition: { type: "spring", stiffness: 260, damping: 20 },
-    },
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
