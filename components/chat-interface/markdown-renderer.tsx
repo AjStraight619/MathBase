@@ -13,7 +13,11 @@ type MarkdownContentRendererProps = {
 
 const MarkdownContentRenderer = ({ content }: MarkdownContentRendererProps) => {
   return (
-    <ReactMarkdown rehypePlugins={[rehypeKatex]} remarkPlugins={[remarkMath]}>
+    <ReactMarkdown
+      rehypePlugins={[rehypeKatex]}
+      remarkPlugins={[remarkMath]}
+      className="break-words whitespace-pre-line max-w-full overflow-hidden text-sm"
+    >
       {content}
     </ReactMarkdown>
   );

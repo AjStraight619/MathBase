@@ -21,7 +21,7 @@ export default function SidebarProvider({ children }: SidebarProvider) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleResize = () => {
-    setIsSidebarOpen(window.innerWidth > 768);
+    setIsSidebarOpen(window.innerWidth > 975);
   };
 
   useEffect(() => {

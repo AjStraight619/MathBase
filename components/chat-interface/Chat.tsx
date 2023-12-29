@@ -1,131 +1,92 @@
 "use client";
-import { AssistantAvatar, UserAvatar } from "@/components/avatar/avatars";
-import ProcessFiles from "@/components/files/process-files";
-import UploadFiles from "@/components/files/upload-files";
-import { Input } from "@/components/ui/input";
+import { useSidebarContext } from "@/context/SidebarContext";
+import { useExtendedChat } from "@/hooks/useExtendedChat";
 import { useFileManager } from "@/hooks/useFileManager";
 import { useItemId } from "@/hooks/useItemId";
 import { ChatWithMessages } from "@/lib/types";
 import { User } from "@prisma/client";
-import { Message } from "ai";
-import { useChat } from "ai/react";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { BiSolidUpArrowCircle } from "react-icons/bi";
+import { useEffect, useRef, useState } from "react";
 import EquationProcessor from "../equation-processor";
-import MarkdownContentRenderer from "./markdown-renderer";
-
-/**
- * The Chat component is responsible for rendering the chat interface.
- * It displays chat messages and allows users to send new messages.
- * This component also uses the CodeRenderer to render messages that contain code.
- *
- * @returns {React.ReactElement} - The rendered JSX element representing the chat interface
- */
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import MessageInput from "./message-input";
+import MessageList from "./message-list";
 
 export type ChatProps = {
   chatById: ChatWithMessages | null;
 };
 
-export default function Chat({ chatById }: ChatProps): React.ReactElement {
+export default function Chat({ chatById }: ChatProps) {
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const bottomOfMessagesRef = useRef<HTMLDivElement>(null);
+  const [autoScroll, setAutoScroll] = useState(true);
   const { data: session } = useSession();
   const user = session?.user as User;
   const userId = user?.id;
-
+  const { isSidebarOpen } = useSidebarContext();
   const chatId = useItemId();
-
   const { extractedEquations, isExtractedEquation, setIsExtractedEquation } =
     useFileManager();
-  const {
-    messages,
-    setMessages,
-    input,
-    handleInputChange,
-    handleSubmit,
-    isLoading,
-  } = useChat({
-    api: `/api/chat?chatId=${chatId}`,
-    body: {
-      userId: userId,
-    },
-  });
+
+  const { messages, input, setInput, handleSubmit, isLoading } =
+    useExtendedChat({
+      options: { api: `/api/chat?chatId=${chatId}`, body: { userId: userId } },
+      chatById,
+    });
+
+  // useLayoutEffect(() => {
+  //   if (autoScroll && scrollAreaRef.current) {
+  //     const scrollArea = scrollAreaRef.current;
+  //     scrollArea.scrollTop = scrollArea.scrollHeight;
+  //   }
+  // }, [messages, autoScroll]);
 
   useEffect(() => {
-    if (chatById) {
-      const formattedMessages: Message[] = chatById.messages.map((msg) => ({
-        id: msg.id,
-        chatId: msg.chatId,
-        content: msg.content,
-        role: msg.role,
-        isExtractedEquation: msg.isExtractedEquation,
-        createdAt: msg.createdAt,
-        updatedAt: msg.updatedAt,
-      }));
-      setMessages([...formattedMessages]);
+    if (autoScroll && bottomOfMessagesRef.current) {
+      bottomOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [setMessages, chatById]);
+  }, [messages, autoScroll]);
 
-  const isCodeMessage = (content: string) => {
-    return content.includes("```");
-  };
-
-  const containsMarkdown = (content: string) => {
-    const markdownPatterns = /(\*|_|`|\$|\[|\]|\(|\)|\!\[|\]\(|\$\$)/;
-    return markdownPatterns.test(content);
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    if (scrollTop + clientHeight < scrollHeight - 100) {
+      setAutoScroll(false);
+    } else {
+      setAutoScroll(true);
+    }
   };
 
   return (
-    <div className="flex flex-col justify-between h-full relative pb-[4rem]">
-      <ul className="overflow-auto overflow-x-hidden">
-        {messages.map((m, index) => (
-          <li
-            key={index}
-            className="list-none whitespace-pre-line text-sm my-8"
+    <ScrollArea
+      ref={scrollAreaRef}
+      onScroll={handleScroll}
+      className="h-screen w-full overflow-y-auto"
+    >
+      <ScrollBar orientation="vertical" />
+      <div className="flex flex-col items-center min-h-screen">
+        <div className="container sm:max-w-full md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto p-4">
+          <div
+            className={`flex flex-col justify-between h-full relative pb-[4rem] ${
+              isSidebarOpen ? "ml-[4rem]" : ""
+            }`}
           >
-            <div className="flex items-start space-x-3 ml-[1.5rem]">
-              {m.role === "user" ? <UserAvatar /> : <AssistantAvatar />}
-              <span className="break-words">
-                {containsMarkdown(m.content) ? (
-                  <MarkdownContentRenderer content={m.content} />
-                ) : (
-                  <p>{m.content}</p>
-                )}
-              </span>
-              {isExtractedEquation && (
-                <EquationProcessor
-                  extractedEquations={extractedEquations}
-                  setIsExtractedEquation={setIsExtractedEquation}
-                />
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <div className="fixed bottom-4 left-[10rem] right-0 mx-auto w-full max-w-xl">
-        <div className="flex items-center justify-center">
-          <ProcessFiles />
-          <form
-            onSubmit={handleSubmit}
-            className="flex-1 flex items-center relative sm:w-3/4 md:w-2/3 lg:w-1/2"
-          >
-            <Input
-              value={input}
-              onChange={handleInputChange}
-              className="flex-1 h-12 outline-none border rounded-xl px-4 py-2 mr-2 pl-[1.5rem] sm:w-3/4 md:w-2/3 lg:w-1/2 pr-2 bg-primary-foreground"
-              placeholder="Message Note Genius..."
-            />
-            <button disabled={isLoading} type="submit">
-              <BiSolidUpArrowCircle
-                className={`${
-                  isLoading ? "text-muted-foreground" : ""
-                } w-6 h-6 absolute bottom-3 right-3`}
+            <MessageList messages={messages} />
+            {isExtractedEquation && (
+              <EquationProcessor
+                extractedEquations={extractedEquations}
+                setIsExtractedEquation={setIsExtractedEquation}
               />
-            </button>
-            <UploadFiles className="absolute left-0 " />
-          </form>
+            )}
+            <MessageInput
+              input={input}
+              setInput={setInput}
+              handleSubmit={handleSubmit}
+              isLoading={isLoading}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <div ref={bottomOfMessagesRef} />
+    </ScrollArea>
   );
 }

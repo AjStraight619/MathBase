@@ -10,11 +10,5 @@ type ChatEdgeRuntimeProps = {
 export default async function ChatEdgeRuntime({
   chatById,
 }: ChatEdgeRuntimeProps) {
-  return (
-    <div className="flex flex-col items-center min-h-screen ml-[10rem]">
-      <div className="container max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto p-4">
-        <Chat chatById={chatById} />
-      </div>
-    </div>
-  );
+  return <Chat chatById={chatById} />;
 }

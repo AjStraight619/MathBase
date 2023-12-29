@@ -38,8 +38,7 @@ export const Login = ({ providers }: { providers: ClientSafeProvider[] }) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignIn = async () => {
     await signIn("credentials", {
       email: form.email,
       password: form.password,
@@ -52,7 +51,7 @@ export const Login = ({ providers }: { providers: ClientSafeProvider[] }) => {
     <div className="flex flex-col gap-4 w-full h-screen justify-center items-center">
       <Card className="p-4 w-[25rem]">
         <form
-          onSubmit={handleSignIn}
+          action={handleSignIn}
           className="flex flex-col gap-4 w-full max-w-md"
         >
           <h1 className="text-2xl font-semibold text-center">Sign In</h1>

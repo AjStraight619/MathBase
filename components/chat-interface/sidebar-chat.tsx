@@ -96,7 +96,7 @@ export default function SidebarChat({
                 >
                   <Link
                     href={`/chat/${chat.id}`}
-                    className="flex-grow whitespace-nowrap text-clip overflow-hidden text-sm"
+                    className="flex-grow whitespace-nowrap text-clip truncate text-sm"
                   >
                     {chat.title}
                   </Link>

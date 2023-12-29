@@ -7,6 +7,7 @@ type ChatPageProps = {
     id: string;
   };
 };
+
 export default async function ChatPage({ params }: ChatPageProps) {
   const { id } = params;
   const chatById = (await getChatById(id)) as unknown as ChatWithMessages;

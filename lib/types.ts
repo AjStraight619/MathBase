@@ -1,4 +1,5 @@
 import { Chat, ChatMessage } from "@prisma/client";
+import { Message as AImessage } from "ai";
 
 export type ListMetaData = {
   id: string;
@@ -159,3 +160,9 @@ export type Folder = {
 };
 
 export type AllFolders = Folder;
+
+export interface ExtendedMessage extends AImessage {
+  isExtractedEquation: boolean;
+  extractedText: string | null;
+  chatId: string;
+}

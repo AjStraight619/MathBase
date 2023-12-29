@@ -64,7 +64,7 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
     <>
       {!isSidebarOpen && (
         <SidebarToggle
-          className="fixed top-2 left-2"
+          className="fixed top-3 left-3"
           handleSidebarToggle={handleSidebarToggle}
         />
       )}
@@ -75,7 +75,7 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
             exit="closed"
             variants={sidebarVariants}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="fixed top-0 left-0 h-screen w-64 flex flex-col bg-background border-r"
+            className="fixed top-0 left-0 h-screen w-64 flex flex-col bg-background border-r z-30"
           >
             <div className="flex flex-row justify-between p-2">
               <h1 className="text-xl font-bold">
@@ -85,9 +85,7 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
             </div>
             {isDashboardPath && <SearchBar />}
 
-            {/* Content container */}
             <div className="flex flex-col flex-1 overflow-y-auto px-2 py-8">
-              {/* Conditional rendering of content based on path */}
               {isChatPath ? (
                 <SidebarChat
                   allFolders={allFolders}

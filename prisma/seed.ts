@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-
 const prisma = new PrismaClient();
 
 async function main() {
@@ -13,80 +12,41 @@ async function main() {
     throw new Error("User not found");
   }
 
-  const folders = await Promise.all(
-    ["Work", "Personal", "Ideas"].map((folderName) => {
-      return prisma.folder.create({
-        data: {
-          title: folderName,
-          user: {
-            connect: { id: user.id },
-          },
-        },
-      });
-    })
-  );
-
-  const tags = await Promise.all(
-    ["Urgent", "Education", "Hobbies"].map((tagName) => {
-      return prisma.tag.create({
-        data: {
-          name: tagName,
-        },
-      });
-    })
-  );
-
-  for (let i = 1; i <= 3; i++) {
-    const chat = await prisma.chat.create({
-      data: {
-        title: `Chat ${i}`,
-        user: {
-          connect: { id: user.id },
-        },
-        messages: {
-          create: [
-            {
-              content: `Message 1 in Chat ${i}`,
-              role: "user",
-            },
-            {
-              content: `Message 2 in Chat ${i}`,
-              role: "assistant",
-            },
-          ],
-        },
+  const chat = await prisma.chat.create({
+    data: {
+      title: "AI Extracted Equations",
+      user: {
+        connect: { id: user.id },
       },
-    });
-
-    console.log(`Created chat with id: ${chat.id}`);
-
-    for (let j = 1; j <= 6; j++) {
-      for (const folder of folders) {
-        const note = await prisma.note.create({
-          data: {
-            title: `Note ${j} for Folder ${folder.title}`,
-            content: `This is note ${j} in folder ${folder.title}`,
-            user: {
-              connect: { id: user.id },
-            },
-            chat: {
-              connect: { id: chat.id },
-            },
-            folder: {
-              connect: { id: folder.id },
-            },
-            tags: {
-              connect: tags.map((tag) => ({ id: tag.id })), // Connect all tags to each note
-            },
+      messages: {
+        create: [
+          {
+            content: "$x^2 + y^2 = z^2$, $\\sin(x) + \\cos(y)$",
+            role: "assistant",
+            isExtractedEquation: true,
           },
-        });
+          {
+            content: "$a^2 + b^2 = c^2$, $v = u + at$",
+            role: "assistant",
+            isExtractedEquation: true,
+          },
+          {
+            content: "$\\int x \\, dx$ from 0 to 1, $\\frac{d}{dx} \\sin(x)$",
+            role: "assistant",
+            isExtractedEquation: true,
+          },
+          {
+            content:
+              "$e^x = \\sum_{n=0}^{\\infty} \\frac{x^n}{n!}$, $F = m \\cdot a$",
+            role: "assistant",
+            isExtractedEquation: true,
+          },
+        ],
+      },
+    },
+  });
 
-        console.log(
-          `Created note with id: ${note.id} in folder ${folder.title}`
-        );
-      }
-    }
-  }
+  console.log(`Created chat with id: ${chat.id}`);
 }
 
 main()
