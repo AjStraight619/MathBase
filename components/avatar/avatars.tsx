@@ -1,6 +1,7 @@
 "use client";
 import { Avatar } from "@/components/ui/avatar";
 import { User } from "@prisma/client";
+import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { WiStars } from "react-icons/wi";
 import { AvatarFallback } from "../ui/avatar";
@@ -25,15 +26,41 @@ export const UserAvatar = ({ className }: AvatarProps) => {
 };
 
 export const AssistantAvatar = ({ isLoading }: AvatarProps) => {
+  const pulseVariants = {
+    pulsate: {
+      scale: [1, 1.2, 1.2, 1, 1],
+      transition: {
+        duration: 1,
+        repeat: Infinity,
+        repeatDelay: 1,
+      },
+    },
+  };
+
+  const starsVariants = {
+    animate: {
+      rotate: [0, 360],
+      scale: [1, 1.5, 1],
+      transition: {
+        duration: 2,
+        ease: "easeInOut",
+        loop: Infinity,
+      },
+    },
+  };
+
   return (
-    <Avatar>
-      <AvatarFallback className="bg-slate-500">
-        <WiStars
-          className={`w-12 h-12 text-cyan-400 ${
-            isLoading ? "animate-spin" : ""
-          }`}
-        />
-      </AvatarFallback>
+    <Avatar className="bg-slate-950 dark:bg-slate-500">
+      <motion.div variants={pulseVariants} animate={isLoading ? "pulsate" : ""}>
+        <AvatarFallback>
+          <motion.div
+            variants={starsVariants}
+            animate={isLoading ? "animate" : ""}
+          >
+            <WiStars className="w-12 h-12 text-cyan-400" />
+          </motion.div>
+        </AvatarFallback>
+      </motion.div>
     </Avatar>
   );
 };
