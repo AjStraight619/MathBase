@@ -50,7 +50,10 @@ export default function Chat({ chatById }: ChatProps) {
 
   useEffect(() => {
     if (autoScroll && bottomOfMessagesRef.current) {
-      bottomOfMessagesRef.current.scrollIntoView({ behavior: "smooth" });
+      const timeoutId = setTimeout(() => {
+        bottomOfMessagesRef?.current?.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+      return () => clearTimeout(timeoutId);
     }
   }, [messages, autoScroll]);
 
@@ -82,7 +85,7 @@ export default function Chat({ chatById }: ChatProps) {
     >
       <ScrollBar orientation="vertical" />
       <div className="flex flex-col items-center min-h-screen">
-        <div className="container sm:max-w-full md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto p-4">
+        <div className="container sm:max-w-full md:max-w-lg lg:max-w-lg xl:max-w-xl mx-auto p-4">
           <motion.div
             variants={containerVariants}
             initial="closed"

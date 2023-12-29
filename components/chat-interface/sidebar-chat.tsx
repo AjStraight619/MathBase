@@ -63,77 +63,80 @@ export default function SidebarChat({
   return (
     <>
       <div className="flex flex-row justify-evenly mb-4">
-        {listViewOptions.map((option) => {
-          return (
-            <button
-              key={option.name}
-              onClick={() => handleListViewChange(option.view)}
-              className={`flex items-center justify-center space-x-2 py-1 px-2 rounded-full ${
-                listView === option.view ? "bg-muted/20" : "hover:bg-muted/40 "
-              }`}
-            >
-              {option.icon}
-            </button>
-          );
-        })}
+        {listViewOptions.map((option) => (
+          <button
+            key={option.name}
+            onClick={() => handleListViewChange(option.view)}
+            className={`flex items-center justify-center space-x-2 py-1 px-2 rounded-full ${
+              listView === option.view ? "bg-muted/20" : "hover:bg-muted/40"
+            }`}
+          >
+            {option.icon}
+          </button>
+        ))}
       </div>
       <ScrollArea>
         {listView === "Chats" ? (
           <>
             <NewChatForm />
             <h3 className="text-muted-foreground text-md">Chats</h3>
-
             <Separator className="w-full text-muted-foreground mt-1 mb-3" />
-            {chatMetaData.map((chat) => {
-              const isCurrentChat = chatId === chat.id;
+            <ul>
+              {chatMetaData.map((chat) => {
+                const isCurrentChat = chatId === chat.id;
 
-              return (
-                <div
-                  className={`flex items-center justify-between space-x-2 py-1 px-2 rounded-md ${
-                    isCurrentChat ? "bg-muted/80" : "hover:bg-muted/40"
-                  }`}
-                  key={chat.id}
-                >
-                  <Link
-                    href={`/chat/${chat.id}`}
-                    className="flex-grow whitespace-nowrap text-clip truncate text-sm"
+                return (
+                  <li
+                    className={`flex items-center justify-between space-x-2 py-1 px-2 rounded-md ${
+                      isCurrentChat ? "bg-muted/80" : "hover:bg-muted/40"
+                    }`}
+                    key={chat.id}
                   >
-                    {chat.title}
-                  </Link>
-                  {isCurrentChat && <ItemOptions chatMetaData={chatMetaData} />}
-                </div>
-              );
-            })}
+                    <Link
+                      href={`/chat/${chat.id}`}
+                      className="flex-grow whitespace-nowrap text-clip truncate text-sm"
+                    >
+                      {chat.title}
+                    </Link>
+                    {isCurrentChat && (
+                      <ItemOptions chatMetaData={chatMetaData} />
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </>
         ) : (
           <>
             <NewNoteForm className="w-calc[(100% - 1rem)]" />
-
             <div className="w-full flex flex-col justify-center items-start">
               <FolderDropdown
                 allFolders={allFolders}
                 selectedFolder={selectedFolder}
                 setSelectedFolder={setSelectedFolder}
               />
-              {selectedFolder &&
-                selectedFolder.notes.map((note) => {
-                  const isCurrentNote = selectedNote?.id === note.id;
-                  return (
-                    <div
-                      className={`flex items-center justify-between space-x-2 py-1 px-2 rounded-md ${
-                        isCurrentNote ? "bg-muted/80" : "hover:bg-muted/40"
-                      }`}
-                      key={note.id}
-                    >
-                      <Link
-                        href={`/note/${selectedNote?.id}`}
-                        className="flex-grow whitespace-nowrap text-clip overflow-hidden text-sm"
+              {selectedFolder && (
+                <ul>
+                  {selectedFolder.notes.map((note) => {
+                    const isCurrentNote = selectedNote?.id === note.id;
+                    return (
+                      <li
+                        className={`flex items-center justify-between space-x-2 py-1 px-2 rounded-md ${
+                          isCurrentNote ? "bg-muted/80" : "hover:bg-muted/40"
+                        }`}
+                        key={note.id}
                       >
-                        {note.title}
-                      </Link>
-                    </div>
-                  );
-                })}
+                        <Link
+                          href={`/note/${selectedNote?.id}`}
+                          className="flex-grow whitespace-nowrap text-clip overflow-hidden text-sm"
+                        >
+                          {note.title}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
           </>
         )}
