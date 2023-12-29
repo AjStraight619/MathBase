@@ -68,19 +68,25 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
           handleSidebarToggle={handleSidebarToggle}
         />
       )}
-      <AnimatePresence>
-        {isSidebarOpen && (
+
+      {isSidebarOpen && (
+        <AnimatePresence>
           <motion.div
-            animate="open"
+            key="sidebar"
+            initial="closed"
+            animate={isSidebarOpen ? "open" : "closed"}
             exit="closed"
             variants={sidebarVariants}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="fixed top-0 left-0 h-screen w-64 flex flex-col bg-background border-r z-30"
+            className="fixed top-0 left-0 h-screen w-64 flex flex-col bg-background border-r z-50"
           >
             <div className="flex flex-row justify-between p-2">
-              <h1 className="text-xl font-bold">
-                <Link href="/">Math Base</Link>
-              </h1>
+              <div className="group transition-all flex flex-row gap-2">
+                <h1 className="p-2 text-xl font-bold">
+                  <Link href="/">Math Base</Link>
+                </h1>
+                {/* <Icon /> */}
+              </div>
               <SidebarToggle handleSidebarToggle={handleSidebarToggle} />
             </div>
             {isDashboardPath && <SearchBar />}
@@ -101,7 +107,6 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
               ) : null}
             </div>
 
-            {/* Auth buttons container */}
             <div className="p-4 mt-auto">
               {session ? (
                 <AvatarDropDown usersName={userName} />
@@ -113,8 +118,8 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
               )}
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>
+      )}
     </>
   );
 }

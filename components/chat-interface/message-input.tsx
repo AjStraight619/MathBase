@@ -1,4 +1,5 @@
 import { useSidebarContext } from "@/context/SidebarContext";
+import { motion } from "framer-motion";
 import { useRef } from "react";
 import { BiSolidUpArrowCircle } from "react-icons/bi";
 import ProcessFiles from "../files/process-files";
@@ -8,6 +9,7 @@ import { Textarea } from "../ui/textarea";
 type MessageInputProps = {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
+  handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
 };
@@ -15,11 +17,23 @@ type MessageInputProps = {
 export default function MessageInput({
   input,
   setInput,
+  handleInputChange,
   handleSubmit,
   isLoading,
 }: MessageInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { isSidebarOpen } = useSidebarContext();
+
+  const containerVariants = {
+    open: {
+      translateX: "4rem",
+      transition: { type: "spring", stiffness: 260, damping: 20 },
+    },
+    closed: {
+      translateX: "0rem",
+      transition: { type: "spring", stiffness: 260, damping: 20 },
+    },
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -32,22 +46,23 @@ export default function MessageInput({
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target;
-    setInput(value);
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = "auto";
-      textarea.offsetHeight;
-      textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
-    }
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   const { value } = e.target;
+  //   setInput(value);
+  //   const textarea = textareaRef.current;
+  //   if (textarea) {
+  //     textarea.style.height = "auto";
+  //     textarea.offsetHeight;
+  //     textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
+  //   }
+  // };
 
   return (
-    <div
-      className={`fixed bottom-5 left-0 right-0 mx-auto w-full max-w-xl ${
-        isSidebarOpen ? "md:left-[8rem]" : ""
-      }`}
+    <motion.div
+      variants={containerVariants}
+      initial="closed"
+      animate={isSidebarOpen ? "open" : "closed"}
+      className="fixed bottom-5 left-0 right-0 mx-auto w-full max-w-xl"
     >
       <div className="flex items-center justify-center">
         <ProcessFiles />
@@ -73,6 +88,6 @@ export default function MessageInput({
           <UploadFiles className="absolute left-0 " />
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 }
