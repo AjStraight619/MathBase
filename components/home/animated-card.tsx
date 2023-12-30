@@ -41,11 +41,11 @@ export default function AnimatedCard({
       initial="closed"
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
-      className="w-full my-4"
+      className="my-4"
     >
       <Link
         href={href}
-        className="block rounded-lg border border-transparent transition-colors overflow-hidden"
+        className="block rounded-lg border border-transparent transition-colors"
       >
         <motion.div
           variants={cardVariants}

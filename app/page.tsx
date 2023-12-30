@@ -45,7 +45,7 @@ export default async function Home() {
       )}
 
       <div className="z-10">
-        <div className="mb-16 grid text-center lg:grid-cols-4 lg:max-w-5xl lg:w-full lg:mb-0 lg:text-left mt-32 ml-[8rem]">
+        <div className="mb-16 grid text-center lg:grid-cols-4 lg:max-w-5xl lg:w-full lg:mb-0 lg:text-left mt-32">
           {cardData.map((card) => (
             <AnimatedCard key={card.title} {...card} />
           ))}
