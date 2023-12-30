@@ -1,6 +1,6 @@
-import { AiOutlineCalculator } from "react-icons/ai";
 import { FaReact } from "react-icons/fa";
 import { RiOpenaiFill } from "react-icons/ri";
+import { SiNextdotjs, SiWolfram } from "react-icons/si";
 
 import FeatureCard from "./feature-card";
 import PoweredBy from "./powered-by";
@@ -10,19 +10,24 @@ export const featureData = [
     title: "React and Next.js",
     description:
       "Utilizing the latest in modern web development frameworks, Math Base offers a seamless and performant user experience.",
-    icon: <FaReact className="text-blue-400" />,
+    icon: (
+      <div className="flex flex-row gap-3">
+        <FaReact className="text-blue-400" />
+        <SiNextdotjs className="text-gray-200" />
+      </div>
+    ),
   },
   {
     title: "GPT 4 Integration",
     description:
       "Incorporating OpenAI's GPT-4, Math Base leverages cutting-edge AI to provide intelligent and contextual math learning assistance.",
-    icon: <RiOpenaiFill className="text-green-600" />,
+    icon: <RiOpenaiFill className="text-indigo-400" />,
   },
   {
     title: "Wolfram Alpha Integration",
     description:
       "Harnessing the computational intelligence of Wolfram Alpha, Math Base delivers precise and accurate mathematical computations and visualizations.",
-    icon: <AiOutlineCalculator className="text-orange-500" />,
+    icon: <SiWolfram className="text-orange-500" />,
   },
 ];
 

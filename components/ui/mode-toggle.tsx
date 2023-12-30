@@ -10,9 +10,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePathname } from "next/navigation";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
+  const pathname = usePathname();
+
+  if (pathname === "/") return null;
 
   return (
     <DropdownMenu>

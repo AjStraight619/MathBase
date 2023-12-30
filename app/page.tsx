@@ -13,7 +13,7 @@ export default async function Home() {
   const user = session?.user as User;
   const userIsLoggedIn = !!user;
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-start p-24 bg-gradient-to-b from-black from-80% via-zinc-900 to-gray-500">
+    <main className="relative flex min-h-screen flex-col items-center justify-start p-24 bg-gradient-to-b from-black/90 from-70% to-gray-300 to-100%">
       <div className="flex items-center justify-center space-x-4 z-10">
         <Image
           src="/logo.png"

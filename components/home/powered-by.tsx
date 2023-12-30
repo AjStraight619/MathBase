@@ -1,6 +1,82 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 export default function PoweredBy() {
+  const pathVariants = {
+    initial: {
+      opacity: 0,
+      pathLength: 0,
+    },
+    animate: {
+      opacity: 1,
+      pathLength: 1,
+      transition: { duration: 0.5 },
+    },
+  };
+
+  const reactPathData =
+    "M2392 750C481.241 750 436.604 750 382.998 750C379.684 750 377 752.686 377 756V2198";
+
+  const wolframPathData =
+    "M3979 872C5889.76 872 5934.4 872 5988 872C5991.32 872 5994 874.686 5994 878V2284";
+
+  const nextjsPathData =
+    "M2668 1065V1514.74C2668 1518.05 2665.31 1520.74 2662 1520.74H1234C1230.69 1520.74 1228 1523.42 1228 1526.74V2005";
+
+  const gptLeftPathData = "M2844 1065.5L2842.81 2106";
+
+  const reactAnimationProps = {
+    animate: {
+      pathLength: [1, 0],
+      pathOffset: [1, 0],
+    },
+    transition: {
+      duration: 2,
+      ease: "easeInOut",
+      repeat: Infinity,
+      repeatDelay: 1,
+    },
+  };
+  const wolframAnimationProps = {
+    animate: {
+      pathLength: [1, 0],
+      pathOffset: [1, 0],
+    },
+    transition: {
+      duration: 2,
+      ease: "easeInOut",
+      repeat: Infinity,
+      repeatDelay: 3,
+    },
+  };
+
+  const nextjsAnimationProps = {
+    animate: {
+      pathLength: [1, 0],
+      pathOffset: [1, 0],
+    },
+    transition: {
+      duration: 3,
+      ease: "easeInOut",
+      repeat: Infinity,
+      repeatDelay: 0.5,
+    },
+  };
+
+  const gptLeftAnimationProps = {
+    animate: {
+      pathLength: [1, 0],
+      pathOffset: [1, 0],
+    },
+    transition: {
+      duration: 3,
+      ease: "easeInOut",
+      repeat: Infinity,
+      repeatDelay: 0.5,
+    },
+  };
+
   return (
     <div className="mx-auto">
       <svg
@@ -118,37 +194,92 @@ export default function PoweredBy() {
             fill="#B1B1B1"
           />
           <rect x="2648" y="528" width="39" height="57" rx="6" fill="#B1B1B1" />
+
           <g filter="url(#filter2_d_601_9)">
             <path
               d="M2392 750C481.241 750 436.604 750 382.998 750C379.684 750 377 752.686 377 756V2198"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               stroke-linejoin="round"
               shape-rendering="crispEdges"
+            />
+            <defs>
+              <linearGradient id="reactGradient" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#61DAFB" />
+                <stop offset="50%" stopColor="#2188FF" />
+                <stop offset="100%" stopColor="#0D47A1" />
+              </linearGradient>
+            </defs>
+
+            <motion.path
+              d={reactPathData}
+              stroke="url(#reactGradient)" // Change the color to your desired color
+              strokeWidth="5" // Adjust the stroke width as needed
+              strokeLinejoin="round"
+              shapeRendering="crispEdges"
+              {...reactAnimationProps}
             />
           </g>
           <g filter="url(#filter3_d_601_9)">
             <path
-              d="M3979 872C5889.76 872 5934.4 872 5988 872C5991.32 872 5994 874.686 5994 878V2284"
-              stroke="#070707"
+              d={wolframPathData}
+              stroke="#B8B9B6"
               stroke-width="5"
               stroke-linejoin="round"
               shape-rendering="crispEdges"
+            />
+            <defs>
+              <linearGradient
+                id="wolframGradient"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0%" stopColor="#FF8C00" />
+                <stop offset="50%" stopColor="#FFA500" />
+                <stop offset="100%" stopColor="#FFD700" />
+              </linearGradient>
+            </defs>
+
+            <motion.path
+              d={wolframPathData}
+              stroke="url(#wolframGradient)"
+              strokeWidth="5"
+              strokeLinejoin="round"
+              shapeRendering="crispEdges"
+              {...wolframAnimationProps}
             />
           </g>
           <g filter="url(#filter4_d_601_9)">
             <path
-              d="M2668 1065V1514.74C2668 1518.05 2665.31 1520.74 2662 1520.74H1234C1230.69 1520.74 1228 1523.42 1228 1526.74V2005"
-              stroke="#070707"
+              d={nextjsPathData}
+              stroke="#B8B9B6"
               stroke-width="5"
               stroke-linejoin="round"
               shape-rendering="crispEdges"
             />
+            <defs>
+              <linearGradient
+                id="nextjsGradient"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0%" stopColor="#000000" />
+                <stop offset="50%" stopColor="#FFFFFF" />
+                <stop offset="100%" stopColor="#000000" />
+              </linearGradient>
+            </defs>
+            <motion.path
+              d={nextjsPathData}
+              stroke="url(#nextjsGradient)"
+              strokeWidth="5"
+              strokeLinejoin="round"
+              shapeRendering="crispEdges"
+              {...nextjsAnimationProps}
+            />
           </g>
+
           <g filter="url(#filter5_d_601_9)">
             <path
               d="M2393 872H921C917.686 872 915 874.686 915 878V1065"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
             />
@@ -192,23 +323,41 @@ export default function PoweredBy() {
           <g filter="url(#filter6_d_601_9)">
             <path
               d="M3979 749H5269.5"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
             />
           </g>
           <g filter="url(#filter7_d_601_9)">
             <path
-              d="M2844 1065.5L2842.81 2106"
-              stroke="#070707"
+              d={gptLeftPathData}
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
+            />
+            <defs>
+              <linearGradient
+                id="chatGptLeftGradient"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0%" stopColor="#4B0082" />
+                <stop offset="50%" stopColor="#7B68EE" />
+                <stop offset="100%" stopColor="#E0E0FF" />
+              </linearGradient>
+            </defs>
+            <motion.path
+              d={gptLeftPathData}
+              stroke="url(#chatGptLeftGradient)"
+              strokeWidth="12"
+              strokeLinejoin="round"
+              shapeRendering="crispEdges"
+              {...gptLeftAnimationProps}
             />
           </g>
           <g filter="url(#filter8_d_601_9)">
             <path
               d="M3018 1065V1410.5"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
             />
@@ -216,7 +365,7 @@ export default function PoweredBy() {
           <g filter="url(#filter9_d_601_9)">
             <path
               d="M3186 1065V1542.08"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
             />
@@ -224,7 +373,7 @@ export default function PoweredBy() {
           <g filter="url(#filter10_d_601_9)">
             <path
               d="M3702.5 1065.5V1217.5C3702.5 1220.81 3705.19 1223.5 3708.5 1223.5H4686"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
             />
@@ -232,7 +381,7 @@ export default function PoweredBy() {
           <g filter="url(#filter11_d_601_9)">
             <path
               d="M3515 1065V1467.73C3515 1471.05 3517.69 1473.73 3521 1473.73H5011C5014.31 1473.73 5017 1476.42 5017 1479.73V1809"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               stroke-linejoin="round"
               shape-rendering="crispEdges"
@@ -241,7 +390,7 @@ export default function PoweredBy() {
           <g filter="url(#filter12_d_601_9)">
             <path
               d="M3329 1065V1914.21"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
             />
@@ -249,7 +398,7 @@ export default function PoweredBy() {
           <g filter="url(#filter13_d_601_9)">
             <path
               d="M3702.5 528V294C3702.5 290.686 3705.19 288 3708.5 288H4220.5"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               stroke-linejoin="round"
               shape-rendering="crispEdges"
@@ -258,7 +407,7 @@ export default function PoweredBy() {
           <g filter="url(#filter14_d_601_9)">
             <path
               d="M3515 526.5V234"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
             />
@@ -266,7 +415,7 @@ export default function PoweredBy() {
           <g filter="url(#filter15_d_601_9)">
             <path
               d="M2667.5 528V395C2667.5 391.686 2664.81 389 2661.5 389H2159"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               stroke-linejoin="round"
               shape-rendering="crispEdges"
@@ -275,7 +424,7 @@ export default function PoweredBy() {
           <g filter="url(#filter16_d_601_9)">
             <path
               d="M3018 527.5V67"
-              stroke="#070707"
+              stroke="#B8B9B6"
               stroke-width="5"
               shape-rendering="crispEdges"
             />
