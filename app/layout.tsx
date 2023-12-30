@@ -10,6 +10,7 @@ import MathModeProvider from "@/context/MathModeProvider";
 import SidebarProvider from "@/context/SidebarContext";
 import { authOptions } from "@/lib/authOptions";
 import { AllFolders, ListMetaData } from "@/lib/types";
+import { User } from "@prisma/client";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
@@ -31,6 +32,7 @@ export default async function RootLayout({
   let chatMetaData: ListMetaData[] = [];
   let allFolders: AllFolders[] = [];
   const session = await getServerSession(authOptions);
+  const user = session?.user as User;
   if (session) {
     chatMetaData = (await getChatMetaData()) as unknown as ListMetaData[];
     allFolders = (await getAllFolders()) as unknown as AllFolders[];

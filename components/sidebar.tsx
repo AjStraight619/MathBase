@@ -52,7 +52,8 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
     pathname === "/sign-in" ||
     pathname === "/forgot-password" ||
     pathname == "/forgot-password/success" ||
-    pathname === "/reset-password"
+    pathname === "/reset-password" ||
+    pathname === "/"
   )
     return null;
 

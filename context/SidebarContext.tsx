@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useLayoutEffect, useState } from "react";
 
 type SidebarProvider = {
   children: React.ReactNode;
@@ -18,21 +18,23 @@ const defaultSidebarContext: SidebarContext = {
 const sidebarContext = createContext<SidebarContext>(defaultSidebarContext);
 
 export default function SidebarProvider({ children }: SidebarProvider) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
-    return window.innerWidth > 975;
-  });
+  const [isSidebarOpen, setIsSidebarOpen] = useState(
+    defaultSidebarContext.isSidebarOpen
+  );
 
-  const handleResize = () => {
+  useLayoutEffect(() => {
     setIsSidebarOpen(window.innerWidth > 975);
-  };
 
-  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarOpen(window.innerWidth > 975);
+    };
+
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  });
+  }, []);
 
   return (
     <sidebarContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>

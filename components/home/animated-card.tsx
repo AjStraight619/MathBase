@@ -1,10 +1,7 @@
-// AnimatedCard.tsx
 "use client";
-
-import { useSidebarContext } from "@/context/SidebarContext";
-import { containerVariants } from "@/lib/animationVariants";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useState } from "react";
 
 type AnimatedCardProps = {
   href: string;
@@ -17,7 +14,8 @@ export default function AnimatedCard({
   title,
   description,
 }: AnimatedCardProps) {
-  const { isSidebarOpen } = useSidebarContext();
+  const [isHovered, setIsHovered] = useState(false);
+
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -30,28 +28,43 @@ export default function AnimatedCard({
     },
   };
 
+  const handleHoverStart = () => {
+    setIsHovered(true);
+  };
+
+  const handleHoverEnd = () => {
+    setIsHovered(false);
+  };
+
   return (
     <motion.div
-      variants={containerVariants}
       initial="closed"
-      animate={isSidebarOpen ? "open" : "closed"}
-      className="w-full"
+      onHoverStart={handleHoverStart}
+      onHoverEnd={handleHoverEnd}
+      className="w-full my-4"
     >
       <Link
         href={href}
-        className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+        className="block rounded-lg border border-transparent transition-colors overflow-hidden"
       >
         <motion.div
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className="space-y-3"
+          className={`space-y-3 p-5 bg-transparent ${
+            isHovered ? "bg-gradient-to-r from-slate-900 to-background" : ""
+          }`}
         >
-          <h2 className="text-2xl font-semibold">
-            {title}{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
+          <h2 className="text-2xl font-semibold flex items-center justify-evenly">
+            {title}
+            <motion.span
+              initial={{ x: 0 }}
+              animate={{ x: isHovered ? 5 : 0 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="inline-block"
+            >
+              →
+            </motion.span>
           </h2>
           <p className="max-w-[30ch] text-sm text-muted-foreground">
             {description}
