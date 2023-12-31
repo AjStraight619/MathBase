@@ -1,7 +1,9 @@
+"use client";
 import { FaReact } from "react-icons/fa";
 import { RiOpenaiFill } from "react-icons/ri";
 import { SiNextdotjs, SiWolfram } from "react-icons/si";
 
+import { motion } from "framer-motion";
 import FeatureCard from "./feature-card";
 import PoweredBy from "./powered-by";
 
@@ -21,7 +23,7 @@ export const featureData = [
     title: "GPT 4 Integration",
     description:
       "Incorporating OpenAI's GPT-4, Math Base leverages cutting-edge AI to provide intelligent and contextual math learning assistance.",
-    icon: <RiOpenaiFill className="text-indigo-400" />,
+    icon: <RiOpenaiFill className="text-indigo-500" />,
   },
   {
     title: "Wolfram Alpha Integration",
@@ -31,15 +33,37 @@ export const featureData = [
   },
 ];
 
+const featuresVariants = {
+  initial: {
+    opacity: 0,
+    y: -100,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.5,
+    },
+  },
+};
+
 export default function Features() {
   return (
-    <div className="flex flex-col items-center">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      variants={featuresVariants}
+      className="flex flex-col items-center"
+    >
       <PoweredBy />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4 w-full">
+      <div className="grid grid-cols-3 gap-4 px-4 w-full">
         {featureData.map((feature) => (
           <FeatureCard key={feature.title} {...feature} />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

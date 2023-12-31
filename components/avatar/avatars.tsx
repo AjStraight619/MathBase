@@ -12,7 +12,8 @@ type AvatarProps = {
 };
 
 export const UserAvatar = ({ className }: AvatarProps) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
   if (!session) return null;
 
   const user = session?.user as User;
@@ -20,7 +21,9 @@ export const UserAvatar = ({ className }: AvatarProps) => {
 
   return (
     <Avatar className={`${className}`}>
-      <AvatarFallback>{getInitials(userName)}</AvatarFallback>
+      <AvatarFallback className="font-semibold">
+        {getInitials(userName ?? "")}
+      </AvatarFallback>
     </Avatar>
   );
 };

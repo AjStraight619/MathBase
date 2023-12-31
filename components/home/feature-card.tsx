@@ -32,18 +32,18 @@ export default function FeatureCard({
     (color) => color.name === title
   )?.gradientClass;
   return (
-    <Card className="h-[16rem] p-4 relative">
+    <Card className="h-[16rem] p-2 relative border border-muted-foreground">
       <CardContent>
         {gradientClass && (
           <div
-            className={`absolute top-0 left-1/2 transform -translate-x-1/2 h-[0.05rem] w-[10rem] ${gradientClass}`}
+            className={`absolute top-0 left-1/2 transform -translate-x-1/2 h-[0.05rem] w-3/4 ${gradientClass}`}
           ></div>
         )}
-        <div className="flex flex-row items-center justify-between">
-          <CardTitle className="font-semibold">{title}</CardTitle>
-          <span className="text-4xl">{icon}</span>
+        <div className="flex flex-row items-center justify-between space-x-2">
+          <CardTitle className="font-semibold ">{title}</CardTitle>
+          <span className="text-2xl md:text-4xl">{icon}</span>
         </div>
-        <p className="text-muted-foreground mt-4 sm:text-sm md:text-md">
+        <p className="text-muted-foreground mt-4 lg:text-lg md:text-sm sm:text-[0.6rem] sm:leading-[1rem]">
           {description}
         </p>
       </CardContent>

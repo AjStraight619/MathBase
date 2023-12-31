@@ -45,14 +45,16 @@ export default function AnimatedCard({
     >
       <Link
         href={href}
-        className="block rounded-lg border border-transparent transition-colors"
+        className="block  border border-transparent transition-colors"
       >
         <motion.div
           variants={cardVariants}
           initial="hidden"
           animate="visible"
-          className={`space-y-3 p-5 bg-transparent ${
-            isHovered ? "bg-gradient-to-r from-slate-900 to-background" : ""
+          className={`space-y-3 p-5 border ${
+            isHovered
+              ? "border-muted-foreground rounded-md  bg-gradient-to-r from-gray-200/40 from-0% to-dark:secondary/20 to-80%"
+              : "border-transparent"
           }`}
         >
           <h2 className="text-2xl font-semibold flex items-center justify-evenly">
