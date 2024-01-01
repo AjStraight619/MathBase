@@ -13,12 +13,10 @@ export default async function Home() {
   const user = session?.user as User;
   const userIsLoggedIn = !!user;
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-start p-24 bg-gradient-to-b from-black/90 from-80%  via-gray-400 via-95% to-gray-200 to-100%">
+    <main className="relative flex min-h-screen flex-col items-center justify-start p-24 bg-gradient-to-b from-black from-50% via-gray-700 via-80%  to-gray-300 to-100% ">
       <Header />
       {!userIsLoggedIn ? <WelcomeSection /> : <IsLoggedInActions />}
-
       <Features />
-
       <Footer footerData={footerData} />
     </main>
   );

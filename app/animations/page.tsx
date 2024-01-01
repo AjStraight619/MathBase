@@ -1,3 +1,5 @@
+"use client";
+
 import FeaturesLogo from "@/components/home/features-logo";
 
 export default function Animations() {

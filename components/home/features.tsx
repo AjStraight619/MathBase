@@ -5,7 +5,7 @@ import { SiNextdotjs, SiWolfram } from "react-icons/si";
 
 import { motion } from "framer-motion";
 import FeatureCard from "./feature-card";
-import PoweredBy from "./powered-by";
+import FeaturesLogo from "./features-logo";
 
 export const featureData = [
   {
@@ -58,7 +58,7 @@ export default function Features() {
       variants={featuresVariants}
       className="flex flex-col items-center"
     >
-      <PoweredBy />
+      <FeaturesLogo />
       <div className="grid grid-cols-3 gap-4 px-4 w-full">
         {featureData.map((feature) => (
           <FeatureCard key={feature.title} {...feature} />

@@ -43,7 +43,7 @@ export default function IsLoggedInActions() {
       {status === "loading" ? (
         <Skeleton />
       ) : session ? (
-        <div className="flex flex-row gap-2 mt-10">
+        <div className="flex flex-col gap-2 mt-10">
           <h1 id="welcome" className="text-2xl font-semibold">
             Welcome back, {userName}!
           </h1>
