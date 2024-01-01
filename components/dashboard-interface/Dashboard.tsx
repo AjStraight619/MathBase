@@ -2,7 +2,7 @@
 import { useSidebarContext } from "@/context/SidebarContext";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 import { usePathname } from "next/navigation";
-import ListItem from "./list-item";
+import ListItems from "./list-items";
 import { DashboardSeparator } from "./separator";
 
 type DashboardProps = {
@@ -23,10 +23,7 @@ export default function Dashboard({ notes, chats }: DashboardProps) {
       }`}
     >
       <DashboardSeparator currentListType={currentListType} />
-      <ListItem
-        currentListItems={currentListItems}
-        currentListType={currentListType}
-      />
+      <ListItems currentListItems={currentListItems} />
     </div>
   );
 }
