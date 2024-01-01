@@ -128,7 +128,7 @@ export default function FeaturesLogo() {
   }, [scope, animate, isInitialDrawDone]);
 
   const pulsePathStyles = {
-    strokeWidth: "1",
+    strokeWidth: "4",
     strokeOpacity: "1",
   };
 
