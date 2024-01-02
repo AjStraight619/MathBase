@@ -9,7 +9,7 @@ const fetchEquationData = async (
   const queryParams = equations
     .map((eq) => `equation=${encodeURIComponent(eq)}`)
     .join("&");
-  const response = await fetch(`/api/yourEndpointPath?${queryParams}`);
+  const response = await fetch(`/api/wolfram-alpha?${queryParams}`);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }

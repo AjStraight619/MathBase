@@ -21,10 +21,12 @@ type SidebarProps = {
 };
 
 /**
- * Represents the sidebar component with navigation and chat options.
+ * Sidebar component that includes navigation and chat options.
+ * It conditionally renders different sections based on the current route.
+ *
  * @param {Object} props - Component props.
- * @param {React.ReactNode} props.children - Children components.
- * @param {SidebarItem[]} props.chatMetaData - Metadata for chats.
+ * @param {SidebarItem[]} props.chatMetaData - Metadata for chat items.
+ * @param {AllFolders[]} props.allFolders - Data for all folders.
  */
 
 export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {

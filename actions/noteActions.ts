@@ -85,3 +85,38 @@ export const getAllFolders = async () => {
   });
   return allFolders;
 };
+
+export const addChatContentToNote = async (formData: FormData) => {
+  const user = await getUserSession();
+  if (!user) return null;
+  const userId = user.id;
+
+  const noteId = formData.get("noteId") as string;
+  const chatId = formData.get("chatId") as string;
+  const content = formData.get("content") as string;
+
+  const note = await prisma.note.update({
+    where: {
+      id: noteId,
+    },
+    data: {
+      chatId: chatId,
+      content: content,
+    },
+  });
+
+  return note;
+};
+
+export const getMostRecentNoteId = async (userId: string) => {
+  const mostRecentNote = await prisma.note.findFirst({
+    where: {
+      userId: userId,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+
+  return mostRecentNote?.id;
+};

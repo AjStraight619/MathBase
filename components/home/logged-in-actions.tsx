@@ -8,10 +8,12 @@ import UserActionCard from "./user-action-card";
 
 type IsLoggedInActionsProps = {
   mostRecentChatId: string | undefined;
+  mostRecentNoteId: string | undefined;
 };
 
 export default function IsLoggedInActions({
   mostRecentChatId,
+  mostRecentNoteId,
 }: IsLoggedInActionsProps) {
   const { data: session, status } = useSession();
   const [scope, animate] = useAnimate();
@@ -27,7 +29,7 @@ export default function IsLoggedInActions({
     },
     {
       name: "Chats",
-      route: `/chat/${mostRecentChatId}`,
+      route: `/chat/${mostRecentChatId}/selectedNoteId?=${mostRecentNoteId}`,
       description: "View your chats",
     },
   ];

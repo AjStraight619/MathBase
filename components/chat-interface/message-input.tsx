@@ -1,3 +1,4 @@
+import { useMathModeContext } from "@/context/MathModeProvider";
 import { useSidebarContext } from "@/context/SidebarContext";
 import { containerVariants } from "@/lib/animationVariants";
 import { motion } from "framer-motion";
@@ -5,6 +6,7 @@ import { useRef } from "react";
 import { BiSolidUpArrowCircle } from "react-icons/bi";
 import ProcessFiles from "../files/process-files";
 import UploadFiles from "../files/upload-files";
+import Calculator from "../math/calculator";
 import { Textarea } from "../ui/textarea";
 
 type MessageInputProps = {
@@ -24,6 +26,7 @@ export default function MessageInput({
 }: MessageInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { isSidebarOpen } = useSidebarContext();
+  const { mathMode } = useMathModeContext();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -72,11 +75,12 @@ export default function MessageInput({
             <BiSolidUpArrowCircle
               className={`${
                 isLoading ? "text-muted-foreground" : ""
-              } w-6 h-6 absolute bottom-3 right-3`}
+              } w-6 h-6 absolute bottom-3 right-1`}
             />
           </button>
-          <UploadFiles className="absolute left-0 " />
+          <UploadFiles className="absolute left-0" />
         </form>
+        <div className="ml-1">{mathMode && <Calculator />}</div>
       </div>
     </motion.div>
   );

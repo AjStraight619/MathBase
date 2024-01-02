@@ -53,8 +53,8 @@ export const useFileManager = () => {
             response,
             chatId
           );
-          console.log("extractedEquations", extractedEquations);
           setIsExtractedEquation(true);
+          console.log("extractedEquations", extractedEquations);
         } else {
           await addExtractedTextToDb(chatId, data);
         }

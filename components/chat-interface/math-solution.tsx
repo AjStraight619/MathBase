@@ -9,10 +9,7 @@ export default function MathSolution({ mathContent }: MathSolutionProps) {
   const { data, fetchData } = useMath([mathContent]);
 
   return (
-    <button
-      onClick={() => fetchData()}
-      className="group absolute transition-all"
-    >
+    <button onClick={() => fetchData()}>
       <FaCalculator className="w-8 h-8 text-primary-foreground text-opacity-50 hover:text-opacity-100 hover:scale:105" />
     </button>
   );

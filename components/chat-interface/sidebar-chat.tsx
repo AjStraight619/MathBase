@@ -1,6 +1,7 @@
 import { useItemId } from "@/hooks/useItemId";
-import { AllFolders, Folder, ListMetaData, Note } from "@/lib/types";
+import { AllFolders, Folder, ListMetaData } from "@/lib/types";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { IoChatbox } from "react-icons/io5";
@@ -19,9 +20,12 @@ type SidebarChatProps = {
 type ViewType = "Chats" | "Folders";
 
 /**
- * Component for displaying chat items in the sidebar.
+ * SidebarChat displays chat items and folder options in the sidebar.
+ * It allows switching between chats and folders view.
+ *
  * @param {Object} props - Component props.
  * @param {ListMetaData[]} props.chatMetaData - Metadata for the chat items.
+ * @param {AllFolders[]} props.allFolders - Information about all available folders.
  */
 
 export default function SidebarChat({
@@ -31,7 +35,9 @@ export default function SidebarChat({
   const chatId = useItemId();
   const [listView, setListView] = useState<"Chats" | "Folders">("Chats");
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const { push } = useRouter();
+  const searchParams = useSearchParams();
+  const selectedNoteId = searchParams.get("selectedNote");
 
   useEffect(() => {
     if (allFolders && allFolders.length > 0) {
@@ -118,20 +124,25 @@ export default function SidebarChat({
               {selectedFolder && (
                 <ul>
                   {selectedFolder.notes.map((note) => {
-                    const isCurrentNote = selectedNote?.id === note.id;
+                    const isSelectedNote = note.id === selectedNoteId;
                     return (
                       <li
-                        className={`flex items-center justify-between space-x-2 py-1 px-2 rounded-md ${
-                          isCurrentNote ? "bg-muted/80" : "hover:bg-muted/40"
+                        className={`flex items-center justify-between space-x-2 py-1 px-2 rounded-md hover:cursor-pointer ${
+                          isSelectedNote ? "bg-muted/80" : "hover:bg-muted/40"
                         }`}
                         key={note.id}
                       >
-                        <Link
-                          href={`/note/${selectedNote?.id}`}
+                        <div
+                          onClick={() =>
+                            push(
+                              `/chat/${chatId}/selectedNote?selectedNote=${note.id}`
+                            )
+                          }
                           className="flex-grow whitespace-nowrap text-clip overflow-hidden text-sm"
                         >
                           {note.title}
-                        </Link>
+                        </div>
+                        {/* ... other elements if any ... */}
                       </li>
                     );
                   })}

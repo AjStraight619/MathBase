@@ -1,5 +1,6 @@
 "use client";
 import { useSidebarContext } from "@/context/SidebarContext";
+import { useNavigation } from "@/hooks/useNavigation";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 import { usePathname } from "next/navigation";
 import ListItems from "./list-items";
@@ -15,6 +16,8 @@ export default function Dashboard({ notes, chats }: DashboardProps) {
   const { isSidebarOpen } = useSidebarContext();
   const currentListType = pathname.includes("notes") ? "notes" : "chats";
   const currentListItems = currentListType === "notes" ? notes : chats;
+  const currentPath = useNavigation();
+  console.log("This is the current path in dashboard", currentPath);
 
   return (
     <div

@@ -4,7 +4,6 @@ import Dashboard from "@/components/dashboard-interface/Dashboard";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 
 type DashboardProps = {
-  params: { id: string };
   searchParams: {
     search?: string;
   };
@@ -12,14 +11,10 @@ type DashboardProps = {
 
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage({
-  params,
-  searchParams,
-}: DashboardProps) {
+export default async function DashboardPage({ searchParams }: DashboardProps) {
   const chats = (await getAllChats()) as (Chat & { messages: ChatMessage[] })[];
   const notes = (await getAllNotes()) as Note[];
   const searchTerm = searchParams.search || "";
-  const { id } = params;
 
   const filterNotes = (items: Note[], term: string) => {
     if (!term) return items;

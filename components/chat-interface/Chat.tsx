@@ -15,9 +15,10 @@ import MessageList from "./message-list";
 
 export type ChatProps = {
   chatById: ChatWithMessages | null;
+  selectedNoteTitle?: string;
 };
 
-export default function Chat({ chatById }: ChatProps) {
+export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const bottomOfMessagesRef = useRef<HTMLDivElement>(null);
   const [autoScroll, setAutoScroll] = useState(true);
@@ -78,14 +79,18 @@ export default function Chat({ chatById }: ChatProps) {
     >
       <ScrollBar orientation="vertical" />
       <div className="flex flex-col items-center min-h-screen">
-        <div className="container sm:max-w-full md:max-w-lg lg:max-w-lg xl:max-w-xl mx-auto p-4">
+        <div className="container sm:max-w-full md:max-w-xl lg:max-w-lg xl:max-w-xl mx-auto px-6">
           <motion.div
             variants={containerVariants}
             initial="closed"
             animate={isSidebarOpen ? "open" : "closed"}
             className="flex flex-col justify-between h-full relative pb-[4rem]"
           >
-            <MessageList isLoading={isLoading} messages={messages} />
+            <MessageList
+              isLoading={isLoading}
+              messages={messages}
+              selectedNoteTitle={selectedNoteTitle}
+            />
             {isExtractedEquation && (
               <EquationProcessor
                 extractedEquations={extractedEquations}
