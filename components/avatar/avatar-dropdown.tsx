@@ -1,5 +1,6 @@
 import { Logout } from "@/components/auth/auth";
 import Link from "next/link";
+import { FaTachometerAlt } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 import { UserAvatar } from "../avatar/avatars";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -28,6 +29,7 @@ export default function AvatarDropDown({
               className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2"
               href="/dashboard/chats"
             >
+              <FaTachometerAlt className="w-5 h-5" />
               Dashboard
             </Link>
 

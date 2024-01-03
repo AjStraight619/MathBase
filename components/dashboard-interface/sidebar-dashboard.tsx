@@ -24,6 +24,7 @@ export default function SidebarDashboard({
   ];
   const isNotePath = pathname.includes("notes");
   const isChatPath = pathname.includes("chats");
+  const isHistoryPath = pathname.includes("history");
   return (
     <div className="flex flex-col w-full space-y-2">
       {isChatPath && <NewChatForm />}

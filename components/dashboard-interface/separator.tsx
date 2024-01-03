@@ -4,7 +4,7 @@ import { useSidebarContext } from "@/context/SidebarContext";
 import { useRouter } from "next/navigation";
 
 type DashboardSeparatorProps = {
-  currentListType: "notes" | "chats";
+  currentListType: "notes" | "chats" | "history";
 };
 
 export function DashboardSeparator({
@@ -12,7 +12,7 @@ export function DashboardSeparator({
 }: DashboardSeparatorProps) {
   const router = useRouter();
   const { isSidebarOpen } = useSidebarContext();
-  const handleChangeItemRoute = (listType: "notes" | "chats") => {
+  const handleChangeItemRoute = (listType: "notes" | "chats" | "history") => {
     router.push(`/dashboard/${listType}`);
   };
 
@@ -51,7 +51,14 @@ export function DashboardSeparator({
             Notes
           </button>
           <Separator orientation="vertical" />
-          <div className="text-muted-foreground">History</div>
+          <button
+            className={`${
+              currentListType === "history" ? "" : "text-muted-foreground"
+            }`}
+            onClick={() => handleChangeItemRoute("history")}
+          >
+            History
+          </button>
         </div>
       </div>
     </div>
