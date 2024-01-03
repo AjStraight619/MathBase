@@ -107,6 +107,7 @@ export type ChatWithMessages = {
     role: MsgRole;
     isExtractedEquation: boolean;
     extractedText: string | null;
+    addedToNote: boolean;
     createdAt: Date;
     updatedAt: Date;
   }[];
@@ -165,4 +166,5 @@ export interface ExtendedMessage extends AImessage {
   isExtractedEquation: boolean;
   extractedText: string | null;
   chatId: string;
+  addedToNote: boolean;
 }

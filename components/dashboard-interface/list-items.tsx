@@ -11,13 +11,12 @@ export default function ListItems({ currentListItems }: ListItemProps) {
   const container = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      ref={container}
-      className="grid lg:grid-cols-6 md:grid-cols-3 gap-4 pt-4"
-    >
-      {currentListItems?.map((item) => (
-        <ListItem key={item.id} item={item} />
-      ))}
+    <div ref={container} className="flex justify-center">
+      <div className="grid gap-4 pt-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+        {currentListItems?.map((item) => (
+          <ListItem key={item.id} item={item} />
+        ))}
+      </div>
     </div>
   );
 }

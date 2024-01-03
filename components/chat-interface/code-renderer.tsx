@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { CodeBlock, atomOneDark } from "react-code-blocks";
 import { BsClipboard, BsClipboardCheck } from "react-icons/bs";
 
-// TODO: Make sure the code blocks line up with other text
-
 type CodRendererProps = {
   language: string;
   value: string;

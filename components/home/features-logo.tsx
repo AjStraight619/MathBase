@@ -168,7 +168,7 @@ export default function FeaturesLogo() {
               height="423"
               rx="40"
               fill="url(#paint0_linear_601_9)"
-              strokeWidth="crispEdges"
+              shape-rendering="crispEdges"
             />
             <rect
               x="2449"

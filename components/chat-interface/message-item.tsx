@@ -23,6 +23,7 @@ export default function MessageItem({
     const markdownPatterns = /(\*|_|`|\$|\[|\]|\(|\)|\!\[|\]\(|\$\$)/;
     return markdownPatterns.test(content);
   };
+
   const searchParams = useSearchParams();
   const selectedNoteId = searchParams?.get("selectedNote");
 
@@ -35,7 +36,6 @@ export default function MessageItem({
           <AssistantAvatar isLoading={isLoading && isLastMessage} />
         )}
         <div className="flex flex-col break-words whitespace-pre-line max-w-full overflow-hidden text-sm">
-          {/* Render message content */}
           {containsMarkdown(message.content) ? (
             <MarkdownContentRenderer content={message.content} />
           ) : (

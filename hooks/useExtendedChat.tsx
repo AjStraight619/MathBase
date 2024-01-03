@@ -20,6 +20,7 @@ export const useExtendedChat = ({
         isExtractedEquation: msg.isExtractedEquation ?? false,
         extractedText: msg.extractedText ?? null,
         chatId: chatById.id,
+        addedToNote: msg.addedToNote ?? false,
       })) || [];
 
     const newLiveMessages = liveMessages.filter(
@@ -32,6 +33,7 @@ export const useExtendedChat = ({
         isExtractedEquation: false,
         extractedText: null,
         chatId: chatById?.id || "",
+        addedToNote: false,
       })
     );
 

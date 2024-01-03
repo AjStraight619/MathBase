@@ -1,4 +1,4 @@
-import { Logout } from "@/components/auth";
+import { Logout } from "@/components/auth/auth";
 import Link from "next/link";
 import { RxExit } from "react-icons/rx";
 import { UserAvatar } from "../avatar/avatars";
@@ -16,13 +16,13 @@ export default function AvatarDropDown({
   return (
     <>
       <Popover>
-        <PopoverTrigger className="hover:cursor-pointer w-[10rem]">
+        <PopoverTrigger className="hover:cursor-pointer w-full" asChild>
           <div className="flex flex-row gap-3 items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md">
             <UserAvatar className="w-10 h-10" />
             <span className="text-md text-primary ">{usersName}</span>
           </div>
         </PopoverTrigger>
-        <PopoverContent className="max-w-[10rem] rounded-md p-[0.3rem]">
+        <PopoverContent className="w-[14rem] rounded-md p-[0.3rem] z-50">
           <div className="flex flex-col p-[0.5rem]">
             <Link
               className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2"
@@ -31,10 +31,10 @@ export default function AvatarDropDown({
               Dashboard
             </Link>
 
-            <button className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2">
+            <div className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2">
               <RxExit className="w-5 h-5 text-sm" />
               <Logout />
-            </button>
+            </div>
           </div>
         </PopoverContent>
       </Popover>

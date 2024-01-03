@@ -1,19 +1,19 @@
 "use client";
-
-import SearchBar from "@/components/searchbar";
+import { Login, Signup } from "@/components/auth/auth";
+import SearchBar from "@/components/ui/searchbar";
 import { useSidebarContext } from "@/context/SidebarContext";
 import { AllFolders, SidebarItem } from "@/lib/types";
 import { User } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Login, Signup } from "./auth";
-import AvatarDropDown from "./avatar/avatar-dropdown";
-import SidebarChat from "./chat-interface/sidebar-chat";
-import SidebarDashboard from "./dashboard-interface/sidebar-dashboard";
-import SidebarHome from "./home/sidebar-home";
-import SidebarToggle from "./ui/sidebar-toggle";
+import AvatarDropDown from "../avatar/avatar-dropdown";
+import SidebarChat from "../chat-interface/sidebar-chat";
+import SidebarDashboard from "../dashboard-interface/sidebar-dashboard";
+import SidebarHome from "../home/sidebar-home";
+import SidebarNote from "../note-interface/sidebar-note";
+import SidebarToggle from "../ui/sidebar-toggle";
+import SidebarHeader from "./sidebar-header";
 
 type SidebarProps = {
   chatMetaData: SidebarItem[];
@@ -40,7 +40,13 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
 
   const sidebarVariants = {
     open: { opacity: 1, x: 0 },
-    closed: { opacity: 0, x: "-100%" },
+    closed: {
+      opacity: 0,
+      x: "-100%",
+      transition: {
+        delay: 0.1,
+      },
+    },
   };
 
   const handleSidebarToggle = () => {
@@ -59,10 +65,10 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
     pathname === "/animations"
   )
     return null;
-
+  const isHomePath = pathname === "/";
   const isDashboardPath = pathname.startsWith("/dashboard");
   const isChatPath = pathname.startsWith("/chat");
-  const isHomePath = pathname === "/";
+  const isNotePath = pathname.startsWith("/note");
 
   return (
     <>
@@ -84,15 +90,7 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
             className="fixed top-0 left-0 h-screen w-64 flex flex-col bg-background border-r z-50"
           >
-            <div className="flex flex-row justify-between p-2">
-              <div className="group transition-all flex flex-row gap-2">
-                <h1 className="p-2 text-xl font-bold">
-                  <Link href="/">Math Base</Link>
-                </h1>
-                {/* <Icon /> */}
-              </div>
-              <SidebarToggle handleSidebarToggle={handleSidebarToggle} />
-            </div>
+            <SidebarHeader handleSidebarToggle={handleSidebarToggle} />
             {isDashboardPath && <SearchBar />}
 
             <div className="flex flex-col flex-1 overflow-y-auto px-2 py-8">
@@ -108,10 +106,12 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
                 />
               ) : isHomePath ? (
                 <SidebarHome mostRecentChatId={mostRecentChatId} />
+              ) : isNotePath ? (
+                <SidebarNote allFolders={allFolders} />
               ) : null}
             </div>
 
-            <div className="p-4 mt-auto">
+            <div className="p-4 mt-auto w-full">
               {session ? (
                 <AvatarDropDown usersName={userName} />
               ) : (

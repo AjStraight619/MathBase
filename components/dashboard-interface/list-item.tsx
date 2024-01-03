@@ -5,6 +5,7 @@ import { Chat, ChatMessage, Note } from "@prisma/client";
 import { motion, useInView } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
+import { PiArrowSquareOutBold } from "react-icons/pi";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 type ListItemProps = {
@@ -18,6 +19,7 @@ export default function ListItem({ item }: ListItemProps) {
   const isInView = useInView(ref, { once: true });
   const { push } = useRouter();
   const itemType = useItemType();
+
   const renderItemContent = (item: Item) => {
     if (isChat(item) && item.messages.length > 0) {
       return item.messages[0].content;
@@ -46,7 +48,8 @@ export default function ListItem({ item }: ListItemProps) {
       }}
       onClick={() => push(`/${itemType?.slice(0, -1)}/${item.id}`)}
     >
-      <Card className="w-[14rem] h-[20rem] hover:cursor-pointer relative">
+      <Card className="group w-[14rem] h-[20rem] hover:cursor-pointer relative">
+        <PiArrowSquareOutBold className="absolute top-1 right-1 z-2 w-5 h-5 text-muted-foreground opacity-70 group-hover:translate-x-1 transition" />
         <CardHeader className="text-left font-semibold">
           {item.title}
         </CardHeader>

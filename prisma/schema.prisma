@@ -59,7 +59,8 @@ model ChatMessage {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
-  chat Chat @relation(fields: [chatId], references: [id])
+  chat        Chat          @relation(fields: [chatId], references: [id])
+  NoteMessage NoteMessage[]
 
   @@index([chatId])
 }
@@ -81,22 +82,36 @@ model MathResponse {
 }
 
 model Note {
-  id        String   @id @default(uuid())
-  userId    String
-  chatId    String?
-  title     String
-  content   String   @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  tags      Tag[]
-  folderId  String?
-  user      User     @relation(fields: [userId], references: [id])
-  chat      Chat?    @relation(fields: [chatId], references: [id])
-  folder    Folder?  @relation(fields: [folderId], references: [id])
+  id          String        @id @default(uuid())
+  userId      String
+  chatId      String?
+  title       String
+  content     String        @db.Text
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  tags        Tag[]
+  folderId    String?
+  user        User          @relation(fields: [userId], references: [id])
+  chat        Chat?         @relation(fields: [chatId], references: [id])
+  folder      Folder?       @relation(fields: [folderId], references: [id])
+  NoteMessage NoteMessage[]
 
   @@index([userId, chatId])
   @@index([folderId])
   @@index([chatId])
+}
+
+model NoteMessage {
+  id        String   @id @default(uuid())
+  noteId    String
+  messageId String
+  createdAt DateTime @default(now())
+
+  note    Note        @relation(fields: [noteId], references: [id])
+  message ChatMessage @relation(fields: [messageId], references: [id])
+
+  @@index([noteId])
+  @@index([messageId])
 }
 
 model Folder {

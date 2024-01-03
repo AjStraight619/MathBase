@@ -38,6 +38,12 @@ export default function SidebarChat({
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const selectedNoteId = searchParams.get("selectedNote");
+  if (!selectedNoteId) {
+    const noteId = selectedFolder?.notes[0]?.id;
+    if (noteId) {
+      push(`/chat/${chatId}/selectedNote?selectedNote=${noteId}`);
+    }
+  }
 
   useEffect(() => {
     if (allFolders && allFolders.length > 0) {
@@ -45,26 +51,21 @@ export default function SidebarChat({
     }
   }, [allFolders]);
 
+  useEffect(() => {
+    if (selectedFolder?.notes.length === 0) {
+      if (!selectedNoteId && selectedFolder?.notes.length > 0) {
+        const defaultNoteId = selectedFolder.notes[0].id;
+        push(`/chat/${chatId}/selectedNote?selectedNote=${defaultNoteId}`);
+      }
+    }
+  }, [selectedNoteId, selectedFolder, chatId, push]);
+
   const handleListViewChange = (newView: "Chats" | "Folders") => {
     if (listView === newView) {
       return;
     }
-
     setListView(newView);
   };
-  const listViewOptions: { name: string; view: ViewType; icon: JSX.Element }[] =
-    [
-      {
-        name: "Chat",
-        view: "Chats",
-        icon: <IoChatbox className="w-8 h-8 hover:scale-105" />,
-      },
-      {
-        name: "Folder",
-        view: "Folders",
-        icon: <FaFolder className="w-8 h-8 text-opacity-90 hover:scale-105" />,
-      },
-    ];
 
   return (
     <>
@@ -142,7 +143,6 @@ export default function SidebarChat({
                         >
                           {note.title}
                         </div>
-                        {/* ... other elements if any ... */}
                       </li>
                     );
                   })}
@@ -155,3 +155,20 @@ export default function SidebarChat({
     </>
   );
 }
+
+const listViewOptions: { name: string; view: ViewType; icon: JSX.Element }[] = [
+  {
+    name: "Chat",
+    view: "Chats",
+    icon: <IoChatbox className="w-8 h-8 hover:scale-105" />,
+  },
+  {
+    name: "Folder",
+    view: "Folders",
+    icon: <FaFolder className="w-8 h-8 text-opacity-90 hover:scale-105" />,
+  },
+];
+
+const getMostRecentNote = async () => {
+  const mostRecentNote = await getMostRecentNote();
+};

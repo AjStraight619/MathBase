@@ -1,7 +1,10 @@
 import { getChatById } from "@/actions/chatActions";
 import Chat from "@/components/chat-interface/Chat";
+import { authOptions } from "@/lib/authOptions";
 import { prisma } from "@/lib/prisma";
 import { ChatWithMessages } from "@/lib/types";
+import { User } from "@prisma/client";
+import { getServerSession } from "next-auth";
 
 type ChatPageProps = {
   params: {
@@ -48,11 +51,21 @@ export default async function ChatPage({
   params,
   searchParams,
 }: ChatPageProps) {
-  const id = params.id[0];
-  const selectedNoteId = searchParams?.selectedNote;
-  const selectedNoteTitle = await getNoteTitle(selectedNoteId ?? "");
-  console.log(selectedNoteTitle);
+  let selectedNoteTitle = "";
+  let selectedNoteId: string | undefined = "";
+  const session = await getServerSession(authOptions);
+  const user = session?.user as User;
+  const userId = user?.id;
 
-  const chatById = (await getChatById(id)) as unknown as ChatWithMessages;
+  const id = params.id[0];
+  selectedNoteId = searchParams?.selectedNote;
+  selectedNoteTitle = (await getNoteTitle(
+    selectedNoteId ?? ""
+  )) as unknown as string;
+
+  const chatById = (await getChatById(
+    id,
+    selectedNoteId
+  )) as unknown as ChatWithMessages;
   return <Chat chatById={chatById} selectedNoteTitle={selectedNoteTitle} />;
 }

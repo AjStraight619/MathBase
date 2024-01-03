@@ -3,6 +3,7 @@ import { useSidebarContext } from "@/context/SidebarContext";
 import { useNavigation } from "@/hooks/useNavigation";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 import { usePathname } from "next/navigation";
+import { ScrollArea } from "../ui/scroll-area";
 import ListItems from "./list-items";
 import { DashboardSeparator } from "./separator";
 
@@ -20,13 +21,13 @@ export default function Dashboard({ notes, chats }: DashboardProps) {
   console.log("This is the current path in dashboard", currentPath);
 
   return (
-    <div
+    <ScrollArea
       className={`flex flex-col w-full p-4 ${
-        isSidebarOpen ? "ml-[16rem]" : "ml-0"
+        isSidebarOpen ? "md:ml-[16rem] ml:0" : "ml-0"
       }`}
     >
       <DashboardSeparator currentListType={currentListType} />
       <ListItems currentListItems={currentListItems} />
-    </div>
+    </ScrollArea>
   );
 }

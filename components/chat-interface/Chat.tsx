@@ -1,4 +1,5 @@
 "use client";
+import EquationProcessor from "@/components/math/equation-processor";
 import { useSidebarContext } from "@/context/SidebarContext";
 import { useExtendedChat } from "@/hooks/useExtendedChat";
 import { useFileManager } from "@/hooks/useFileManager";
@@ -8,7 +9,6 @@ import { User } from "@prisma/client";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
-import EquationProcessor from "../equation-processor";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import MessageInput from "./message-input";
 import MessageList from "./message-list";
@@ -16,6 +16,7 @@ import MessageList from "./message-list";
 export type ChatProps = {
   chatById: ChatWithMessages | null;
   selectedNoteTitle?: string;
+  defaultNoteTitle?: string;
 };
 
 export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {

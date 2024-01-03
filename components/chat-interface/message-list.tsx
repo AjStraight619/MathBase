@@ -2,6 +2,7 @@
 import { addChatContentToNote } from "@/actions/noteActions";
 import { useItemId } from "@/hooks/useItemId";
 import { ExtendedMessage } from "@/lib/types";
+import toast from "react-hot-toast";
 import MessageItem from "./message-item";
 
 type MessageListProps = {
@@ -22,6 +23,10 @@ export default function MessageList({
     messageId: string,
     selectedNoteId: string | undefined
   ) => {
+    if (!selectedNoteId) {
+      toast.error("Please select a note!");
+      return;
+    }
     const formData = new FormData();
     const messageToAppend = messages.find(
       (message) => message.id === messageId
@@ -31,7 +36,21 @@ export default function MessageList({
     formData.append("messageToAppend", messageToAppend ?? "");
     formData.append("selectedNoteId", selectedNoteId ?? "");
 
-    await addChatContentToNote(formData);
+    const noteAdded = await addChatContentToNote(formData);
+    if (!noteAdded) {
+      toast.error("Something went wrong!");
+      return;
+    }
+
+    if (noteAdded.error === "Message already exists in note") {
+      toast.error("This message has already been added to the note.");
+    } else if (noteAdded.error) {
+      toast.error(noteAdded.error);
+    } else if (noteAdded.noteMessage) {
+      toast.success("Message added to note!");
+    } else {
+      toast.error("Something went wrong!");
+    }
   };
   return (
     <ul className="list-none w-full relative">

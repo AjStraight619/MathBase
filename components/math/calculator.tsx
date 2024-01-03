@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useReducer, useState } from "react";
 import { FaCalculator } from "react-icons/fa";
 import {
@@ -128,18 +128,16 @@ export default function Calculator() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <AnimatePresence>
-          <motion.button
-            initial={{ opacity: 0, x: -25 }}
-            animate={{ opacity: 0.5, x: 0 }}
-            transition={{ duration: 0.2 }}
-            exit={{ opacity: 0, x: -25 }}
-            onClick={() => setIsOpen(!isOpen)}
-            whileHover={{ opacity: 1, scale: 1.05 }}
-          >
-            <FaCalculator className="w-6 h-6 text-primary text-opacity-50 hover:text-opacity-100 hover:scale:110 ml-2" />
-          </motion.button>
-        </AnimatePresence>
+        <motion.button
+          initial={{ opacity: 0, x: -25 }}
+          animate={{ opacity: 0.5, x: 0 }}
+          transition={{ duration: 0.2 }}
+          exit={{ opacity: 0, x: -25 }}
+          onClick={() => setIsOpen(!isOpen)}
+          whileHover={{ opacity: 1, scale: 1.05 }}
+        >
+          <FaCalculator className="w-6 h-6 text-primary text-opacity-50 hover:text-opacity-100 hover:scale:110 ml-2" />
+        </motion.button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle className="text-center">Calculator</DialogTitle>

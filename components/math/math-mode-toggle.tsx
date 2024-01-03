@@ -1,8 +1,8 @@
 "use client";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useMathModeContext } from "@/context/MathModeProvider";
 import { usePathname } from "next/navigation";
-import { Label } from "./label";
-import { Switch } from "./switch";
 
 export default function MathModeToggle() {
   const { toggleMathMode } = useMathModeContext();
@@ -19,7 +19,9 @@ export default function MathModeToggle() {
     pathname === "/forgot-password" ||
     pathname === "/forgot-password/success" ||
     pathname === "/reset-password" ||
-    pathname === "/"
+    pathname === "/" ||
+    pathname.includes("dashboard") ||
+    pathname.startsWith("/note")
   )
     return null;
 

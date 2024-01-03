@@ -17,7 +17,7 @@ export function DashboardSeparator({
   };
 
   return (
-    <div className={`${!isSidebarOpen ? "ml-[2rem]" : ""}`}>
+    <div className={`mt-4 ${!isSidebarOpen ? "ml-[2rem]" : ""}`}>
       <div className="space-y-1">
         <h4 className="text-lg font-semibold leading-none pb-2">Dashboard</h4>
         <p className="text-xs text-muted-foreground">
@@ -26,26 +26,33 @@ export function DashboardSeparator({
         </p>
       </div>
       <Separator className="my-4" />
-      <div className="flex h-5 items-center space-x-4 text-sm">
-        <button
-          className={`${
-            currentListType === "chats" ? "" : "text-muted-foreground"
-          }`}
-          onClick={() => handleChangeItemRoute("chats")}
-        >
-          Chats
-        </button>
-        <Separator orientation="vertical" />
-        <button
-          className={`${
-            currentListType === "notes" ? "" : "text-muted-foreground"
-          }`}
-          onClick={() => handleChangeItemRoute("notes")}
-        >
-          Notes
-        </button>
-        <Separator orientation="vertical" />
-        <div className="text-muted-foreground">History</div>
+
+      <div
+        className={`fixed top-4 ${
+          isSidebarOpen ? "left-[calc(50%+100px)]" : "left-1/2"
+        } transform -translate-x-1/2 flex h-5 items-center justify-center space-x-4 text-sm z-50`}
+      >
+        <div className="flex items-center space-x-4 backdrop-blur-sm px-4 py-2 rounded-md bg-white/30">
+          <button
+            className={`${
+              currentListType === "chats" ? "" : "text-muted-foreground"
+            }`}
+            onClick={() => handleChangeItemRoute("chats")}
+          >
+            Chats
+          </button>
+          <Separator orientation="vertical" />
+          <button
+            className={`${
+              currentListType === "notes" ? "" : "text-muted-foreground"
+            }`}
+            onClick={() => handleChangeItemRoute("notes")}
+          >
+            Notes
+          </button>
+          <Separator orientation="vertical" />
+          <div className="text-muted-foreground">History</div>
+        </div>
       </div>
     </div>
   );

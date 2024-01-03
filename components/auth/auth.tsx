@@ -1,7 +1,7 @@
 "use client";
 import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 export const Login = () => {
   return <Button onClick={() => signIn()}>Sign In</Button>;
@@ -9,7 +9,7 @@ export const Login = () => {
 
 export const Logout = () => {
   return (
-    <button className="text-primary" onClick={() => signOut()}>
+    <button className="text-primary  outline-none" onClick={() => signOut()}>
       Log out
     </button>
   );

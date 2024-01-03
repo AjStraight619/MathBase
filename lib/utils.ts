@@ -36,3 +36,16 @@ export const fetcher = async (url: string) => {
   const res = await fetch(url);
   return res.json();
 };
+
+export const sortByMostRecent = (
+  a: { updatedAt: Date },
+  b: { updatedAt: Date }
+) => {
+  if (a.updatedAt > b.updatedAt) {
+    return -1;
+  } else if (a.updatedAt < b.updatedAt) {
+    return 1;
+  } else {
+    return 0;
+  }
+};

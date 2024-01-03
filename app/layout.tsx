@@ -1,9 +1,9 @@
 import { getChatMetaData } from "@/actions/chatActions";
 import { getAllFolders } from "@/actions/noteActions";
-import { Providers } from "@/components/auth-provider";
-import Sidebar from "@/components/sidebar";
-import { ThemeProvider } from "@/components/theme-provider";
-import MathModeToggle from "@/components/ui/math-mode-toggle";
+import { Providers } from "@/components/auth/auth-provider";
+import MathModeToggle from "@/components/math/math-mode-toggle";
+import Sidebar from "@/components/sidebar/Sidebar";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { FileProvider } from "@/context/FileProvider";
 import MathModeProvider from "@/context/MathModeProvider";
@@ -31,6 +31,7 @@ export default async function RootLayout({
 }) {
   let chatMetaData: ListMetaData[] = [];
   let allFolders: AllFolders[] = [];
+
   const session = await getServerSession(authOptions);
   const user = session?.user as User;
   if (session) {
