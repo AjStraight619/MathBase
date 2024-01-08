@@ -1,5 +1,4 @@
 "use client";
-
 import "katex/dist/katex.min.css";
 import dynamic from "next/dynamic";
 import rehypeKatex from "rehype-katex";

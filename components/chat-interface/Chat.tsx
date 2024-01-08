@@ -1,14 +1,14 @@
 "use client";
-import EquationProcessor from "@/components/math/equation-processor";
+// import EquationProcessor from "@/components/math/equation-processor";
+import MathKeyboard from "@/components/math/math-keyboard";
+import { useMathModeContext } from "@/context/MathModeProvider";
 import { useSidebarContext } from "@/context/SidebarContext";
 import { useExtendedChat } from "@/hooks/useExtendedChat";
-import { useFileManager } from "@/hooks/useFileManager";
 import { useItemId } from "@/hooks/useItemId";
+import { useUser } from "@/hooks/useUser";
 import { ChatWithMessages } from "@/lib/types";
-import { User } from "@prisma/client";
 import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
+import { lazy, useEffect, useRef, useState } from "react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import MessageInput from "./message-input";
 import MessageList from "./message-list";
@@ -19,38 +19,53 @@ export type ChatProps = {
   defaultNoteTitle?: string;
 };
 
+const EquationProcessor = lazy(
+  () => import("@/components/math/equation-processor")
+);
+
 export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
+  const { mathMode } = useMathModeContext();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const bottomOfMessagesRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [autoScroll, setAutoScroll] = useState(true);
-  const { data: session } = useSession();
-  const user = session?.user as User;
+  const { user, isUserLoading, error } = useUser();
   const userId = user?.id;
   const { isSidebarOpen } = useSidebarContext();
   const chatId = useItemId();
-  const { extractedEquations, isExtractedEquation, setIsExtractedEquation } =
-    useFileManager();
+  const [showMathKeyboard, setShowMathKeyboard] = useState(false);
+  const toggleMathKeyboard = () => setShowMathKeyboard((prev) => !prev);
 
   const {
     messages,
     input,
     setInput,
-    handleSubmit,
     handleInputChange,
+    handleSubmit,
     isLoading,
   } = useExtendedChat({
     options: { api: `/api/chat?chatId=${chatId}`, body: { userId: userId } },
     chatById,
   });
 
+  const scrollToBottom = () => {
+    bottomOfMessagesRef?.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
     if (autoScroll && bottomOfMessagesRef.current) {
       const timeoutId = setTimeout(() => {
-        bottomOfMessagesRef?.current?.scrollIntoView({ behavior: "smooth" });
+        scrollToBottom();
       }, 500);
       return () => clearTimeout(timeoutId);
     }
   }, [messages, autoScroll]);
+
+  useEffect(() => {
+    if (showMathKeyboard && bottomOfMessagesRef.current) {
+      scrollToBottom();
+    }
+  }, [showMathKeyboard]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
@@ -85,26 +100,34 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
             variants={containerVariants}
             initial="closed"
             animate={isSidebarOpen ? "open" : "closed"}
-            className="flex flex-col justify-between h-full relative pb-[4rem]"
+            className={`flex flex-col justify-between h-full relative ${
+              showMathKeyboard ? "pb-[20rem]" : "pb-[4rem]"
+            }`}
           >
             <MessageList
               isLoading={isLoading}
               messages={messages}
               selectedNoteTitle={selectedNoteTitle}
             />
-            {isExtractedEquation && (
-              <EquationProcessor
-                extractedEquations={extractedEquations}
-                setIsExtractedEquation={setIsExtractedEquation}
+            <motion.div
+              variants={containerVariants}
+              animate={isSidebarOpen ? "open" : "closed"}
+              className="flex flex-col fixed bottom-5 right-0 left-0 mx-auto w-full"
+            >
+              <MathKeyboard
+                toggleMathKeyboard={toggleMathKeyboard}
+                showMathKeyboard={showMathKeyboard}
+                ref={inputRef}
               />
-            )}
-            <MessageInput
-              input={input}
-              setInput={setInput}
-              handleSubmit={handleSubmit}
-              handleInputChange={handleInputChange}
-              isLoading={isLoading}
-            />
+              <MessageInput
+                input={input}
+                handleSubmit={handleSubmit}
+                handleInputChange={handleInputChange}
+                isLoading={isLoading}
+                showMathKeyboard={showMathKeyboard}
+                toggleMathKeyboard={toggleMathKeyboard}
+              />
+            </motion.div>
           </motion.div>
         </div>
       </div>

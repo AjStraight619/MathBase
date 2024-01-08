@@ -29,16 +29,14 @@ export default function SubmitButton({
 }: SubmitButtonProps) {
   const { pending } = useFormStatus();
   return (
-    <div>
-      <Button
-        className={cn(className)}
-        onClick={onClick}
-        type="submit"
-        disabled={pending || disabled}
-        variant={variant}
-      >
-        {pending ? <CgSpinner className="animate-spin" /> : children}
-      </Button>
-    </div>
+    <Button
+      className={cn(className)}
+      onClick={onClick}
+      type="submit"
+      disabled={pending || disabled}
+      variant={variant}
+    >
+      {pending ? <CgSpinner className="animate-spin" /> : children}
+    </Button>
   );
 }

@@ -1,22 +1,21 @@
 "use client";
-import { Login, Signup } from "@/components/auth/auth";
 import SearchBar from "@/components/ui/searchbar";
 import { useSidebarContext } from "@/context/SidebarContext";
-import { AllFolders, SidebarItem } from "@/lib/types";
+import { AllFolders, ListMetaData } from "@/lib/types";
 import { User } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import AvatarDropDown from "../avatar/avatar-dropdown";
 import SidebarChat from "../chat-interface/sidebar-chat";
 import SidebarDashboard from "../dashboard-interface/sidebar-dashboard";
 import SidebarHome from "../home/sidebar-home";
 import SidebarNote from "../note-interface/sidebar-note";
 import SidebarToggle from "../ui/sidebar-toggle";
 import SidebarHeader from "./sidebar-header";
+import UserOptions from "./user-options";
 
 type SidebarProps = {
-  chatMetaData: SidebarItem[];
+  chatMetaData: ListMetaData[];
   allFolders: AllFolders[];
 };
 
@@ -25,7 +24,7 @@ type SidebarProps = {
  * It conditionally renders different sections based on the current route.
  *
  * @param {Object} props - Component props.
- * @param {SidebarItem[]} props.chatMetaData - Metadata for chat items.
+ * @param {ListMetaData[]} props.chatMetaData - Metadata for chat items.
  * @param {AllFolders[]} props.allFolders - Data for all folders.
  */
 
@@ -100,10 +99,7 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
                   chatMetaData={chatMetaData}
                 />
               ) : isDashboardPath ? (
-                <SidebarDashboard
-                  mostRecentChatId={mostRecentChatId}
-                  pathname={pathname}
-                />
+                <SidebarDashboard mostRecentChatId={mostRecentChatId} />
               ) : isHomePath ? (
                 <SidebarHome mostRecentChatId={mostRecentChatId} />
               ) : isNotePath ? (
@@ -111,16 +107,7 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
               ) : null}
             </div>
 
-            <div className="p-4 mt-auto w-full">
-              {session ? (
-                <AvatarDropDown usersName={userName} />
-              ) : (
-                <div className="flex flex-col space-y-2">
-                  <Signup />
-                  <Login />
-                </div>
-              )}
-            </div>
+            <UserOptions />
           </motion.div>
         </AnimatePresence>
       )}

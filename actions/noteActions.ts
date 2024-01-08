@@ -12,6 +12,9 @@ export const getAllNotes = async () => {
     where: {
       userId: userId,
     },
+    include: {
+      tags: true,
+    },
     orderBy: {
       updatedAt: "desc",
     },

@@ -35,12 +35,13 @@ export function DashboardSeparator({
         <div className="flex items-center space-x-4 backdrop-blur-sm px-4 py-2 rounded-md bg-white/30">
           <button
             className={`${
-              currentListType === "chats" ? "" : "text-muted-foreground"
+              currentListType === "history" ? "" : "text-muted-foreground"
             }`}
-            onClick={() => handleChangeItemRoute("chats")}
+            onClick={() => handleChangeItemRoute("history")}
           >
-            Chats
+            History
           </button>
+
           <Separator orientation="vertical" />
           <button
             className={`${
@@ -53,11 +54,11 @@ export function DashboardSeparator({
           <Separator orientation="vertical" />
           <button
             className={`${
-              currentListType === "history" ? "" : "text-muted-foreground"
+              currentListType === "chats" ? "" : "text-muted-foreground"
             }`}
-            onClick={() => handleChangeItemRoute("history")}
+            onClick={() => handleChangeItemRoute("chats")}
           >
-            History
+            Chats
           </button>
         </div>
       </div>

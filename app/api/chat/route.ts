@@ -42,6 +42,8 @@ export async function POST(req: NextRequest) {
         ],
       });
 
+      console.log("response", response);
+
       const stream = OpenAIStream(response, {
         onCompletion: async (completion: string) => {
           const conversationUpdate: Message[] = [

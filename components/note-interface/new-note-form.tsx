@@ -10,7 +10,6 @@ import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
@@ -60,7 +59,7 @@ export default function NewNoteForm({ className }: { className?: string }) {
           <FiPlus />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex flex-col min-h-[15rem]">
         <DialogTitle className="text-center">New Note</DialogTitle>
         <form action={handleAddNote}>
           <Label htmlFor="title">Title</Label>
@@ -71,17 +70,21 @@ export default function NewNoteForm({ className }: { className?: string }) {
             onChange={handleTitleChange}
           />
           <Label htmlFor="file">
-            <span>File </span>
-            <span className="text-muted-foreground text-xs">(Optional)</span>
+            <div className="flex flex-row gap-2 mt-2">
+              <span>File </span>
+              <span className="text-muted-foreground text-xs">(Optional)</span>
+              <UploadFiles className="w-5 h-5" />
+            </div>
           </Label>
-          <SubmitButton variant="secondary" className="mt-2">
-            Add Note
-          </SubmitButton>
+          <div className="absolute bottom-6 right-6">
+            <SubmitButton variant="secondary" className="mt-2">
+              Add Note
+            </SubmitButton>
+          </div>
         </form>
-        <DialogFooter className="flex flex-row gap-2 item-center justify-center">
-          <UploadFiles />
+        <div className="absolute bottom-6 left-6">
           <ProcessFileForm />
-        </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );

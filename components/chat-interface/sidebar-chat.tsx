@@ -168,7 +168,3 @@ const listViewOptions: { name: string; view: ViewType; icon: JSX.Element }[] = [
     icon: <FaFolder className="w-8 h-8 text-opacity-90 hover:scale-105" />,
   },
 ];
-
-const getMostRecentNote = async () => {
-  const mostRecentNote = await getMostRecentNote();
-};

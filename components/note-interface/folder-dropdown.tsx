@@ -1,8 +1,8 @@
 "use client";
 import { AllFolders, Folder } from "@/lib/types";
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
+import DropdownButton from "../ui/dropdown-button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,13 +41,9 @@ export default function FolderDropdown({
               Select Folder
             </p>
           )}
-          <motion.div
-            initial={{ rotate: 0 }}
-            animate={{ rotate: isOpen ? 90 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
+          <DropdownButton isOpen={isOpen}>
             <FaChevronRight className="w-4 h-4 text-muted-foreground" />
-          </motion.div>
+          </DropdownButton>
         </DropdownMenuTrigger>
       </div>
       <Separator className="w-full text-muted-foreground mt-1 mb-3" />

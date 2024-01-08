@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { FileProvider } from "@/context/FileProvider";
 import MathModeProvider from "@/context/MathModeProvider";
+import ReactQueryProvider from "@/context/QueryClientProvider";
 import SidebarProvider from "@/context/SidebarContext";
 import { authOptions } from "@/lib/authOptions";
 import { AllFolders, ListMetaData } from "@/lib/types";
@@ -34,6 +35,7 @@ export default async function RootLayout({
 
   const session = await getServerSession(authOptions);
   const user = session?.user as User;
+  const userId = user?.id;
   if (session) {
     chatMetaData = (await getChatMetaData()) as unknown as ListMetaData[];
     allFolders = (await getAllFolders()) as unknown as AllFolders[];
@@ -56,7 +58,7 @@ export default async function RootLayout({
                     allFolders={allFolders}
                     chatMetaData={chatMetaData ?? []}
                   />
-                  {children}
+                  <ReactQueryProvider>{children}</ReactQueryProvider>
                 </SidebarProvider>
                 <MathModeToggle />
               </MathModeProvider>

@@ -35,14 +35,14 @@ model PasswordResetToken {
 }
 
 model Chat {
-  id           String        @id @default(uuid())
-  userId       String
-  title        String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  messages     ChatMessage[]
-  mathResponse MathResponse?
-  notes        Note[]
+  id            String         @id @default(uuid())
+  userId        String
+  title         String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  messages      ChatMessage[]
+  mathResponses MathResponse[]
+  notes         Note[]
 
   user User @relation(fields: [userId], references: [id])
 
@@ -67,7 +67,6 @@ model ChatMessage {
 
 model MathResponse {
   id                String   @id @default(uuid())
-  chatId            String   @unique
   input             String
   solution          String
   intermediateSteps String?
@@ -75,26 +74,26 @@ model MathResponse {
   numberLineURL     String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-
-  chat Chat @relation(fields: [chatId], references: [id])
-
-  @@index([chatId])
+  chats             Chat[]
+  notes             Note[]
 }
 
 model Note {
-  id          String        @id @default(uuid())
-  userId      String
-  chatId      String?
-  title       String
-  content     String        @db.Text
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  tags        Tag[]
-  folderId    String?
-  user        User          @relation(fields: [userId], references: [id])
-  chat        Chat?         @relation(fields: [chatId], references: [id])
-  folder      Folder?       @relation(fields: [folderId], references: [id])
-  NoteMessage NoteMessage[]
+  id             String         @id @default(uuid())
+  userId         String
+  chatId         String?
+  title          String
+  content        String         @db.Text
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  tags           Tag[]
+  folderId       String?
+  user           User           @relation(fields: [userId], references: [id])
+  chat           Chat?          @relation(fields: [chatId], references: [id])
+  folder         Folder?        @relation(fields: [folderId], references: [id])
+  NoteMessage    NoteMessage[]
+  mathResponses  MathResponse[]
+  mathResponseId String?
 
   @@index([userId, chatId])
   @@index([folderId])

@@ -49,3 +49,13 @@ export const sortByMostRecent = (
     return 0;
   }
 };
+export const convertLatexToWolframQuery = (latex: string): string => {
+  let query = latex;
+
+  query = query
+    .replace(/\\int/g, "integrate")
+    .replace(/\\sum/g, "sum")
+    .replace(/\\frac{(.+?)}{(.+?)}/g, "($1)/($2)");
+
+  return query;
+};

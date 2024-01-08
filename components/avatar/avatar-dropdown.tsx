@@ -27,7 +27,7 @@ export default function AvatarDropDown({
           <div className="flex flex-col p-[0.5rem]">
             <Link
               className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2"
-              href="/dashboard/chats"
+              href="/dashboard/history"
             >
               <FaTachometerAlt className="w-5 h-5" />
               Dashboard

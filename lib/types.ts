@@ -8,23 +8,18 @@ export type ListMetaData = {
 
 export type Item = Note | (Chat & { messages: ChatMessage[] });
 
-export type SidebarItem = {
-  id: string;
-  title: string;
-};
-
-export type FileMetaData = SidebarItem & {
+export type FileMetaData = ListMetaData & {
   size?: number;
   url?: string;
 };
 
 export type SidebarClientProps = {
-  chatMetaData: SidebarItem[];
+  chatMetaData: ListMetaData[];
   fileMetaData: FileMetaData[];
 };
 
 export type ListItems = {
-  [key: string]: SidebarItem[] | FileMetaData[];
+  [key: string]: ListMetaData[] | FileMetaData[];
 };
 
 export type ExtractedText = {
@@ -36,6 +31,36 @@ export type ExtractedText = {
 export type LocalFile = {
   file: File;
   checked: boolean;
+};
+
+export type MathResponseType = {
+  inputString: string;
+  podsData: PodData[];
+  assumptions?: Assumptions;
+};
+
+export type PodData = {
+  title: string;
+  content: ContentItem[];
+};
+
+export type ContentItem = {
+  plaintext: string;
+  imageUrl: string;
+};
+
+export type Assumptions = {
+  type: string;
+  word: string;
+  template: string;
+  count: number;
+  values: AssumptionValue[];
+};
+
+export type AssumptionValue = {
+  name: string;
+  desc: string;
+  input: string;
 };
 
 export type QueryResult = {
@@ -56,6 +81,7 @@ export type QueryResult = {
   version: string;
   inputstring: string;
   pods: Pod[];
+  assumptions: Assumptions[];
 };
 
 export type Pod = {
@@ -125,17 +151,7 @@ export type ActionType = "ADD_CHAT" | "DELETE_CHAT" | "UPDATE_CHAT";
 
 export type Action = {
   type: ActionType;
-  payload: ChatMetaData;
-};
-
-export type ChatMetaData = {
-  id: string;
-  title: string;
-};
-
-export type FolderMetaData = {
-  id: string;
-  title: string;
+  payload: ListMetaData;
 };
 
 export type FileActionType = "ADD_FILE" | "DELETE_FILE" | "UPDATE_FILE";
@@ -168,3 +184,24 @@ export interface ExtendedMessage extends AImessage {
   chatId: string;
   addedToNote: boolean;
 }
+
+export type MathButton = {
+  symbol: string;
+  latex: string;
+  wolfram: string;
+};
+
+export type ButtonCategories = {
+  basic: MathButton[];
+  algebra: MathButton[];
+  misc: MathButton[];
+  calculus: MathButton[];
+  greek: MathButton[];
+};
+
+export type SimplifiedMathResponse = {
+  input: string;
+  output: string;
+  images: string[];
+  solution: string;
+};

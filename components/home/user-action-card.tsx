@@ -22,7 +22,7 @@ export default function UserActionCard({
           <CardTitle>{name}</CardTitle>
           <CardDescription className="mt-2">
             {description}
-            <PiArrowSquareOutBold className="absolute top-0 right-0 z-2 w-6 h-6 text-muted-foreground opacity-70 group-hover:translate-x-1 transition" />
+            <PiArrowSquareOutBold className="absolute top-0 right-0 z-2 w-5 h-5 text-muted-foreground opacity-70 group-hover:translate-x-1 transition" />
           </CardDescription>
         </CardContent>
       </Card>

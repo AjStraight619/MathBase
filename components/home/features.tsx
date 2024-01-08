@@ -36,7 +36,7 @@ export const featureData = [
 const featuresVariants = {
   initial: {
     opacity: 0,
-    y: -100,
+    y: 100,
   },
   animate: {
     opacity: 1,
@@ -44,8 +44,6 @@ const featuresVariants = {
     transition: {
       duration: 1,
       ease: "easeOut",
-      when: "beforeChildren",
-      staggerChildren: 0.5,
     },
   },
 };

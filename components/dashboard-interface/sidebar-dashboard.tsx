@@ -1,17 +1,17 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa";
 import NewChatForm from "../chat-interface/new-chat-form";
 import NewNoteForm from "../note-interface/new-note-form";
 
 type SidebarDashboardProps = {
   mostRecentChatId: string;
-  pathname: string;
 };
 
 export default function SidebarDashboard({
   mostRecentChatId,
-  pathname,
 }: SidebarDashboardProps) {
+  const pathname = usePathname();
   const routes = [
     {
       name: "Chat With Note Genius",
