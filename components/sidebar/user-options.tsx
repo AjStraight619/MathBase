@@ -4,9 +4,9 @@ import AvatarDropDown from "../avatar/avatar-dropdown";
 import { Skeleton } from "../ui/skeleton";
 
 export default function UserOptions() {
-  const { user, isLoading, error } = useUser();
+  const { user, isUserLoading, error } = useUser();
 
-  if (isLoading) {
+  if (isUserLoading) {
     return (
       <div className="p-4 mt-auto w-full">
         <Skeleton />
