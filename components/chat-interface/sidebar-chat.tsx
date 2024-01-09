@@ -1,5 +1,5 @@
 import { useItemId } from "@/hooks/useItemId";
-import { AllFolders, Folder, ListMetaData } from "@/lib/types";
+import { AllFolders, Folder, ListMetaData, Note } from "@/lib/types";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { FaFolder } from "react-icons/fa";
 import { IoChatbox } from "react-icons/io5";
 import FolderDropdown from "../note-interface/folder-dropdown";
 import NewNoteForm from "../note-interface/new-note-form";
+import NotePreview from "../note-interface/note-preview";
 import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import ItemOptions from "./item-options";
@@ -35,6 +36,7 @@ export default function SidebarChat({
   const chatId = useItemId();
   const [listView, setListView] = useState<"Chats" | "Folders">("Chats");
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const selectedNoteId = searchParams.get("selectedNote");
@@ -60,11 +62,29 @@ export default function SidebarChat({
     }
   }, [selectedNoteId, selectedFolder, chatId, push]);
 
+  useEffect(() => {
+    const updateSelectedNote = () => {
+      const selectedNote = filterForSelectedNote(allFolders, selectedNoteId);
+      if (!selectedNote) {
+        return;
+      }
+      setSelectedNote(selectedNote);
+    };
+
+    if (selectedNoteId) {
+      updateSelectedNote();
+    }
+  }, [selectedNoteId, allFolders]);
+
   const handleListViewChange = (newView: "Chats" | "Folders") => {
     if (listView === newView) {
       return;
     }
     setListView(newView);
+  };
+
+  const handleNoteClick = (noteId: string) => {
+    push(`/chat/${chatId}/selectedNote?selectedNote=${noteId}`);
   };
 
   return (
@@ -123,7 +143,7 @@ export default function SidebarChat({
                 setSelectedFolder={setSelectedFolder}
               />
               {selectedFolder && (
-                <ul>
+                <ul className="w-full flex-row justify-between">
                   {selectedFolder.notes.map((note) => {
                     const isSelectedNote = note.id === selectedNoteId;
                     return (
@@ -134,15 +154,13 @@ export default function SidebarChat({
                         key={note.id}
                       >
                         <div
-                          onClick={() =>
-                            push(
-                              `/chat/${chatId}/selectedNote?selectedNote=${note.id}`
-                            )
-                          }
-                          className="flex-grow whitespace-nowrap text-clip overflow-hidden text-sm"
+                          onClick={() => handleNoteClick(note.id)}
+                          className="flex-grow whitespace-nowrap overflow-hidden text-clip text-sm"
                         >
                           {note.title}
                         </div>
+                        {/* Render NotePreview only if this note is the selected note */}
+                        {isSelectedNote && <NotePreview />}
                       </li>
                     );
                   })}
@@ -168,3 +186,17 @@ const listViewOptions: { name: string; view: ViewType; icon: JSX.Element }[] = [
     icon: <FaFolder className="w-8 h-8 text-opacity-90 hover:scale-105" />,
   },
 ];
+
+const filterForSelectedNote = (
+  allFolders: AllFolders[],
+  selectedNoteId: string | null
+) => {
+  if (!selectedNoteId) {
+    return null;
+  }
+  const selectedNote = allFolders
+    .map((folder) => folder.notes)
+    .flat()
+    .find((note) => note.id === selectedNoteId);
+  return selectedNote;
+};

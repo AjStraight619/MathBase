@@ -1,14 +1,13 @@
 "use client";
 // import EquationProcessor from "@/components/math/equation-processor";
-import MathKeyboard from "@/components/math/math-keyboard";
-import { useMathModeContext } from "@/context/MathModeProvider";
 import { useSidebarContext } from "@/context/SidebarContext";
 import { useExtendedChat } from "@/hooks/useExtendedChat";
 import { useItemId } from "@/hooks/useItemId";
 import { useUser } from "@/hooks/useUser";
 import { ChatWithMessages } from "@/lib/types";
 import { motion } from "framer-motion";
-import { lazy, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import MathToolbar from "../math/math-tool-bar";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import MessageInput from "./message-input";
 import MessageList from "./message-list";
@@ -19,34 +18,33 @@ export type ChatProps = {
   defaultNoteTitle?: string;
 };
 
-const EquationProcessor = lazy(
-  () => import("@/components/math/equation-processor")
-);
+const containerVariants = {
+  open: {
+    marginLeft: "4rem",
+    transition: { type: "spring", stiffness: 260, damping: 20 },
+  },
+  closed: {
+    marginLeft: "0rem",
+    transition: { type: "spring", stiffness: 260, damping: 20 },
+  },
+};
 
 export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
-  const { mathMode } = useMathModeContext();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const bottomOfMessagesRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
   const [autoScroll, setAutoScroll] = useState(true);
-  const { user, isUserLoading, error } = useUser();
+  const { user } = useUser();
   const userId = user?.id;
   const { isSidebarOpen } = useSidebarContext();
   const chatId = useItemId();
-  const [showMathKeyboard, setShowMathKeyboard] = useState(false);
-  const toggleMathKeyboard = () => setShowMathKeyboard((prev) => !prev);
+  const [showMathToolbar, setShowMathToolbar] = useState(false);
+  const toggleMathToolbar = () => setShowMathToolbar((prev) => !prev);
 
-  const {
-    messages,
-    input,
-    setInput,
-    handleInputChange,
-    handleSubmit,
-    isLoading,
-  } = useExtendedChat({
-    options: { api: `/api/chat?chatId=${chatId}`, body: { userId: userId } },
-    chatById,
-  });
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useExtendedChat({
+      options: { api: `/api/chat?chatId=${chatId}`, body: { userId: userId } },
+      chatById,
+    });
 
   const scrollToBottom = () => {
     bottomOfMessagesRef?.current?.scrollIntoView({ behavior: "smooth" });
@@ -62,10 +60,10 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
   }, [messages, autoScroll]);
 
   useEffect(() => {
-    if (showMathKeyboard && bottomOfMessagesRef.current) {
+    if (showMathToolbar && bottomOfMessagesRef.current) {
       scrollToBottom();
     }
-  }, [showMathKeyboard]);
+  }, [showMathToolbar]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
@@ -74,17 +72,6 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
     } else {
       setAutoScroll(true);
     }
-  };
-
-  const containerVariants = {
-    open: {
-      marginLeft: "4rem",
-      transition: { type: "spring", stiffness: 260, damping: 20 },
-    },
-    closed: {
-      marginLeft: "0rem",
-      transition: { type: "spring", stiffness: 260, damping: 20 },
-    },
   };
 
   return (
@@ -101,7 +88,7 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
             initial="closed"
             animate={isSidebarOpen ? "open" : "closed"}
             className={`flex flex-col justify-between h-full relative ${
-              showMathKeyboard ? "pb-[20rem]" : "pb-[4rem]"
+              showMathToolbar ? "pb-[22rem]" : "pb-[4rem]"
             }`}
           >
             <MessageList
@@ -114,18 +101,17 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
               animate={isSidebarOpen ? "open" : "closed"}
               className="flex flex-col fixed bottom-5 right-0 left-0 mx-auto w-full"
             >
-              <MathKeyboard
-                toggleMathKeyboard={toggleMathKeyboard}
-                showMathKeyboard={showMathKeyboard}
-                ref={inputRef}
+              <MathToolbar
+                toggleMathToolbar={toggleMathToolbar}
+                showMathToolbar={showMathToolbar}
               />
               <MessageInput
                 input={input}
                 handleSubmit={handleSubmit}
                 handleInputChange={handleInputChange}
                 isLoading={isLoading}
-                showMathKeyboard={showMathKeyboard}
-                toggleMathKeyboard={toggleMathKeyboard}
+                showMathKeyboard={showMathToolbar}
+                toggleMathToolbar={toggleMathToolbar}
               />
             </motion.div>
           </motion.div>

@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   const { chatId, conversationUpdate } = data;
 
-  conversationUpdate.sort((a: any, b: any) => (a.role === "user" ? -1 : 1));
+  conversationUpdate.sort((a: any) => (a.role === "user" ? -1 : 1));
 
   for (const message of conversationUpdate) {
     const { role, content } = message;

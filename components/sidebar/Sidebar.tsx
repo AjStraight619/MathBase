@@ -28,6 +28,17 @@ type SidebarProps = {
  * @param {AllFolders[]} props.allFolders - Data for all folders.
  */
 
+const sidebarVariants = {
+  open: { opacity: 1, x: 0 },
+  closed: {
+    opacity: 0,
+    x: "-100%",
+    transition: {
+      delay: 0.1,
+    },
+  },
+};
+
 export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
@@ -36,17 +47,6 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
   let mostRecentChatId = chatMetaData[0]?.id;
   if (!mostRecentChatId) mostRecentChatId = "New Chat";
-
-  const sidebarVariants = {
-    open: { opacity: 1, x: 0 },
-    closed: {
-      opacity: 0,
-      x: "-100%",
-      transition: {
-        delay: 0.1,
-      },
-    },
-  };
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);

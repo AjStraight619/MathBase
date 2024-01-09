@@ -1,32 +1,43 @@
-import { Assumptions, ContentItem, PodData, QueryResult } from "@/lib/types";
+import { prisma } from "@/lib/prisma";
+import {
+  ContentItem,
+  MathResponseType,
+  PodData,
+  QueryResult,
+} from "@/lib/types";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 const WOLFRAMALPHAAPIURL = "https://api.wolframalpha.com/v2/query?input=";
 
 /**
  * Handles GET requests to query Wolfram Alpha with provided equations.
+ * Checks if a response already exists in the database; if not, it queries Wolfram Alpha.
  *
- * @param {NextRequest} req - The incoming request object.
- * @returns {NextResponse} - A JSON response containing the query result.
+ * @param {NextRequest} req - The incoming request object containing query parameters.
+ * @returns {NextResponse} - A JSON response containing the query result or stored math response.
  */
-
 export async function GET(req: NextRequest) {
   try {
     const queryString = req.nextUrl.searchParams.get("queryString");
+    const chatId = req.nextUrl.searchParams.get("chatId") as unknown as string;
+    const path = req.nextUrl.searchParams.get("path");
 
     if (!queryString) {
       return NextResponse.json({ error: "No equation provided" });
     }
 
-    // First, check if the response already exists in the database
-    // const existingMathResponse = await findMathResponseInDatabase(queryString);
-    // if (existingMathResponse) {
-    //   console.log(
-    //     "Found existing math response in database:",
-    //     existingMathResponse
-    //   );
-    //   return NextResponse.json(existingMathResponse);
-    // }
+    const existingMathResponse = await findMathResponseInDatabase(queryString);
+    if (existingMathResponse) {
+      console.log(
+        "Found existing math response in database:",
+        existingMathResponse
+      );
+      if (path) {
+        revalidatePath(path);
+      }
+      return NextResponse.json(existingMathResponse);
+    }
 
     const queryURL = `${WOLFRAMALPHAAPIURL}${encodeURIComponent(
       queryString
@@ -35,12 +46,18 @@ export async function GET(req: NextRequest) {
     const res = await fetch(queryURL);
     if (res.ok) {
       const data = await res.json();
-      console.log("Wolfram Alpha API response:", data);
+      console.log("Wolfram Alpha API response:", JSON.stringify(data, null, 2));
       const extractedData = extractDataFromPods(data.queryresult);
-      console.log("Extracted data:", extractedData);
+      const storedMathResponse = await storeMathResponseInDatabase(
+        chatId,
+        extractedData
+      );
 
-      // await storeMathResponseInDatabase(extractedData);
-      return NextResponse.json(extractedData);
+      if (path) {
+        revalidatePath(path);
+      }
+
+      return NextResponse.json(storedMathResponse);
     } else {
       throw new Error("Failed to fetch data from Wolfram Alpha");
     }
@@ -50,80 +67,62 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// async function findMathResponseInDatabase(inputEquation: string) {
-//   const mathResponse = await prisma.mathResponse.findFirst({
-//     where: {
-//       input: inputEquation,
-//     },
-//   });
+/**
+ * Searches for an existing math response in the database based on the input equation.
+ *
+ * @param {string} inputEquation - The equation to search for in the database.
+ * @returns {Promise<MathResponse | null>} - The found math response or null if not found.
+ */
 
-//   return mathResponse;
-// }
+async function findMathResponseInDatabase(inputEquation: string) {
+  const mathResponse = await prisma.mathResponse.findFirst({
+    where: {
+      input: inputEquation,
+    },
+  });
 
-// async function storeMathResponseInDatabase(
-//   extractedData: ExtractedWolframData
-// ) {
-//   const mathResponse = await prisma.mathResponse.create({
-//     data: {
-//       input: extractedData.input,
-//       solution: extractedData.solution,
-//       intermediateSteps: extractedData.intermediateSteps,
-//       plotImageURL: extractedData.plotImageURL,
-//       numberLineURL: extractedData.numberLineURL,
-//     },
-//   });
-//   console.log("Created math response with id: ", mathResponse.id);
-// }
+  return mathResponse;
+}
 
-// function extractRelevantData(queryResult: QueryResult): ExtractedWolframData {
-//   if (!queryResult || !queryResult.pods) {
-//     throw new Error("Invalid query result structure");
-//   }
+/**
+ * Stores extracted data from Wolfram Alpha into the database.
+ *
+ * @param {string} chatId - The ID of the chat associated with the math response.
+ * @param {MathResponseType} extractedData - The extracted data to be stored.
+ * @returns {Promise<MathResponse>} - The newly created math response.
+ */
 
-//   const relevantData: ExtractedWolframData = {
-//     input: queryResult.inputstring,
-//     solution: "",
-//     intermediateSteps: "",
-//     plotImageURL: "",
-//     numberLineURL: "",
-//   };
+async function storeMathResponseInDatabase(
+  chatId: string,
+  extractedData: MathResponseType
+) {
+  const mathResponse = await prisma.mathResponse.create({
+    data: {
+      input: extractedData.inputString,
+      podsData: extractedData.podsData,
+      chats: {
+        connect: { id: chatId },
+      },
+    },
+  });
 
-//   queryResult.pods.forEach((pod) => {
-//     if (!pod.subpods || pod.subpods.length === 0) {
-//       return;
-//     }
+  console.log("Created math response with id: ", mathResponse.id);
+  return mathResponse;
+}
 
-//     const firstSubpod = pod.subpods[0];
-
-//     switch (pod.title) {
-//       case "Solution":
-//         relevantData.solution = firstSubpod?.plaintext || "";
-//         break;
-//       case "Result":
-//         relevantData.intermediateSteps = firstSubpod?.plaintext || "";
-//         break;
-//       case "Plot":
-//         relevantData.plotImageURL = firstSubpod?.img?.src || "";
-//         break;
-//       case "Number line":
-//         relevantData.numberLineURL = firstSubpod?.img?.src || "";
-//         break;
-//     }
-//   });
-
-//   return relevantData;
-// }
+/**
+ * Extracts data from the query result of Wolfram Alpha API.
+ *
+ * @param {QueryResult} queryResult - The result object from Wolfram Alpha query.
+ * @returns {MathResponseType} - The structured data extracted from the query result.
+ */
 
 const extractDataFromPods = (queryResult: QueryResult) => {
   if (!queryResult.success) {
     throw new Error("Error in query result");
   }
 
-  const extractedData: {
-    inputString: string;
-    podsData: PodData[];
-    assumptions?: Assumptions[];
-  } = {
+  const extractedData: MathResponseType = {
     inputString: queryResult.inputstring,
     podsData: [],
     assumptions: queryResult.assumptions || null,
@@ -145,6 +144,8 @@ const extractDataFromPods = (queryResult: QueryResult) => {
 
     extractedData.podsData.push(podData);
   });
+
+  console.log("Extracted data:", extractedData);
 
   return extractedData;
 };

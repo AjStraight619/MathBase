@@ -15,7 +15,7 @@ type MessageInputProps = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
   showMathKeyboard: boolean;
-  toggleMathKeyboard: () => void;
+  toggleMathToolbar: () => void;
 };
 
 export default function MessageInput({
@@ -23,7 +23,7 @@ export default function MessageInput({
   handleInputChange,
   handleSubmit,
   isLoading,
-  toggleMathKeyboard,
+  toggleMathToolbar,
 }: MessageInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { mathMode } = useMathModeContext();
@@ -70,11 +70,11 @@ export default function MessageInput({
           </button>
           <UploadFiles className="absolute left-0" />
         </form>
-        <div className="ml-1">
+        <div className="ml-2">
           {mathMode && (
             <FaCalculator
               className="w-6 h-6 hover:cursor-pointer opacity-40 hover:opacity-100"
-              onClick={toggleMathKeyboard}
+              onClick={toggleMathToolbar}
             />
           )}
         </div>

@@ -1,7 +1,7 @@
-import { ExtendedMessage } from "@/lib/types"; // Ensure this import path is correct
-import { useSearchParams } from "next/navigation";
-import { FaFileCirclePlus } from "react-icons/fa6";
+import { ExtendedMessage, MathResponseType } from "@/lib/types"; // Ensure this import path is correct
+import { containsMarkdown } from "@/lib/utils";
 import { AssistantAvatar, UserAvatar } from "../avatar/avatars";
+import AddContentToNote from "./add-content-to-note";
 import MarkdownContentRenderer from "./markdown-renderer";
 
 type MessageItemProps = {
@@ -10,6 +10,7 @@ type MessageItemProps = {
   isLastMessage?: boolean;
   appendToNote: (messageId: string, selectedNoteId: string | undefined) => void;
   selectedNoteTitle?: string;
+  mathResponse: MathResponseType | null;
 };
 
 export default function MessageItem({
@@ -19,14 +20,6 @@ export default function MessageItem({
   appendToNote,
   selectedNoteTitle,
 }: MessageItemProps) {
-  const containsMarkdown = (content: string) => {
-    const markdownPatterns = /(\*|_|`|\$|\[|\]|\(|\)|\!\[|\]\(|\$\$)/;
-    return markdownPatterns.test(content);
-  };
-
-  const searchParams = useSearchParams();
-  const selectedNoteId = searchParams?.get("selectedNote");
-
   return (
     <li className="my-8">
       <div className="flex items-start space-x-3 ml-[1.5rem]">
@@ -43,19 +36,11 @@ export default function MessageItem({
           )}
 
           {message.role === "assistant" && (
-            <div className="mt-2 flex flex-row gap-2">
-              <button
-                onClick={() => appendToNote(message.id, selectedNoteId ?? "")}
-                className="flex items-center text-primary/50 hover:text-primary"
-              >
-                <FaFileCirclePlus className="w-5 h-5" />
-                <span className="text-muted-foreground text-sm ml-1">
-                  {selectedNoteTitle
-                    ? `Add to ${selectedNoteTitle}`
-                    : "Select a note"}
-                </span>
-              </button>
-            </div>
+            <AddContentToNote
+              selectedNoteTitle={selectedNoteTitle}
+              appendToNote={appendToNote}
+              messageId={message.id}
+            />
           )}
         </div>
       </div>

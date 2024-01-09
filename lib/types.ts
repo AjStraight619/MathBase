@@ -36,7 +36,7 @@ export type LocalFile = {
 export type MathResponseType = {
   inputString: string;
   podsData: PodData[];
-  assumptions?: Assumptions;
+  assumptions?: Assumptions[];
 };
 
 export type PodData = {
@@ -133,6 +133,7 @@ export type ChatWithMessages = {
     role: MsgRole;
     isExtractedEquation: boolean;
     extractedText: string | null;
+    mathResponse: MathResponseType | null;
     addedToNote: boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -183,6 +184,7 @@ export interface ExtendedMessage extends AImessage {
   extractedText: string | null;
   chatId: string;
   addedToNote: boolean;
+  mathResponse: MathResponseType | null;
 }
 
 export type MathButton = {
@@ -197,11 +199,4 @@ export type ButtonCategories = {
   misc: MathButton[];
   calculus: MathButton[];
   greek: MathButton[];
-};
-
-export type SimplifiedMathResponse = {
-  input: string;
-  output: string;
-  images: string[];
-  solution: string;
 };

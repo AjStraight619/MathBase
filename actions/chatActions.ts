@@ -62,6 +62,27 @@ export const getChatMetaData = async () => {
 };
 
 /**
+ * Fetches the most recent chat ID for the current user.
+ * @returns {Promise<string | null>} The most recent chat ID or null if not found.
+ */
+
+export const getMostRecentChatId = async (userId: string) => {
+  const mostRecentChat = await prisma.chat.findFirst({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  return mostRecentChat?.id;
+};
+
+/**
  * Fetches all chats along with their messages for the current user.
  * @returns {Promise<Array>} An array of all chats with their messages.
  */
@@ -123,6 +144,9 @@ export async function getChatById(
     where: { id: chatId },
     include: {
       messages: {
+        include: {
+          mathResponse: true,
+        },
         orderBy: {
           createdAt: "asc",
         },
@@ -244,4 +268,24 @@ export const deleteChat = async (id: string) => {
   });
 
   revalidatePath("/chat/");
+};
+
+export const addMathResponseToChat = async (
+  chatId: string,
+  mathResponse: any
+) => {
+  const user = await getUserSession();
+  if (!user) return null;
+  const userId = user.id;
+
+  const newChat = await prisma.chat.create({
+    data: {
+      title: "Math Response",
+      user: {
+        connect: { id: userId },
+      },
+    },
+  });
+  revalidatePath("/chat/");
+  return newChat;
 };

@@ -52,18 +52,25 @@ export default function MessageList({
       toast.error("Something went wrong!");
     }
   };
+
   return (
     <ul className="list-none w-full relative">
-      {messages.map((message) => (
-        <MessageItem
-          key={message.id}
-          message={message}
-          isLoading={isLoading}
-          appendToNote={appendToNote}
-          isLastMessage={message.id === lastMessageId}
-          selectedNoteTitle={selectedNoteTitle}
-        />
-      ))}
+      {messages.map((message) => {
+        const { mathResponse, id } = message;
+        return (
+          <>
+            <MessageItem
+              key={id}
+              message={message}
+              isLoading={isLoading}
+              appendToNote={appendToNote}
+              isLastMessage={id === lastMessageId}
+              selectedNoteTitle={selectedNoteTitle}
+              mathResponse={mathResponse}
+            />
+          </>
+        );
+      })}
     </ul>
   );
 }

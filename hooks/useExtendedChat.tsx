@@ -1,4 +1,4 @@
-import { ChatWithMessages, ExtendedMessage } from "@/lib/types"; // Ensure this import is correct
+import { ChatWithMessages, ExtendedMessage } from "@/lib/types";
 import { UseChatOptions, useChat } from "ai/react";
 import { useMemo } from "react";
 
@@ -21,6 +21,7 @@ export const useExtendedChat = ({
         extractedText: msg.extractedText ?? null,
         chatId: chatById.id,
         addedToNote: msg.addedToNote ?? false,
+        mathResponse: msg.mathResponse ?? null,
       })) || [];
 
     const newLiveMessages = liveMessages.filter(
@@ -34,6 +35,7 @@ export const useExtendedChat = ({
         extractedText: null,
         chatId: chatById?.id || "",
         addedToNote: false,
+        mathResponse: null,
       })
     );
 

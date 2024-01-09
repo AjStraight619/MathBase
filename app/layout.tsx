@@ -5,15 +5,14 @@ import MathModeToggle from "@/components/math/math-mode-toggle";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import DialogTriggerProvider from "@/context/DialogTriggerContext";
 import { FileProvider } from "@/context/FileProvider";
 import MathModeProvider from "@/context/MathModeProvider";
 import ReactQueryProvider from "@/context/QueryClientProvider";
 import SidebarProvider from "@/context/SidebarContext";
-import { authOptions } from "@/lib/authOptions";
+import { getUserSession } from "@/lib/session";
 import { AllFolders, ListMetaData } from "@/lib/types";
-import { User } from "@prisma/client";
 import type { Metadata } from "next";
-import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
@@ -33,10 +32,8 @@ export default async function RootLayout({
   let chatMetaData: ListMetaData[] = [];
   let allFolders: AllFolders[] = [];
 
-  const session = await getServerSession(authOptions);
-  const user = session?.user as User;
-  const userId = user?.id;
-  if (session) {
+  const user = await getUserSession();
+  if (user) {
     chatMetaData = (await getChatMetaData()) as unknown as ListMetaData[];
     allFolders = (await getAllFolders()) as unknown as AllFolders[];
   }
@@ -54,11 +51,16 @@ export default async function RootLayout({
             <FileProvider>
               <MathModeProvider>
                 <SidebarProvider>
-                  <Sidebar
-                    allFolders={allFolders}
-                    chatMetaData={chatMetaData ?? []}
-                  />
-                  <ReactQueryProvider>{children}</ReactQueryProvider>
+                  <ReactQueryProvider>
+                    <DialogTriggerProvider>
+                      <Sidebar
+                        allFolders={allFolders}
+                        chatMetaData={chatMetaData ?? []}
+                      />
+
+                      {children}
+                    </DialogTriggerProvider>
+                  </ReactQueryProvider>
                 </SidebarProvider>
                 <MathModeToggle />
               </MathModeProvider>

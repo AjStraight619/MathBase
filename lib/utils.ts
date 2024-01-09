@@ -59,3 +59,8 @@ export const convertLatexToWolframQuery = (latex: string): string => {
 
   return query;
 };
+
+export const containsMarkdown = (content: string) => {
+  const markdownPatterns = /(\*|_|`|\$|\[|\]|\(|\)|\!\[|\]\(|\$\$)/;
+  return markdownPatterns.test(content);
+};

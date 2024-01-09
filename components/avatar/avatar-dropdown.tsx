@@ -33,7 +33,7 @@ export default function AvatarDropDown({
               Dashboard
             </Link>
 
-            <div className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2">
+            <div className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2 hover:cursor-pointer">
               <RxExit className="w-5 h-5 text-sm" />
               <Logout />
             </div>

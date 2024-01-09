@@ -1,5 +1,5 @@
+"use client";
 import { addNote } from "@/actions/noteActions";
-import { useFileContext } from "@/context/FileProvider";
 import { LocalFile } from "@/lib/types";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -28,8 +28,6 @@ export default function NewNoteForm({ className }: { className?: string }) {
     title: "",
     file: undefined,
   });
-
-  const { state, dispatch } = useFileContext();
 
   const handleAddNote = async (formData: FormData) => {
     formData.append("title", noteForm.title);

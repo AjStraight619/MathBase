@@ -1,3 +1,4 @@
+import { getMostRecentChatId } from "@/actions/chatActions";
 import { getMostRecentNoteId } from "@/actions/noteActions";
 import Features from "@/components/home/features";
 import Footer from "@/components/home/footer";
@@ -6,25 +7,8 @@ import IsLoggedInActions from "@/components/home/logged-in-actions";
 import WelcomeSection from "@/components/home/welcome-section";
 import { authOptions } from "@/lib/authOptions";
 import { footerData } from "@/lib/data";
-import { prisma } from "@/lib/prisma";
 import { User } from "@prisma/client";
 import { getServerSession } from "next-auth";
-
-const getMostRecentChatId = async (userId: string) => {
-  const mostRecentChat = await prisma.chat.findFirst({
-    where: {
-      userId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  return mostRecentChat?.id;
-};
 
 export default async function Home() {
   const session = await getServerSession(authOptions);

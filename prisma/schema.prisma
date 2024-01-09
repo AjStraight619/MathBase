@@ -50,32 +50,33 @@ model Chat {
 }
 
 model ChatMessage {
-  id                  String   @id @default(uuid())
+  id                  String        @id @default(uuid())
   chatId              String
-  content             String   @db.Text
+  content             String        @db.Text
   role                String
-  isExtractedEquation Boolean  @default(false)
-  extractedText       String?  @db.Text
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  isExtractedEquation Boolean       @default(false)
+  extractedText       String?       @db.Text
+  mathResponseId      String?
+  mathResponse        MathResponse? @relation(fields: [mathResponseId], references: [id])
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
 
   chat        Chat          @relation(fields: [chatId], references: [id])
   NoteMessage NoteMessage[]
 
   @@index([chatId])
+  @@index([mathResponseId])
 }
 
 model MathResponse {
-  id                String   @id @default(uuid())
-  input             String
-  solution          String
-  intermediateSteps String?
-  plotImageURL      String?
-  numberLineURL     String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  chats             Chat[]
-  notes             Note[]
+  id          String        @id @default(uuid())
+  input       String
+  podsData    Json?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  chats       Chat[]
+  notes       Note[]
+  ChatMessage ChatMessage[]
 }
 
 model Note {

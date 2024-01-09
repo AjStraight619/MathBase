@@ -52,33 +52,26 @@ export default function NewChatForm() {
   };
 
   return (
-    <>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button className="w-full mb-4 justify-evenly">
-            New Chat
-            <FiPlus />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogTitle className="text-center">New Chat</DialogTitle>
-          <form action={handleAddChat} className="flex flex-col">
-            <Label htmlFor="title">Title</Label>
-            <Input
-              type="text"
-              value={title}
-              id="title"
-              onChange={handleChange}
-            />
-            <DialogFooter>
-              {" "}
-              <SubmitButton variant="secondary" className="mt-2">
-                Add Chat
-              </SubmitButton>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button className="w-full mb-4 justify-evenly">
+          New Chat
+          <FiPlus />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogTitle className="text-center">New Chat</DialogTitle>
+        <form action={handleAddChat} className="flex flex-col">
+          <Label htmlFor="title">Title</Label>
+          <Input type="text" value={title} id="title" onChange={handleChange} />
+          <DialogFooter>
+            {" "}
+            <SubmitButton variant="secondary" className="mt-2">
+              Add Chat
+            </SubmitButton>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
