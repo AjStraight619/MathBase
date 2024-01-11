@@ -10,9 +10,14 @@ import { DashboardSeparator } from "./separator";
 type DashboardProps = {
   notes: Note[];
   chats: (Chat & { messages: ChatMessage[] })[];
+  userChatHistory: number;
 };
 
-export default function Dashboard({ notes, chats }: DashboardProps) {
+export default function Dashboard({
+  notes,
+  chats,
+  userChatHistory,
+}: DashboardProps) {
   const pathname = usePathname();
   const { isSidebarOpen } = useSidebarContext();
   const currentListType = pathname.includes("notes")
@@ -32,7 +37,7 @@ export default function Dashboard({ notes, chats }: DashboardProps) {
       {currentListType !== "history" ? (
         <ListItems currentListItems={currentListItems} />
       ) : (
-        <History />
+        <History userChatHistory={userChatHistory} />
       )}
     </ScrollArea>
   );

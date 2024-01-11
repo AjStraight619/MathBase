@@ -41,14 +41,6 @@ export default function NewNoteForm({ className }: { className?: string }) {
     setNoteForm({ ...noteForm, [name]: value });
   };
 
-  const handleAddFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      const localFile = { file: file, checked: false };
-      setNoteForm({ ...noteForm, file: localFile });
-    }
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>

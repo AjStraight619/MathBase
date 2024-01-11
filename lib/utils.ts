@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { AllFolders } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -63,4 +64,18 @@ export const convertLatexToWolframQuery = (latex: string): string => {
 export const containsMarkdown = (content: string) => {
   const markdownPatterns = /(\*|_|`|\$|\[|\]|\(|\)|\!\[|\]\(|\$\$)/;
   return markdownPatterns.test(content);
+};
+
+export const filterForSelectedNote = (
+  allFolders: AllFolders[],
+  selectedNoteId: string | null
+) => {
+  if (!selectedNoteId) {
+    return null;
+  }
+  const selectedNote = allFolders
+    .map((folder) => folder.notes)
+    .flat()
+    .find((note) => note.id === selectedNoteId);
+  return selectedNote;
 };

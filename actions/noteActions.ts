@@ -59,6 +59,7 @@ export const getAllFolders = async () => {
           id: true,
           title: true,
           updatedAt: true,
+          content: true,
         },
         orderBy: {
           updatedAt: "desc",

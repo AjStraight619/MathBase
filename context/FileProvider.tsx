@@ -10,6 +10,7 @@ type FileAction =
   | { type: "ADD_FILE"; payload: LocalFile[] }
   | { type: "REMOVE_FILE"; payload: string }
   | { type: "TOGGLE_FILE"; payload: string }
+  | { type: "VIEWED_FILE"; payload: string[] }
   | { type: "RESET_FILES" };
 
 const defaultFileContext: FileContext = {
@@ -29,6 +30,12 @@ function fileReducer(state: LocalFile[], action: FileAction): LocalFile[] {
       return state.map((file) =>
         file.file.name === action.payload
           ? { ...file, checked: !file.checked }
+          : file
+      );
+    case "VIEWED_FILE":
+      return state.map((file) =>
+        action.payload.includes(file.file.name)
+          ? { ...file, isViewed: true }
           : file
       );
     case "RESET_FILES":

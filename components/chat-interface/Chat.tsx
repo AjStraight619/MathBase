@@ -8,7 +8,7 @@ import { ChatWithMessages } from "@/lib/types";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import MathToolbar from "../math/math-tool-bar";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { ScrollArea } from "../ui/scroll-area";
 import MessageInput from "./message-input";
 import MessageList from "./message-list";
 
@@ -80,7 +80,6 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
       onScroll={handleScroll}
       className="h-screen w-full overflow-y-auto"
     >
-      <ScrollBar orientation="vertical" />
       <div className="flex flex-col items-center min-h-screen">
         <div className="container sm:max-w-full md:max-w-xl lg:max-w-lg xl:max-w-xl mx-auto px-6">
           <motion.div

@@ -66,9 +66,10 @@ export const buttonCategories: ButtonCategories = {
     { symbol: "×", latex: "\\times", wolfram: "*" },
     { symbol: "÷", latex: "\\div", wolfram: "/" },
     { symbol: "^", latex: "^", wolfram: "^" },
-    { symbol: "=", latex: "=", wolfram: "=" },
+
     { symbol: "(", latex: "(", wolfram: "(" },
     { symbol: ")", latex: ")", wolfram: ")" },
+    { symbol: "=", latex: "=", wolfram: "=" },
   ],
   algebra: [
     { symbol: "x²", latex: "^2", wolfram: "x^2" },

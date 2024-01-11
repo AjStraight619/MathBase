@@ -1,6 +1,7 @@
 "use client";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -10,7 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { useFileContext } from "@/context/FileProvider";
 import { useMathModeContext } from "@/context/MathModeProvider";
-import { DialogClose } from "@radix-ui/react-dialog";
+
+import { useAnimate } from "framer-motion";
 import { useState } from "react";
 import { RxStack } from "react-icons/rx";
 import { Button } from "../ui/button";
@@ -19,17 +21,25 @@ import UploadFiles from "./upload-files";
 
 export default function ProcessFiles() {
   const [isOpen, setIsOpen] = useState(false);
-  const { state } = useFileContext();
+  const { state, dispatch } = useFileContext();
   const { mathMode } = useMathModeContext();
+  const [_, animate] = useAnimate();
+
+  const handleDialogTrigger = () => {
+    setIsOpen(!isOpen);
+    const fileNames = state.map((file) => file.file.name);
+    dispatch({
+      type: "VIEWED_FILE",
+      payload: fileNames,
+    });
+  };
 
   return (
-    <Dialog>
-      <DialogTrigger onClick={() => setIsOpen(true)}>
-        <RxStack
-          className={`text-3xl hover:cursor-pointer pr-[0.5rem] ${
-            state.length > 0 && !isOpen ? "animate-bounce" : ""
-          }`}
-        />
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <button onClick={handleDialogTrigger}>
+          <RxStack className="text-3xl hover:cursor-pointer pr-[0.5rem]" />
+        </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md ">
         <DialogHeader>

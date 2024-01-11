@@ -31,6 +31,7 @@ export type ExtractedText = {
 export type LocalFile = {
   file: File;
   checked: boolean;
+  isViewed: boolean;
 };
 
 export type MathResponseType = {
@@ -166,6 +167,7 @@ export type Note = {
   id: string;
   title: string;
   updatedAt: Date;
+  content: string;
 };
 
 export type Folder = {

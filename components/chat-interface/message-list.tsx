@@ -58,17 +58,15 @@ export default function MessageList({
       {messages.map((message) => {
         const { mathResponse, id } = message;
         return (
-          <>
-            <MessageItem
-              key={id}
-              message={message}
-              isLoading={isLoading}
-              appendToNote={appendToNote}
-              isLastMessage={id === lastMessageId}
-              selectedNoteTitle={selectedNoteTitle}
-              mathResponse={mathResponse}
-            />
-          </>
+          <MessageItem
+            key={id}
+            message={message}
+            isLoading={isLoading}
+            appendToNote={appendToNote}
+            isLastMessage={id === lastMessageId}
+            selectedNoteTitle={selectedNoteTitle}
+            mathResponse={mathResponse}
+          />
         );
       })}
     </ul>

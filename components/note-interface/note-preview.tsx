@@ -1,6 +1,6 @@
 "use client";
 import { useDialogTriggerContext } from "@/context/DialogTriggerContext";
-import { motion } from "framer-motion";
+import { Note } from "@/lib/types";
 import { FaEye } from "react-icons/fa";
 import { Button } from "../ui/button";
 import {
@@ -9,30 +9,32 @@ import {
   DialogFooter,
   DialogHeader,
 } from "../ui/dialog";
+type NotePreviewProps = {
+  selectedNote: Note | null;
+};
 
-export default function NotePreview() {
+export default function NotePreview({ selectedNote }: NotePreviewProps) {
   const { handleDialogTrigger, isOpen } = useDialogTriggerContext();
-
-  const dialogVariants = {
-    hidden: { scale: 0.95, opacity: 0 },
-    visible: { scale: 1, opacity: 1 },
-    exit: { scale: 0.95, opacity: 0, transition: { duration: 5 } },
-  };
-
+  console.log(selectedNote?.content);
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogTrigger}>
-      <motion.button
+      {/* <
+    
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ ease: "easeInOut", duration: 0.5 }}
         onClick={handleDialogTrigger}
-      >
-        <FaEye className="text-muted-foreground/60" />
-      </motion.button>
+      > */}
+      <FaEye className="text-muted-foreground/60" />
+      {/* </> */}
 
-      <DialogContent>
-        <DialogHeader>Note Preview</DialogHeader>
-        This is the note Dialog
+      <DialogContent className="flex flex-col justify-between items-center">
+        <DialogHeader className="text-center font-semibold">
+          Note Preview
+        </DialogHeader>
+
+        {selectedNote?.content}
+
         <DialogFooter>
           <Button onClick={handleDialogTrigger}>Close</Button>
         </DialogFooter>

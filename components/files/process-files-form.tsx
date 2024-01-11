@@ -1,5 +1,6 @@
 import { useFileContext } from "@/context/FileProvider";
 import { useFileManager } from "@/hooks/useFileManager";
+import { FaTrash } from "react-icons/fa";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -32,6 +33,12 @@ export default function ProcessFileForm({ className }: ProcessFileFormProps) {
             onClick={() =>
               dispatch({ type: "TOGGLE_FILE", payload: file.file.name })
             }
+          />
+          <FaTrash
+            onClick={() =>
+              dispatch({ type: "REMOVE_FILE", payload: file.file.name })
+            }
+            className="hover:cursor-pointer text-primary"
           />
         </div>
       ))}
