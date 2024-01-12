@@ -5,14 +5,11 @@ import Footer from "@/components/home/footer";
 import Header from "@/components/home/header";
 import IsLoggedInActions from "@/components/home/logged-in-actions";
 import WelcomeSection from "@/components/home/welcome-section";
-import { authOptions } from "@/lib/authOptions";
 import { footerData } from "@/lib/data";
-import { User } from "@prisma/client";
-import { getServerSession } from "next-auth";
+import { getUserSession } from "@/lib/session";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-  const user = session?.user as User;
+  const user = await getUserSession();
   const userId = user?.id;
   const mostRecentChatId = await getMostRecentChatId(userId);
   const mostRecentNoteId = await getMostRecentNoteId(userId);
