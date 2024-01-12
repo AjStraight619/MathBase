@@ -1,5 +1,6 @@
 "use client";
 import { useSidebarContext } from "@/context/SidebarContext";
+import { DataPoint } from "@/lib/types";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 import { usePathname } from "next/navigation";
 import History from "../history/History";
@@ -10,13 +11,13 @@ import { DashboardSeparator } from "./separator";
 type DashboardProps = {
   notes: Note[];
   chats: (Chat & { messages: ChatMessage[] })[];
-  userChatHistory: number;
+  lineChartData: DataPoint[];
 };
 
 export default function Dashboard({
   notes,
   chats,
-  userChatHistory,
+  lineChartData,
 }: DashboardProps) {
   const pathname = usePathname();
   const { isSidebarOpen } = useSidebarContext();
@@ -37,7 +38,7 @@ export default function Dashboard({
       {currentListType !== "history" ? (
         <ListItems currentListItems={currentListItems} />
       ) : (
-        <History userChatHistory={userChatHistory} />
+        <History lineChartData={lineChartData} />
       )}
     </ScrollArea>
   );

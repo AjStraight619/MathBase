@@ -1,3 +1,4 @@
+import { Chat, ChatMessage } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { AllFolders } from "./types";
@@ -78,4 +79,36 @@ export const filterForSelectedNote = (
     .flat()
     .find((note) => note.id === selectedNoteId);
   return selectedNote;
+};
+
+export const processChartData = (
+  chats: (Chat & { messages: ChatMessage[] })[]
+) => {
+  const chatCountPerDay: { [key: string]: number } = {};
+
+  chats.forEach((chat) => {
+    const day = getDay(chat.createdAt);
+
+    chatCountPerDay[day] = (chatCountPerDay[day] || 0) + 1;
+  });
+
+  const sortedData = Object.entries(chatCountPerDay)
+    .map(([date, count]) => ({
+      date: date,
+      count: count,
+    }))
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .map((dataPoint) => {
+      const [year, month, day] = dataPoint.date.split("-");
+      return {
+        ...dataPoint,
+        date: `${month}-${day}`,
+      };
+    });
+
+  return sortedData;
+};
+
+const getDay = (date: Date) => {
+  return date.toISOString().split("T")[0];
 };

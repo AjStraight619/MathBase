@@ -89,6 +89,7 @@ model Note {
   updatedAt      DateTime       @updatedAt
   tags           Tag[]
   folderId       String?
+  subject        String?
   user           User           @relation(fields: [userId], references: [id])
   chat           Chat?          @relation(fields: [chatId], references: [id])
   folder         Folder?        @relation(fields: [folderId], references: [id])

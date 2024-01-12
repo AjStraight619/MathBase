@@ -202,3 +202,8 @@ export type ButtonCategories = {
   calculus: MathButton[];
   greek: MathButton[];
 };
+
+export type DataPoint = {
+  date: string;
+  count: number;
+};

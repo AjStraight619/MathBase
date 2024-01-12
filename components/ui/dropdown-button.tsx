@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
+import { FaChevronRight } from "react-icons/fa";
 type DropdownButtonProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick?: () => void;
   isOpen: boolean;
 };
@@ -17,7 +18,7 @@ export default function DropdownButton({
       transition={{ duration: 0.2 }}
       onClick={onClick}
     >
-      {children}
+      <FaChevronRight className="w-4 h-4 text-muted-foreground" />
     </motion.button>
   );
 }

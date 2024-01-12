@@ -1,7 +1,7 @@
 "use client";
 import { addChatContentToNote } from "@/actions/noteActions";
 import { useItemId } from "@/hooks/useItemId";
-import { ExtendedMessage } from "@/lib/types";
+import { ExtendedMessage, MathResponseType } from "@/lib/types";
 import toast from "react-hot-toast";
 import MessageItem from "./message-item";
 
@@ -9,12 +9,14 @@ type MessageListProps = {
   selectedNoteTitle?: string;
   messages: ExtendedMessage[];
   isLoading: boolean;
+  mathResponse: MathResponseType | null;
 };
 
 export default function MessageList({
   messages,
   isLoading,
   selectedNoteTitle,
+  mathResponse,
 }: MessageListProps) {
   const lastMessageId = messages[messages.length - 1]?.id;
   const chatId = useItemId();

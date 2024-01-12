@@ -120,6 +120,7 @@ export const addChatContentToNote = async (formData: FormData) => {
 };
 
 export const getMostRecentNoteId = async (userId: string) => {
+  if (!userId) return null;
   const mostRecentNote = await prisma.note.findFirst({
     where: {
       userId: userId,

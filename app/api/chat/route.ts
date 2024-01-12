@@ -1,10 +1,20 @@
+import { getErrorMessage } from "@/lib/utils";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://math-base.vercel.app"
+    : "http://localhost:3000";
+
 type Message = {
   role: string;
   content: string;
+};
+
+type MathDataToSendToGPT = {
+  prompt: string;
 };
 
 const openai = new OpenAI({
@@ -24,7 +34,15 @@ export const runtime = "edge";
 export async function POST(req: NextRequest) {
   const chatId = req.nextUrl.searchParams.get("chatId") as unknown as string;
   try {
-    const { messages: userMessages } = await req.json();
+    const { messages: userMessages, prompt, mathResponse } = await req.json();
+    console.log("prompt: ", prompt);
+    console.log("mathResponse: ", mathResponse);
+    JSON.stringify(mathResponse);
+
+    const mathDataToSendToGPT = {
+      prompt: prompt,
+      mathResponse: mathResponse,
+    };
 
     const lastUserMessage = userMessages.slice(-1)[0];
 
@@ -35,8 +53,8 @@ export async function POST(req: NextRequest) {
         messages: [
           {
             role: "system",
-            content:
-              "The assistant MathBase, based on GPT-4 technology, is designed to provide helpful and precise answers in mathematics. For all mathematical responses, please format equations and expressions using LaTeX syntax. Ensure that the LaTeX is suitable for rendering in Markdown with rehype-katex and remark-math plugins. Examples include inline equations like $E = mc^2$ and display equations like $$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$.",
+            content: `The assistant Note Genius, based on GPT-4 technology, is designed to provide helpful and precise answers in mathematics. For all mathematical responses, please format equations and expressions using LaTeX syntax. Ensure that the LaTeX is suitable for rendering in Markdown with rehype-katex and remark-math plugins. Examples include inline equations like $E = mc^2$ and display equations like $$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$. 
+              ${prompt ? prompt : ""}`,
           },
           ...userMessages,
         ],
@@ -83,10 +101,6 @@ const updateMessages = async (
   conversationUpdate: Message[],
   chatId: string
 ) => {
-  const baseUrl =
-    process.env.NODE_ENV === "production"
-      ? "https://math-base.vercel.app"
-      : "http://localhost:3000";
   try {
     const res = await fetch(`${baseUrl}/api/users-chats`, {
       method: "POST",
@@ -103,6 +117,7 @@ const updateMessages = async (
       console.log("successful update to db ", data);
     }
   } catch (error) {
-    console.log(error);
+    const err = getErrorMessage(error);
+    console.error("Error updating messages: ", err);
   }
 };

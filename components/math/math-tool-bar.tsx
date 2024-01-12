@@ -6,7 +6,7 @@ import { buttonCategories } from "@/lib/data";
 import { ButtonCategories, MathResponseType } from "@/lib/types";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { Suspense, useEffect, useState } from "react";
+import { SetStateAction, Suspense, useEffect, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { MathField } from "react-mathquill";
 import { Button } from "../ui/button";
@@ -16,6 +16,7 @@ import MathSubmitBtn from "../ui/math-response-button";
 type MathToolbarProps = {
   showMathToolbar: boolean;
   toggleMathToolbar: () => void;
+  setMathResponse: React.Dispatch<SetStateAction<MathResponseType | null>>;
 };
 
 const EditableMathField = dynamic(
@@ -23,15 +24,15 @@ const EditableMathField = dynamic(
   { ssr: false }
 );
 
-const MathToolbar = ({ showMathToolbar }: MathToolbarProps) => {
+const MathToolbar = ({
+  showMathToolbar,
+  setMathResponse,
+}: MathToolbarProps) => {
   const chatId = useItemId();
   const { mathMode } = useMathModeContext();
   const [error, setError] = useState("");
   const [latex, setLatex] = useState("");
 
-  const [mathResponse, setMathResponse] = useState<MathResponseType | null>(
-    null
-  );
   const [selectedCategory, setSelectedCategory] =
     useState<keyof ButtonCategories>("basic");
 

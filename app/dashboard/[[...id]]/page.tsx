@@ -1,7 +1,7 @@
 import { getAllChats } from "@/actions/chatActions";
 import { getAllNotes } from "@/actions/noteActions";
 import Dashboard from "@/components/dashboard-interface/Dashboard";
-import { getUserSession } from "@/lib/session";
+import { processChartData } from "@/lib/utils";
 import { Chat, ChatMessage, Note } from "@prisma/client";
 
 type DashboardProps = {
@@ -12,20 +12,11 @@ type DashboardProps = {
 
 export const dynamic = "force-dynamic";
 
-const getUserHistory = async () => {
-  const user = await getUserSession();
-  const userChatHistory = await prisma.chat.count({
-    where: {
-      userId: user.id,
-    },
-  });
-  return userChatHistory;
-};
-
 export default async function DashboardPage({ searchParams }: DashboardProps) {
-  const chats = (await getAllChats()) as (Chat & { messages: ChatMessage[] })[];
+  const chats = (await getAllChats()) as (Chat & {
+    messages: ChatMessage[];
+  })[];
   const notes = (await getAllNotes()) as Note[];
-  const userChatHistory = await getUserHistory();
 
   const searchTerm = searchParams.search || "";
 
@@ -54,13 +45,14 @@ export default async function DashboardPage({ searchParams }: DashboardProps) {
 
   const filteredNotes = filterNotes(notes, searchTerm);
   const filteredChats = filterChats(chats, searchTerm);
+  const lineChartData = processChartData(chats);
 
   return (
     <div className="flex h-screen">
       <Dashboard
         notes={filteredNotes}
         chats={filteredChats}
-        userChatHistory={userChatHistory}
+        lineChartData={lineChartData}
       />
     </div>
   );

@@ -1,7 +1,6 @@
 "use client";
 import { AllFolders, Folder } from "@/lib/types";
 import { useState } from "react";
-import { FaChevronRight } from "react-icons/fa";
 import DropdownButton from "../ui/dropdown-button";
 import {
   DropdownMenu,
@@ -41,9 +40,7 @@ export default function FolderDropdown({
               Select Folder
             </p>
           )}
-          <DropdownButton isOpen={isOpen}>
-            <FaChevronRight className="w-4 h-4 text-muted-foreground" />
-          </DropdownButton>
+          <DropdownButton isOpen={isOpen} />
         </DropdownMenuTrigger>
       </div>
       <Separator className="w-full text-muted-foreground mt-1 mb-3" />

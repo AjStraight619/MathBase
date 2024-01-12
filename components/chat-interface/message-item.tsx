@@ -19,6 +19,7 @@ export default function MessageItem({
   isLastMessage,
   appendToNote,
   selectedNoteTitle,
+  mathResponse,
 }: MessageItemProps) {
   return (
     <li className="my-8">

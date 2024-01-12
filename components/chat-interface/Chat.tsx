@@ -4,7 +4,7 @@ import { useSidebarContext } from "@/context/SidebarContext";
 import { useExtendedChat } from "@/hooks/useExtendedChat";
 import { useItemId } from "@/hooks/useItemId";
 import { useUser } from "@/hooks/useUser";
-import { ChatWithMessages } from "@/lib/types";
+import { ChatWithMessages, MathResponseType } from "@/lib/types";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import MathToolbar from "../math/math-tool-bar";
@@ -38,11 +38,23 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
   const { isSidebarOpen } = useSidebarContext();
   const chatId = useItemId();
   const [showMathToolbar, setShowMathToolbar] = useState(false);
+  const [mathResponse, setMathResponse] = useState<MathResponseType | null>(
+    null
+  );
   const toggleMathToolbar = () => setShowMathToolbar((prev) => !prev);
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useExtendedChat({
-      options: { api: `/api/chat?chatId=${chatId}`, body: { userId: userId } },
+      options: {
+        api: `/api/chat?chatId=${chatId}`,
+        body: {
+          mathResponse: mathResponse ? mathResponse : null,
+          userId: userId,
+          prompt: mathResponse
+            ? "The user has inputed a math question and you are recieving the correct answer from wolfram alpha, answer any questions the user may have about the problem. If you don't see any indication of a math problem, inform the user"
+            : "",
+        },
+      },
       chatById,
     });
 
@@ -94,6 +106,7 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
               isLoading={isLoading}
               messages={messages}
               selectedNoteTitle={selectedNoteTitle}
+              mathResponse={mathResponse}
             />
             <motion.div
               variants={containerVariants}
@@ -103,6 +116,7 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
               <MathToolbar
                 toggleMathToolbar={toggleMathToolbar}
                 showMathToolbar={showMathToolbar}
+                setMathResponse={setMathResponse}
               />
               <MessageInput
                 input={input}

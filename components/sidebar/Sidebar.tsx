@@ -2,9 +2,7 @@
 import SearchBar from "@/components/ui/searchbar";
 import { useSidebarContext } from "@/context/SidebarContext";
 import { AllFolders, ListMetaData } from "@/lib/types";
-import { User } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import SidebarChat from "../chat-interface/sidebar-chat";
 import SidebarDashboard from "../dashboard-interface/sidebar-dashboard";
@@ -41,9 +39,6 @@ const sidebarVariants = {
 
 export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
   const pathname = usePathname();
-  const { data: session } = useSession();
-  const user = session?.user as User;
-  const userName = user?.name;
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
   let mostRecentChatId = chatMetaData[0]?.id;
   if (!mostRecentChatId) mostRecentChatId = "New Chat";
