@@ -2,8 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
+import { Note, NoteContent, Tag } from "@prisma/client";
 
-export const getAllNotes = async () => {
+export const getAllNotes = async (): Promise<
+  (Note & { contents: NoteContent[]; tags: Tag[] })[] | null
+> => {
   const user = await getUserSession();
   if (!user) return null;
   const userId = user.id;
@@ -14,6 +17,15 @@ export const getAllNotes = async () => {
     },
     include: {
       tags: true,
+      contents: {
+        select: {
+          id: true,
+          noteId: true,
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
     },
     orderBy: {
       updatedAt: "desc",

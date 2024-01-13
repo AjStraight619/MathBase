@@ -1,7 +1,7 @@
 "use client";
 import { useItemType } from "@/hooks/useItemTyoe";
 import { isChat } from "@/lib/typeGuards";
-import { Item } from "@/lib/types";
+import { Chat, ChatMessage, Note, NoteContent } from "@prisma/client";
 import { motion, useInView } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -9,7 +9,9 @@ import { PiArrowSquareOutBold } from "react-icons/pi";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 type ListItemProps = {
-  item: Item;
+  item:
+    | (Note & { contents: NoteContent[] })
+    | (Chat & { messages: ChatMessage[] });
 };
 
 export default function ListItem({ item }: ListItemProps) {
@@ -18,7 +20,7 @@ export default function ListItem({ item }: ListItemProps) {
   const { push } = useRouter();
   const itemType = useItemType();
 
-  const renderItemContent = (item: Item) => {
+  const renderItemContent = (item: any) => {
     if (isChat(item) && item.messages.length > 0) {
       return item.messages[0].content;
     } else if (!isChat(item)) {

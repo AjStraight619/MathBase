@@ -2,7 +2,7 @@ import { getAllChats } from "@/actions/chatActions";
 import { getAllNotes } from "@/actions/noteActions";
 import Dashboard from "@/components/dashboard-interface/Dashboard";
 import { processChartData } from "@/lib/utils";
-import { Chat, ChatMessage, Note } from "@prisma/client";
+import { Chat, ChatMessage, Note, NoteContent } from "@prisma/client";
 
 type DashboardProps = {
   searchParams: {
@@ -16,11 +16,14 @@ export default async function DashboardPage({ searchParams }: DashboardProps) {
   const chats = (await getAllChats()) as (Chat & {
     messages: ChatMessage[];
   })[];
-  const notes = (await getAllNotes()) as Note[];
+  const notes = (await getAllNotes()) as (Note & { contents: NoteContent[] })[];
 
   const searchTerm = searchParams.search || "";
 
-  const filterNotes = (items: Note[], term: string) => {
+  const filterNotes = (
+    items: (Note & { contents: NoteContent[] })[],
+    term: string
+  ) => {
     if (!term) return items;
     const searchTermStr = term.toLowerCase();
     return items.filter((item) =>

@@ -1,12 +1,13 @@
 "use client";
-import { Item } from "@/lib/types";
+import { Chat, ChatMessage, Note, NoteContent } from "@prisma/client";
 import { useRef } from "react";
 import ListItem from "./list-item";
 
 type ListItemProps = {
-  currentListItems: Array<Item>;
+  currentListItems:
+    | (Note & { contents: NoteContent[] })[]
+    | (Chat & { messages: ChatMessage[] })[];
 };
-
 export default function ListItems({ currentListItems }: ListItemProps) {
   const container = useRef<HTMLDivElement>(null);
 
