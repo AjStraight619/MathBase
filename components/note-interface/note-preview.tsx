@@ -11,10 +11,16 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 type NotePreviewProps = {
-  selectedNote: Note | null;
+  noteInfo: Note | null;
+  isNoteLoading: boolean;
+  noteError: unknown;
 };
 
-export default function NotePreview({ selectedNote }: NotePreviewProps) {
+export default function NotePreview({
+  noteInfo,
+  isNoteLoading,
+  noteError,
+}: NotePreviewProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDialogTrigger = () => {
@@ -30,7 +36,7 @@ export default function NotePreview({ selectedNote }: NotePreviewProps) {
           Note Preview
         </DialogHeader>
 
-        {selectedNote?.content}
+        {noteInfo?.content}
 
         <DialogFooter>
           <Button onClick={handleDialogTrigger}>Close</Button>

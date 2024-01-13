@@ -1,8 +1,9 @@
 import { useItemId } from "@/hooks/useItemId";
-import { AllFolders, Folder, ListMetaData, Note } from "@/lib/types";
+import { useNote } from "@/hooks/useNote";
+import { AllFolders, Folder, ListMetaData } from "@/lib/types";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { IoChatbox } from "react-icons/io5";
 import FolderDropdown from "../note-interface/folder-dropdown";
@@ -33,29 +34,24 @@ export default function SidebarChat({
   chatMetaData,
   allFolders,
 }: SidebarChatProps) {
-  const counterRef = useRef(0);
   const chatId = useItemId();
   const [listView, setListView] = useState<"Chats" | "Folders">("Chats");
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
-  const { push } = useRouter();
   const searchParams = useSearchParams();
   const selectedNoteId = searchParams.get("selectedNote");
+  const { push } = useRouter();
+  const { noteInfo, noteError, isNoteLoading } = useNote();
 
-  useEffect(() => {
-    console.log(counterRef.current++);
-  });
-
-  useEffect(() => {
-    if (selectedNoteId) {
-      push(`/chat/${chatId}/selectedNote?selectedNote=${selectedNoteId}`);
-    } else {
-      const noteId = selectedFolder?.notes[0]?.id;
-      if (noteId) {
-        push(`/chat/${chatId}/selectedNote?selectedNote=${noteId}`);
-      }
-    }
-  }, [chatId, push, selectedFolder?.notes, selectedNoteId]);
+  // useEffect(() => {
+  //   if (selectedNoteId) {
+  //     push(`/chat/${chatId}/selectedNote?selectedNote=${selectedNoteId}`);
+  //   } else {
+  //     const noteId = selectedFolder?.notes[0]?.id;
+  //     if (noteId) {
+  //       push(`/chat/${chatId}/selectedNote?selectedNote=${noteId}`);
+  //     }
+  //   }
+  // }, [chatId, push, selectedFolder?.notes, selectedNoteId]);
 
   const handleListViewChange = (newView: "Chats" | "Folders") => {
     if (listView === newView) {
@@ -101,7 +97,7 @@ export default function SidebarChat({
                     key={chat.id}
                   >
                     <Link
-                      href={`/chat/${chat.id}`}
+                      href={`/chat/${chat.id}/selectedNote?selectedNote=${selectedNoteId}`}
                       className="flex-grow whitespace-nowrap text-clip truncate text-sm"
                     >
                       {chat.title}
@@ -140,9 +136,12 @@ export default function SidebarChat({
                         >
                           {note.title}
                         </div>
-                        {/* Render NotePreview only if this note is the selected note */}
                         {isSelectedNote && (
-                          <NotePreview selectedNote={selectedNote} />
+                          <NotePreview
+                            noteInfo={noteInfo}
+                            isNoteLoading={isNoteLoading}
+                            noteError={noteError}
+                          />
                         )}
                       </li>
                     );

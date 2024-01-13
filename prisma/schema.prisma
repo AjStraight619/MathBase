@@ -84,7 +84,7 @@ model Note {
   userId         String
   chatId         String?
   title          String
-  content        String         @db.Text
+  contents       NoteContent[]
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   tags           Tag[]
@@ -100,6 +100,18 @@ model Note {
   @@index([userId, chatId])
   @@index([folderId])
   @@index([chatId])
+}
+
+model NoteContent {
+  id        String   @id @default(uuid())
+  noteId    String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  note Note @relation(fields: [noteId], references: [id])
+
+  @@index([noteId])
 }
 
 model NoteMessage {

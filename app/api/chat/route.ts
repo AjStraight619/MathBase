@@ -35,8 +35,6 @@ export async function POST(req: NextRequest) {
   const chatId = req.nextUrl.searchParams.get("chatId") as unknown as string;
   try {
     const { messages: userMessages, prompt, mathResponse } = await req.json();
-    console.log("prompt: ", prompt);
-    console.log("mathResponse: ", mathResponse);
     JSON.stringify(mathResponse);
 
     const mathDataToSendToGPT = {

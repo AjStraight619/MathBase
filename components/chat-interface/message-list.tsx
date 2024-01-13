@@ -20,6 +20,7 @@ export default function MessageList({
 }: MessageListProps) {
   const lastMessageId = messages[messages.length - 1]?.id;
   const chatId = useItemId();
+  console.log("This is the selected note title: ", selectedNoteTitle);
 
   const appendToNote = async (
     messageId: string,
@@ -30,12 +31,12 @@ export default function MessageList({
       return;
     }
     const formData = new FormData();
-    const messageToAppend = messages.find(
+    const messageContent = messages.find(
       (message) => message.id === messageId
     )?.content;
     formData.append("messageId", messageId);
     formData.append("chatId", chatId);
-    formData.append("messageToAppend", messageToAppend ?? "");
+    formData.append("messageContent", messageContent ?? "");
     formData.append("selectedNoteId", selectedNoteId ?? "");
 
     const noteAdded = await addChatContentToNote(formData);

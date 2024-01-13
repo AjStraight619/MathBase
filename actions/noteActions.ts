@@ -34,7 +34,6 @@ export const addNote = async (formData: FormData) => {
       title: title,
       userId: userId,
       chatId: "",
-      content: "",
     },
   });
 
@@ -59,7 +58,11 @@ export const getAllFolders = async () => {
           id: true,
           title: true,
           updatedAt: true,
-          content: true,
+          contents: {
+            select: {
+              content: true,
+            },
+          },
         },
         orderBy: {
           updatedAt: "desc",
@@ -85,9 +88,11 @@ export const addChatContentToNote = async (formData: FormData) => {
       noteMessage: null,
     };
   }
-
   const selectedNoteId = formData.get("selectedNoteId") as string;
   const messageId = formData.get("messageId") as string;
+  const messageContent = formData.get("messageContent") as string;
+  console.log("messageContent", messageContent);
+
   const exists = await checkChatMessageInNoteExists(selectedNoteId, messageId);
   if (exists) {
     console.log("Message already exists in note");
@@ -105,7 +110,13 @@ export const addChatContentToNote = async (formData: FormData) => {
       },
     });
 
-    console.log("Added message to note", noteMessage);
+    const noteContent = await prisma.noteContent.create({
+      data: {
+        noteId: selectedNoteId,
+        content: messageContent,
+      },
+    });
+
     return {
       error: null,
       noteMessage: noteMessage,
@@ -120,7 +131,6 @@ export const addChatContentToNote = async (formData: FormData) => {
 };
 
 export const getMostRecentNoteId = async (userId: string) => {
-  if (!userId) return null;
   const mostRecentNote = await prisma.note.findFirst({
     where: {
       userId: userId,

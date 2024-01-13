@@ -20,9 +20,9 @@ type ChatPageProps = {
  * @returns {Promise<string | undefined>} - A promise that resolves to the note's title or undefined.
  */
 
-const getNoteTitle = async (noteId: string) => {
+const getNote = async (noteId: string) => {
   if (!noteId) return;
-  const noteName = await prisma.note.findUnique({
+  const note = await prisma.note.findUnique({
     where: {
       id: noteId,
     },
@@ -30,7 +30,7 @@ const getNoteTitle = async (noteId: string) => {
       title: true,
     },
   });
-  return noteName?.title;
+  return note?.title;
 };
 
 /**
@@ -53,7 +53,7 @@ export default async function ChatPage({
 
   const id = params.id[0];
   selectedNoteId = searchParams?.selectedNote;
-  selectedNoteTitle = (await getNoteTitle(
+  selectedNoteTitle = (await getNote(
     selectedNoteId ?? ""
   )) as unknown as string;
 
