@@ -5,6 +5,9 @@ const getNoteById = async (id: string) => {
     where: {
       id,
     },
+    include: {
+      contents: true,
+    },
   });
 
   return note;

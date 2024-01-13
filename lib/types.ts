@@ -1,12 +1,10 @@
-import { Chat, ChatMessage } from "@prisma/client";
+import { Chat, ChatMessage, NoteContent } from "@prisma/client";
 import { Message as AImessage } from "ai";
 
 export type ListMetaData = {
   id: string;
   title: string;
 };
-
-export type Item = Note | (Chat & { messages: ChatMessage[] });
 
 export type FileMetaData = ListMetaData & {
   size?: number;
@@ -207,3 +205,7 @@ export type DataPoint = {
   date: string;
   count: number;
 };
+
+export type Item =
+  | (Note & { contents: NoteContent[] })
+  | (Chat & { messages: ChatMessage[] });
