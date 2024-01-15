@@ -1,35 +1,43 @@
-import { LocalFile } from "@/lib/types";
 import { getErrorMessage } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useLocalStorage = (
+function useLocalStorage<T>(
   key: string,
-  initialValue: LocalFile | null
-) => {
-  const [storedValue, setStoredValue] = useState(() => {
+  initialValue: T
+): [T, (value: T) => void] {
+  const [error, setError] = useState("");
+  const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key);
+
       return item ? JSON.parse(item) : initialValue;
-    } catch (err) {
-      const error = getErrorMessage(err);
-      return {
-        initialValue,
-        error,
-      };
+    } catch (error) {
+      const err = getErrorMessage(error);
+      setError(err);
+      return initialValue;
     }
   });
-  const setValue = (value: string | Function) => {
+
+  useEffect(() => {
+    try {
+      const valueToStore = JSON.stringify(storedValue);
+      window.localStorage.setItem(key, valueToStore);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [key, storedValue]);
+
+  const setValue = (value: T | ((val: T) => T)) => {
     try {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (err) {
-      const error = getErrorMessage(err);
-      return {
-        error,
-      };
+    } catch (error) {
+      console.error(error);
     }
   };
+
   return [storedValue, setValue];
-};
+}
+
+export default useLocalStorage;

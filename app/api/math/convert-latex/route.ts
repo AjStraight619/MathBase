@@ -27,7 +27,8 @@ export async function POST(req: NextRequest) {
     ],
   });
 
-  console.log("This is the response:", response.choices[0]);
-
-  return NextResponse.json({ response: response.choices[0] });
+  return NextResponse.json({
+    response: response.choices[0],
+    equation: latexEquation,
+  });
 }

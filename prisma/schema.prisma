@@ -69,14 +69,15 @@ model ChatMessage {
 }
 
 model MathResponse {
-  id          String        @id @default(uuid())
-  input       String
-  podsData    Json?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  chats       Chat[]
-  notes       Note[]
-  ChatMessage ChatMessage[]
+  id            String        @id @default(uuid())
+  input         String
+  latexEquation String
+  podsData      Json?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  chats         Chat[]
+  notes         Note[]
+  ChatMessage   ChatMessage[]
 }
 
 model Note {

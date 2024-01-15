@@ -2,20 +2,10 @@ import { latexParser } from "latex-parser";
 import * as math from "mathjs";
 import { NextRequest, NextResponse } from "next/server";
 
-type LaTeXRaw = {
-  name?: string;
-  text?: string;
-  arguments?: LaTeXRaw[];
-  type: string;
-  characterCategories?: { string: string; category: number }[];
-};
-
 type CharacterCategeory = {
   string: string;
   category: number;
 };
-
-// Can you help me parse the latex into plain text?
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -33,8 +23,6 @@ export async function POST(req: NextRequest) {
     console.log("Equation:", equation);
     const result = math.evaluate(equation);
     console.log("Result:", result);
-    // const reconstructedEquation = reconstructEquation(token.arguments);
-    // console.log("Reconstructed Equation:", reconstructedEquation);
   });
 
   const tokenJsonString = JSON.stringify(tokens, null, 2);

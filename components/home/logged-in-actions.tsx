@@ -3,6 +3,7 @@ import { User } from "@prisma/client";
 import { useAnimate } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import { Logout } from "../auth/auth";
 import { Skeleton } from "../ui/skeleton";
 import UserActionCard from "./user-action-card";
 
@@ -58,6 +59,7 @@ export default function IsLoggedInActions({
           <h1 id="welcome" className="text-2xl font-semibold text-center">
             Welcome back, {userName}!
           </h1>
+          <Logout />
           <div className="flex flex-row gap-2 items-center justify-center mt-2">
             {loggedInPaths.map((path) => (
               <UserActionCard key={path.name} {...path} />

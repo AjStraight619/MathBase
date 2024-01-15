@@ -42,17 +42,6 @@ export default function SidebarChat({
   const { push } = useRouter();
   const { noteInfo, noteError, isNoteLoading } = useNote();
 
-  // useEffect(() => {
-  //   if (selectedNoteId) {
-  //     push(`/chat/${chatId}/selectedNote?selectedNote=${selectedNoteId}`);
-  //   } else {
-  //     const noteId = selectedFolder?.notes[0]?.id;
-  //     if (noteId) {
-  //       push(`/chat/${chatId}/selectedNote?selectedNote=${noteId}`);
-  //     }
-  //   }
-  // }, [chatId, push, selectedFolder?.notes, selectedNoteId]);
-
   const handleListViewChange = (newView: "Chats" | "Folders") => {
     if (listView === newView) {
       return;

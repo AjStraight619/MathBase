@@ -18,25 +18,6 @@ const gptLeftPathData = "M2844 1065.5L2842.81 2106";
 
 const gptRightPathData = "M3329 1065V1914.21";
 
-const initialPaths = [
-  "path1",
-  "path2",
-  "path3",
-  "path4",
-  "path5",
-  "path6",
-  "path7",
-  "path8",
-  "path9",
-  "path10",
-  "path11",
-  "path12",
-  "path13",
-  "path14",
-  "path15",
-  "path16",
-];
-
 export default function FeaturesLogo() {
   const [scope, animate] = useAnimate();
   const [isInitialDrawDone, setIsInitialDrawDone] = useState(false);
@@ -159,7 +140,7 @@ export default function FeaturesLogo() {
         xmlns="http://www.w3.org/2000/svg"
         data-lines="true"
       >
-        <g clip-path="url(#clip0_601_9)">
+        <g clipPath="url(#clip0_601_9)">
           <g filter="url(#filter0_d_601_9)">
             <rect
               x="2449"
@@ -269,8 +250,8 @@ export default function FeaturesLogo() {
             id="path2"
             d="M2392 750C481.241 750 436.604 750 382.998 750C379.684 750 377 752.686 377 756V2198"
             stroke="url(#paint2_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -281,8 +262,8 @@ export default function FeaturesLogo() {
             id="path3"
             d="M3979 872C5889.76 872 5934.4 872 5988 872C5991.32 872 5994 874.686 5994 878V2284"
             stroke="url(#paint3_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -293,8 +274,8 @@ export default function FeaturesLogo() {
             id="path4"
             d="M2668 1065V1514.74C2668 1518.05 2665.31 1520.74 2662 1520.74H1234C1230.69 1520.74 1228 1523.42 1228 1526.74V2005"
             stroke="url(#paint4_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -305,8 +286,8 @@ export default function FeaturesLogo() {
             id="path5"
             d="M2393 872H921C917.686 872 915 874.686 915 878V1065"
             stroke="url(#paint5_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -349,8 +330,8 @@ export default function FeaturesLogo() {
             id="path6"
             d="M3979 749H5269.5"
             stroke="url(#paint6_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -360,8 +341,8 @@ export default function FeaturesLogo() {
             id="path7"
             d="M2844 1065.5L2842.81 2106"
             stroke="url(#paint7_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -371,8 +352,8 @@ export default function FeaturesLogo() {
             id="path8"
             d="M3018 1065V1410.5"
             stroke="url(#paint8_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -382,8 +363,8 @@ export default function FeaturesLogo() {
             id="path9"
             d="M3702.5 1065.5V1217.5C3702.5 1220.81 3705.19 1223.5 3708.5 1223.5H4686"
             stroke="url(#paint9_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -393,8 +374,8 @@ export default function FeaturesLogo() {
             id="path10"
             d="M3515 1065V1467.73C3515 1471.05 3517.69 1473.73 3521 1473.73H5011C5014.31 1473.73 5017 1476.42 5017 1479.73V1809"
             stroke="url(#paint10_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -404,8 +385,8 @@ export default function FeaturesLogo() {
             id="path11"
             d="M3329 1065V1914.21"
             stroke="url(#paint11_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -415,8 +396,8 @@ export default function FeaturesLogo() {
             id="path12"
             d="M3702.5 528V294C3702.5 290.686 3705.19 288 3708.5 288H4220.5"
             stroke="url(#paint12_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.3"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -426,8 +407,8 @@ export default function FeaturesLogo() {
             id="path13"
             d="M3515 526.5V234"
             stroke="url(#paint13_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -437,8 +418,8 @@ export default function FeaturesLogo() {
             id="path14"
             d="M2667.5 528V395C2667.5 391.686 2664.81 389 2661.5 389H2159"
             stroke="url(#paint14_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -448,8 +429,8 @@ export default function FeaturesLogo() {
             id="path15"
             d="M3018 527V58"
             stroke="url(#paint15_linear_601_9)"
-            stroke-width="4"
-            stroke-linejoin="round"
+            strokeWidth="4"
+            strokeLinejoin="round"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -459,7 +440,7 @@ export default function FeaturesLogo() {
             id="path16"
             d="M3186 1066V1872"
             stroke="url(#paint16_linear_601_9)"
-            stroke-width="4"
+            strokeWidth="4"
             strokeOpacity="0.2"
             strokeDasharray="1px 1px"
             strokeDashoffset="0px"
@@ -486,7 +467,7 @@ export default function FeaturesLogo() {
             width="1481"
             height="431"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
             <feFlood flood-opacity="0" result="BackgroundImageFix" />
             <feColorMatrix
@@ -521,7 +502,7 @@ export default function FeaturesLogo() {
             width="39"
             height="61"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
             <feFlood flood-opacity="0" result="BackgroundImageFix" />
             <feBlend
@@ -734,7 +715,7 @@ export default function FeaturesLogo() {
             gradientUnits="userSpaceOnUse"
           >
             <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-opacity="0" />
+            <stop offset="1" strokeWidth="0" />
           </linearGradient>
           <clipPath id="clip0_601_9">
             <rect width="6371" height="1712" fill="white" />

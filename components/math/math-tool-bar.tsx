@@ -1,6 +1,7 @@
 "use client";
 import { useMathModeContext } from "@/context/MathModeProvider";
 import { useItemId } from "@/hooks/useItemId";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import useWolframQuery from "@/hooks/useWolframAlphaQuery";
 import { buttonCategories } from "@/lib/data";
 import { ButtonCategories, MathResponseType } from "@/lib/types";
@@ -32,6 +33,10 @@ const MathToolbar = ({
   const { mathMode } = useMathModeContext();
   const [error, setError] = useState("");
   const [latex, setLatex] = useState("");
+  const [storedLatex, setStoredLatex] = useLocalStorage<string>(
+    "mathInput",
+    latex
+  );
 
   const [selectedCategory, setSelectedCategory] =
     useState<keyof ButtonCategories>("basic");
@@ -50,6 +55,12 @@ const MathToolbar = ({
     });
   }, []);
 
+  // useEffect(() => {
+  //   if (storedLatex !== null && storedLatex !== latex) {
+  //     setLatex(storedLatex);
+  //   }
+  // }, [storedLatex, latex]);
+
   const handleMathSymbolClick = (symbolLatex: string) => {
     setLatex((prev) => prev + symbolLatex);
   };
@@ -57,6 +68,7 @@ const MathToolbar = ({
   const handleInputChange = (mathField: MathField) => {
     const newLatex = mathField.latex();
     setLatex(newLatex);
+    setStoredLatex(newLatex);
   };
 
   const handleMathSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -68,19 +80,25 @@ const MathToolbar = ({
 
     mutateLaTeXToPlainText(formData, {
       onSuccess: (data) => {
-        mutatePlainTextToWolframResult(data, {
-          onSuccess: (data) => {
-            console.log(data);
-            setMathResponse(data);
-            mathFormData.append("mathResponse", JSON.stringify(data));
-            // await addMathResponseToChat(mathFormData);
+        mutatePlainTextToWolframResult(
+          {
+            plainTextQuestion: data,
+            latexEq: latex,
           },
-          onError: (error) => {
-            if (error instanceof Error) {
-              setError("Error in Wolfram result: " + error.message);
-            }
-          },
-        });
+          {
+            onSuccess: (data) => {
+              console.log(data);
+              setMathResponse(data);
+              mathFormData.append("mathResponse", JSON.stringify(data));
+              // await addMathResponseToChat(mathFormData);
+            },
+            onError: (error) => {
+              if (error instanceof Error) {
+                setError("Error in Wolfram result: " + error.message);
+              }
+            },
+          }
+        );
       },
       onError: (error) => {
         if (error instanceof Error) {
@@ -89,8 +107,6 @@ const MathToolbar = ({
       },
     });
   };
-
-  const handleAddChatToDb = async (e: React.FormEvent<HTMLFormElement>) => {};
 
   // const renderPodsData = () => {
   //   return mathResponse?.podsData.map((pod, index) => {

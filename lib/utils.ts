@@ -84,6 +84,7 @@ export const filterForSelectedNote = (
 export const processChartData = (
   chats: (Chat & { messages: ChatMessage[] })[]
 ) => {
+  if (!chats) return [];
   const chatCountPerDay: { [key: string]: number } = {};
 
   chats.forEach((chat) => {

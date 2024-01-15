@@ -1,7 +1,8 @@
 "use client";
 import { UploadIcon } from "@/components/ui/upload-icon";
 import { useFileContext } from "@/context/FileProvider";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import useLocalStorage from "@/hooks/useLocalStorage";
+
 import { LocalFile } from "@/lib/types";
 import React, { useRef } from "react";
 
@@ -12,7 +13,7 @@ type UploadFilesProps = {
 export default function UploadFiles({ className }: UploadFilesProps) {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { dispatch } = useFileContext();
-  const [storedValue, setValue] = useLocalStorage("files", null);
+  const [storedValue, setValue] = useLocalStorage<LocalFile[]>("files", []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -22,10 +23,13 @@ export default function UploadFiles({ className }: UploadFilesProps) {
         checked: true,
         isViewed: false,
       }));
+
       dispatch({ type: "ADD_FILE", payload: fileArray });
-      setValue((prevValue: LocalFile[]) => {
-        [...prevValue, ...fileArray];
-      });
+
+      const updatedFiles = storedValue
+        ? [...storedValue, ...fileArray]
+        : fileArray;
+      setValue(updatedFiles);
     }
   };
 

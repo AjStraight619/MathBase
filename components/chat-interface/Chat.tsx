@@ -63,6 +63,10 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
   };
 
   useEffect(() => {
+    console.log("This is the current math response: ", mathResponse);
+  }, [mathResponse]);
+
+  useEffect(() => {
     if (autoScroll && bottomOfMessagesRef.current) {
       const timeoutId = setTimeout(() => {
         scrollToBottom();

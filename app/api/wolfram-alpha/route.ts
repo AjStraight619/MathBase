@@ -22,6 +22,11 @@ export async function GET(req: NextRequest) {
     const queryString = req.nextUrl.searchParams.get("queryString");
     const chatId = req.nextUrl.searchParams.get("chatId") as unknown as string;
     const path = req.nextUrl.searchParams.get("path");
+    const latexEquation = req.nextUrl.searchParams.get(
+      "latexEquation"
+    ) as unknown as string;
+
+    console.log("This is the latex equation: ", latexEquation);
 
     if (!queryString) {
       return NextResponse.json({ error: "No equation provided" });
@@ -50,7 +55,8 @@ export async function GET(req: NextRequest) {
       const extractedData = extractDataFromPods(data.queryresult);
       const storedMathResponse = await storeMathResponseInDatabase(
         chatId,
-        extractedData
+        extractedData,
+        latexEquation
       );
 
       if (path) {
@@ -77,6 +83,7 @@ export async function GET(req: NextRequest) {
 async function findMathResponseInDatabase(inputEquation: string) {
   const mathResponse = await prisma.mathResponse.findFirst({
     where: {
+      latexEquation: inputEquation,
       input: inputEquation,
     },
   });
@@ -94,7 +101,8 @@ async function findMathResponseInDatabase(inputEquation: string) {
 
 async function storeMathResponseInDatabase(
   chatId: string,
-  extractedData: MathResponseType
+  extractedData: MathResponseType,
+  latexEquation: string
 ) {
   const mathResponse = await prisma.mathResponse.create({
     data: {
@@ -103,6 +111,7 @@ async function storeMathResponseInDatabase(
       chats: {
         connect: { id: chatId },
       },
+      latexEquation: latexEquation,
     },
   });
 
@@ -145,7 +154,7 @@ const extractDataFromPods = (queryResult: QueryResult) => {
     extractedData.podsData.push(podData);
   });
 
-  console.log("Extracted data:", extractedData);
+  console.log("Extracted data:", JSON.stringify(extractedData, null, 2));
 
   return extractedData;
 };
