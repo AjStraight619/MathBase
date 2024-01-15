@@ -1,5 +1,4 @@
 "use server";
-
 import { prisma } from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
 import { Note, NoteContent, Tag } from "@prisma/client";

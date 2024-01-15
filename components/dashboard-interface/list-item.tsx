@@ -22,9 +22,9 @@ export default function ListItem({ item }: ListItemProps) {
 
   const renderItemContent = (item: any) => {
     if (isChat(item) && item.messages.length > 0) {
-      return item.messages[0].content;
+      return item.messages[0]?.content;
     } else if (!isChat(item)) {
-      return item.contents[0].content;
+      return item.contents[0]?.content;
     }
     return "No content available";
   };
