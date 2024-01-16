@@ -57,7 +57,7 @@ export default function Features() {
       className="flex flex-col items-center"
     >
       <FeaturesLogo />
-      <div className="grid grid-cols-3 sm:grid-cols-1 gap-4 px-4 w-full">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-4 px-4 w-full">
         {featureData.map((feature) => (
           <FeatureCard key={feature.title} {...feature} />
         ))}

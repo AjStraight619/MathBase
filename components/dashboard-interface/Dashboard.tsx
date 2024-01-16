@@ -3,7 +3,6 @@ import { useSidebarContext } from "@/context/SidebarContext";
 import { DataPoint } from "@/lib/types";
 import { Chat, ChatMessage, Note, NoteContent } from "@prisma/client";
 import { usePathname } from "next/navigation";
-import History from "../history/History";
 import { ScrollArea } from "../ui/scroll-area";
 import ListItems from "./list-items";
 import { DashboardSeparator } from "./separator";
@@ -38,7 +37,8 @@ export default function Dashboard({
       {currentListType !== "history" ? (
         <ListItems currentListItems={currentListItems} />
       ) : (
-        <History lineChartData={lineChartData} />
+        /* <History lineChartData={lineChartData} /> */
+        <div className="text-center">Currently in development</div>
       )}
     </ScrollArea>
   );

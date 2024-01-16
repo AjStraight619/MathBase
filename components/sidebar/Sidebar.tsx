@@ -1,7 +1,7 @@
 "use client";
 import SearchBar from "@/components/ui/searchbar";
 import { useSidebarContext } from "@/context/SidebarContext";
-import { AllFolders, ListMetaData } from "@/lib/types";
+import { Folder, ListMetaData } from "@/lib/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import SidebarChat from "../chat-interface/sidebar-chat";
@@ -14,7 +14,7 @@ import UserOptions from "./user-options";
 
 type SidebarProps = {
   chatMetaData: ListMetaData[];
-  allFolders: AllFolders[];
+  allFolders: Folder[];
 };
 
 /**

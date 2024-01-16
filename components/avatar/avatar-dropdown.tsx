@@ -3,7 +3,9 @@ import Link from "next/link";
 import { FaTachometerAlt } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 import { UserAvatar } from "../avatar/avatars";
+import { ModeToggle } from "../ui/mode-toggle";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Separator } from "../ui/separator";
 
 type AvatarDropDownProps = {
   className?: string;
@@ -23,7 +25,11 @@ export default function AvatarDropDown({
             <span className="text-md text-primary ">{usersName}</span>
           </div>
         </PopoverTrigger>
-        <PopoverContent className="w-[14rem] rounded-md p-[0.3rem] z-50">
+        <PopoverContent className="w-[14rem] rounded-md p-[0.3rem] z-50 relative">
+          <div className="flex flex-row justify-between items-center">
+            <div></div>
+            <ModeToggle />
+          </div>
           <div className="flex flex-col p-[0.5rem]">
             <Link
               className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2"
@@ -32,6 +38,8 @@ export default function AvatarDropDown({
               <FaTachometerAlt className="w-5 h-5" />
               Dashboard
             </Link>
+
+            <Separator />
 
             <div className="flex items-center hover:bg-opacity-80 dark:hover:bg-zinc-900 hover:bg-gray-500/50 p-[0.3rem] rounded-md gap-2 hover:cursor-pointer">
               <RxExit className="w-5 h-5 text-sm" />

@@ -1,6 +1,6 @@
 "use client";
 import { addNewFolder } from "@/actions/noteActions";
-import { AllFolders, Folder } from "@/lib/types";
+import { Folder } from "@/lib/types";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
@@ -13,7 +13,7 @@ import {
 import { Separator } from "../ui/separator";
 
 type FolderDropDownProps = {
-  allFolders: AllFolders[];
+  allFolders: Folder[];
   selectedFolder: Folder | null;
   setSelectedFolder: (folder: Folder) => void;
 };
@@ -72,7 +72,13 @@ export default function FolderDropdown({
           ))}
           <Separator />
           <form action={handleAddFolder}>
-            <Button disabled={pending}>New Folder</Button>
+            <Button
+              className="w-full items-center text-xs"
+              variant="outline"
+              disabled={pending}
+            >
+              New Folder
+            </Button>
           </form>
         </div>
       </DropdownMenuContent>

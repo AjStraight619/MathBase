@@ -4,14 +4,14 @@ import { Providers } from "@/components/auth/auth-provider";
 import MathModeToggle from "@/components/math/math-mode-toggle";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import DialogTriggerProvider from "@/context/DialogTriggerContext";
 import { FileProvider } from "@/context/FileProvider";
 import MathModeProvider from "@/context/MathModeProvider";
 import ReactQueryProvider from "@/context/QueryClientProvider";
 import SidebarProvider from "@/context/SidebarContext";
 import { getUserSession } from "@/lib/session";
-import { AllFolders, ListMetaData } from "@/lib/types";
+import { Folder, ListMetaData } from "@/lib/types";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
@@ -30,12 +30,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   let chatMetaData: ListMetaData[] = [];
-  let allFolders: AllFolders[] = [];
+  let allFolders: Folder[] = [];
 
   const user = await getUserSession();
   if (user) {
-    chatMetaData = (await getChatMetaData()) as unknown as ListMetaData[];
-    allFolders = (await getAllFolders()) as unknown as AllFolders[];
+    chatMetaData = (await getChatMetaData()) as ListMetaData[];
+    allFolders = (await getAllFolders()) as unknown as Folder[];
   }
 
   return (
@@ -54,7 +54,7 @@ export default async function RootLayout({
                   <ReactQueryProvider>
                     <DialogTriggerProvider>
                       <Sidebar
-                        allFolders={allFolders}
+                        allFolders={allFolders ?? []}
                         chatMetaData={chatMetaData ?? []}
                       />
 
@@ -67,7 +67,6 @@ export default async function RootLayout({
             </FileProvider>
             <Toaster />
           </Providers>
-          <ModeToggle />
         </ThemeProvider>
       </body>
     </html>

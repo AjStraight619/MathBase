@@ -56,8 +56,9 @@ export const addNote = async (formData: FormData) => {
     },
   });
 
-  revalidatePath("/dashboard");
-  revalidatePath("/note");
+  // revalidatePath("/dashboard");
+  // revalidatePath("/note");
+  revalidatePath("/chat/");
   return note;
 };
 
@@ -91,6 +92,7 @@ export const getAllFolders = async () => {
       },
     },
   });
+  revalidatePath("/");
   return allFolders;
 };
 

@@ -1,5 +1,5 @@
 "use client";
-import { AllFolders, Folder } from "@/lib/types";
+import { Folder } from "@/lib/types";
 import { useState } from "react";
 import DropdownButton from "../ui/dropdown-button";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../ui/dropdown-menu";
 
 type SelectFolderProps = {
-  allFolders: AllFolders[];
+  allFolders: Folder[];
   selectedFolder: Folder | null;
   setSelectedFolder: (folder: Folder) => void;
 };

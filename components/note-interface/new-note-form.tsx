@@ -1,7 +1,7 @@
 "use client";
 import { addNote } from "@/actions/noteActions";
 import { AllFolders, LocalFile } from "@/lib/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { FiPlus } from "react-icons/fi";
 import ProcessFileForm from "../files/process-files-form";
@@ -39,10 +39,6 @@ export default function NewNoteForm({
   });
 
   const [selectedFolder, setSelectedFolder] = useState<AllFolders | null>(null);
-
-  useEffect(() => {
-    console.log("selected folder changed: ", selectedFolder?.title);
-  }, [selectedFolder]);
 
   const handleAddNote = async (formData: FormData) => {
     formData.append("title", noteForm.title);

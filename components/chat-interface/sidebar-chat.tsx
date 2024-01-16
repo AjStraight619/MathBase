@@ -101,7 +101,10 @@ export default function SidebarChat({
           </>
         ) : (
           <>
-            <NewNoteForm className="w-calc[(100% - 1rem)]" />
+            <NewNoteForm
+              allFolders={allFolders}
+              className="w-calc[(100% - 1rem)]"
+            />
             <div className="w-full flex flex-col justify-center items-start">
               <FolderDropdown
                 allFolders={allFolders}

@@ -17,7 +17,7 @@ export function DashboardSeparator({
   };
 
   return (
-    <div className={`mt-4 ${!isSidebarOpen ? "ml-[2rem]" : ""}`}>
+    <div className={`mt-10 ${!isSidebarOpen ? "ml-[2rem]" : ""}`}>
       <div className="space-y-1">
         <h4 className="text-lg font-semibold leading-none pb-2">Dashboard</h4>
         <p className="text-xs text-muted-foreground">
@@ -28,7 +28,7 @@ export function DashboardSeparator({
       <Separator className="my-4" />
 
       <div
-        className={`fixed top-4 ${
+        className={`fixed top-6 md:top-4 ${
           isSidebarOpen ? "left-[calc(50%+100px)]" : "left-1/2"
         } transform -translate-x-1/2 flex h-5 items-center justify-center space-x-4 text-sm z-50`}
       >
