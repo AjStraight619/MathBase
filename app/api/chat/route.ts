@@ -13,10 +13,6 @@ type Message = {
   content: string;
 };
 
-type MathDataToSendToGPT = {
-  prompt: string;
-};
-
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -36,11 +32,6 @@ export async function POST(req: NextRequest) {
   try {
     const { messages: userMessages, prompt, mathResponse } = await req.json();
     JSON.stringify(mathResponse);
-
-    const mathDataToSendToGPT = {
-      prompt: prompt,
-      mathResponse: mathResponse,
-    };
 
     const lastUserMessage = userMessages.slice(-1)[0];
 

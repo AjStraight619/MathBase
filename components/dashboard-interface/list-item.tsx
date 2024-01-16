@@ -22,10 +22,31 @@ export default function ListItem({ item }: ListItemProps) {
 
   const renderItemContent = (item: any) => {
     if (isChat(item) && item.messages.length > 0) {
+      // Handle chat message content
       return item.messages[0]?.content;
-    } else if (!isChat(item)) {
-      return item.contents[0]?.content;
+    } else if (!isChat(item) && item.contents.length > 0) {
+      // Handle note content
+      const contentString = item.contents[0]?.content;
+      if (!contentString) {
+        return "No content available";
+      }
+
+      try {
+        const contentJSON = JSON.parse(contentString);
+
+        if (contentJSON.blocks) {
+          const blocks = contentJSON.blocks;
+          const text = blocks.map((block: any) => block.text).join(" ");
+          return text; // Return the concatenated text of all blocks
+        } else {
+          throw new Error("Not Draft.js content");
+        }
+      } catch (error) {
+        console.error("Error parsing note content:", error);
+        return contentString;
+      }
     }
+
     return "No content available";
   };
   return (

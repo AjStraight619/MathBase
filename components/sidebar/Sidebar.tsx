@@ -94,7 +94,10 @@ export default function Sidebar({ chatMetaData, allFolders }: SidebarProps) {
                   chatMetaData={chatMetaData}
                 />
               ) : isDashboardPath ? (
-                <SidebarDashboard mostRecentChatId={mostRecentChatId} />
+                <SidebarDashboard
+                  allFolders={allFolders}
+                  mostRecentChatId={mostRecentChatId}
+                />
               ) : isHomePath ? (
                 <SidebarHome mostRecentChatId={mostRecentChatId} />
               ) : isNotePath ? (

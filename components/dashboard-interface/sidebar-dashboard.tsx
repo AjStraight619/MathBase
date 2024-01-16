@@ -1,3 +1,4 @@
+import { AllFolders } from "@/lib/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa";
@@ -6,10 +7,12 @@ import NewNoteForm from "../note-interface/new-note-form";
 
 type SidebarDashboardProps = {
   mostRecentChatId: string;
+  allFolders: AllFolders[];
 };
 
 export default function SidebarDashboard({
   mostRecentChatId,
+  allFolders,
 }: SidebarDashboardProps) {
   const pathname = usePathname();
   const routes = [
@@ -28,7 +31,7 @@ export default function SidebarDashboard({
   return (
     <div className="flex flex-col w-full space-y-2">
       {isChatPath && <NewChatForm />}
-      {isNotePath && <NewNoteForm />}
+      {isNotePath && <NewNoteForm allFolders={allFolders} />}
       {routes.map((route) => (
         <Link
           className="flex flex-row justify-start items-center group hover:bg-muted rounded-md py-1 px-2 gap-4"

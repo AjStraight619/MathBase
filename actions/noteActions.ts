@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
 import { Note, NoteContent, Tag } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const getAllNotes = async (): Promise<
   (Note & { contents: NoteContent[]; tags: Tag[] })[] | null
@@ -39,15 +40,24 @@ export const addNote = async (formData: FormData) => {
   const userId = user.id;
 
   const title = formData.get("title") as string;
+  const folderId = formData.get("folderId") as string;
 
   const note = await prisma.note.create({
     data: {
       title: title,
       userId: userId,
+      folderId: folderId,
       chatId: "",
+      contents: {
+        create: {
+          content: "",
+        },
+      },
     },
   });
 
+  revalidatePath("/dashboard");
+  revalidatePath("/note");
   return note;
 };
 
@@ -189,4 +199,52 @@ export const getMostRecentNoteMetaData = async () => {
     id: mostRecentNote?.id,
     title: mostRecentNote?.title,
   };
+};
+
+export const updateNoteContent = async (formData: FormData) => {
+  const noteContentId = formData.get("noteContentId") as string;
+  const newContent = formData.get("noteContent") as string; // Ensure this matches the form data key
+
+  try {
+    const updatedNoteContent = await prisma.noteContent.update({
+      where: {
+        id: noteContentId,
+      },
+      data: {
+        content: newContent,
+      },
+    });
+
+    if (updatedNoteContent) {
+      return { error: null, success: true };
+    }
+
+    revalidatePath("/notes");
+    return { error: "No content was updated", success: false };
+  } catch (error) {
+    return {
+      error: "Failed to update note content",
+      success: false,
+    };
+  }
+};
+
+export const addNewFolder = async (formData: FormData) => {
+  const user = await getUserSession();
+  const userId = user?.id;
+  const newFolder = await prisma.folder.create({
+    data: {
+      title: "New Folder",
+      userId: userId,
+    },
+  });
+  revalidatePath("/dashboard");
+  revalidatePath("/note");
+  revalidatePath("/chat");
+
+  if (newFolder) {
+    console.log("Successfully created new folder: ", newFolder);
+  }
+
+  return newFolder;
 };

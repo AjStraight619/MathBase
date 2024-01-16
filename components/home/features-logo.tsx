@@ -149,7 +149,7 @@ export default function FeaturesLogo() {
               height="423"
               rx="40"
               fill="url(#paint0_linear_601_9)"
-              shape-rendering="crispEdges"
+              shapeRendering="crispEdges"
             />
             <rect
               x="2449"
@@ -158,8 +158,8 @@ export default function FeaturesLogo() {
               height="423"
               rx="40"
               fill="black"
-              fill-opacity="0.2"
-              shape-rendering="crispEdges"
+              fillOpacity="0.2"
+              shapeRendering="crispEdges"
             />
             <rect
               x="2449.5"
@@ -168,7 +168,7 @@ export default function FeaturesLogo() {
               height="422"
               rx="39.5"
               stroke="black"
-              shape-rendering="crispEdges"
+              shapeRendering="crispEdges"
             />
           </g>
           <path
@@ -469,7 +469,7 @@ export default function FeaturesLogo() {
             filterUnits="userSpaceOnUse"
             colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -504,7 +504,7 @@ export default function FeaturesLogo() {
             filterUnits="userSpaceOnUse"
             colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feBlend
               mode="normal"
               in="SourceGraphic"
@@ -538,8 +538,8 @@ export default function FeaturesLogo() {
             y2="1008"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#474747" />
-            <stop offset="1" stop-color="#474747" stop-opacity="0" />
+            <stop stopColor="#474747" />
+            <stop offset="1" stopColor="#474747" stopOpacity="0" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_601_9"
@@ -549,8 +549,8 @@ export default function FeaturesLogo() {
             y2="845"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="white" />
-            <stop offset="1" stop-color="#A6A5A5" stop-opacity="0.93" />
+            <stop stopColor="white" />
+            <stop offset="1" stopColor="#A6A5A5" stopOpacity="0.93" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_601_9"
@@ -560,8 +560,8 @@ export default function FeaturesLogo() {
             y2="2198"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_601_9"
@@ -571,8 +571,8 @@ export default function FeaturesLogo() {
             y2="2284"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="white" stop-opacity="0" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
           <linearGradient
             id="paint4_linear_601_9"
@@ -582,8 +582,8 @@ export default function FeaturesLogo() {
             y2="2005"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint5_linear_601_9"
@@ -593,8 +593,8 @@ export default function FeaturesLogo() {
             y2="1065"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint6_linear_601_9"
@@ -604,8 +604,8 @@ export default function FeaturesLogo() {
             y2="750"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint7_linear_601_9"
@@ -615,8 +615,8 @@ export default function FeaturesLogo() {
             y2="2106"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint8_linear_601_9"
@@ -626,8 +626,8 @@ export default function FeaturesLogo() {
             y2="1410.5"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint9_linear_601_9"
@@ -637,8 +637,8 @@ export default function FeaturesLogo() {
             y2="1223.5"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint10_linear_601_9"
@@ -648,8 +648,8 @@ export default function FeaturesLogo() {
             y2="1809"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint11_linear_601_9"
@@ -659,8 +659,8 @@ export default function FeaturesLogo() {
             y2="1914.21"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint12_linear_601_9"
@@ -670,8 +670,8 @@ export default function FeaturesLogo() {
             y2="528"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint13_linear_601_9"
@@ -681,8 +681,8 @@ export default function FeaturesLogo() {
             y2="526.5"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint14_linear_601_9"
@@ -692,8 +692,8 @@ export default function FeaturesLogo() {
             y2="528"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint15_linear_601_9"
@@ -703,8 +703,8 @@ export default function FeaturesLogo() {
             y2="527"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
-            <stop offset="1" stop-color="#141414" />
+            <stop stopColor="#C0C0C0" />
+            <stop offset="1" stopColor="#141414" />
           </linearGradient>
           <linearGradient
             id="paint16_linear_601_9"
@@ -714,7 +714,7 @@ export default function FeaturesLogo() {
             y2="1872"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C0C0C0" />
+            <stop stopColor="#C0C0C0" />
             <stop offset="1" strokeWidth="0" />
           </linearGradient>
           <clipPath id="clip0_601_9">

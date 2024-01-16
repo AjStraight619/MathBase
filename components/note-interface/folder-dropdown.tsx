@@ -1,6 +1,9 @@
 "use client";
+import { addNewFolder } from "@/actions/noteActions";
 import { AllFolders, Folder } from "@/lib/types";
 import { useState } from "react";
+import { useFormStatus } from "react-dom";
+import { Button } from "../ui/button";
 import DropdownButton from "../ui/dropdown-button";
 import {
   DropdownMenu,
@@ -22,10 +25,20 @@ export default function FolderDropdown({
 }: FolderDropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const { pending } = useFormStatus();
+
   const handleFolderSelect = (folder: Folder) => {
     setSelectedFolder(folder);
     setIsOpen(false);
   };
+
+  const handleAddFolder = async (formData: FormData) => {
+    const addedFolder = await addNewFolder(formData);
+    if (addedFolder) {
+      console.log("successfully added new folder: ", addedFolder);
+    }
+  };
+
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <div className="flex flex-row justify-evenly w-full">
@@ -57,6 +70,10 @@ export default function FolderDropdown({
               </p>
             </button>
           ))}
+          <Separator />
+          <form action={handleAddFolder}>
+            <Button disabled={pending}>New Folder</Button>
+          </form>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

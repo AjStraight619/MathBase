@@ -26,13 +26,15 @@ export default async function NotePage({ params }: { params: { id: string } }) {
   const { id } = params;
   const note = await getNoteById(id);
   return (
-    <div className="h-screen justify-center items-center flex flex-col">
-      <h1 className="text-xl text-muted-foreground mt-2">{note?.title}</h1>
-      <div className="w-1/2">
-        <Suspense fallback={<div>Loading...</div>}>
+    <div className="flex flex-col items-center min-h-screen px-2">
+      <Suspense fallback={<div>Loading...</div>}>
+        <h1 className="text-xl text-muted-foreground mt-4 mb-2">
+          {note?.title}
+        </h1>
+        <div className="w-full h-full lg:max-w-[calc(100vh*0.707)] lg:max-h-screen mx-auto overflow-hidden">
           <NoteEditor note={note} />
-        </Suspense>
-      </div>
+        </div>
+      </Suspense>
     </div>
   );
 }
