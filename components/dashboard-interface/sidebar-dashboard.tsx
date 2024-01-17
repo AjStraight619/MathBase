@@ -1,13 +1,14 @@
-import { AllFolders } from "@/lib/types";
+import { Folder } from "@/lib/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import NewChatForm from "../chat-interface/new-chat-form";
 import NewNoteForm from "../note-interface/new-note-form";
 
 type SidebarDashboardProps = {
   mostRecentChatId: string;
-  allFolders: AllFolders[];
+  allFolders: Folder[];
 };
 
 export default function SidebarDashboard({
@@ -28,10 +29,17 @@ export default function SidebarDashboard({
   const isNotePath = pathname.includes("notes");
   const isChatPath = pathname.includes("chats");
   const isHistoryPath = pathname.includes("history");
+  const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   return (
     <div className="flex flex-col w-full space-y-2">
       {isChatPath && <NewChatForm />}
-      {isNotePath && <NewNoteForm allFolders={allFolders} />}
+      {isNotePath && (
+        <NewNoteForm
+          selectedFolder={selectedFolder}
+          setSelectedFolder={setSelectedFolder}
+          allFolders={allFolders}
+        />
+      )}
       {routes.map((route) => (
         <Link
           className="flex flex-row justify-start items-center group hover:bg-muted rounded-md py-1 px-2 gap-4"
