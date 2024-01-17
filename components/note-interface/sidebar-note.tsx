@@ -1,6 +1,6 @@
 "use client";
 
-import { AllFolders } from "@/lib/types";
+import { AllFolders, Folder } from "@/lib/types";
 import { useState } from "react";
 import FolderDropdown from "./folder-dropdown";
 import NewNoteForm from "./new-note-form";
@@ -10,10 +10,14 @@ type SidebarNoteProps = {
 };
 
 export default function SidebarNote({ allFolders }: SidebarNoteProps) {
-  const [selectedFolder, setSelectedFolder] = useState<AllFolders | null>(null);
+  const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   return (
     <div>
-      <NewNoteForm allFolders={allFolders} />
+      <NewNoteForm
+        setSelectedFolder={setSelectedFolder}
+        selectedFolder={selectedFolder}
+        allFolders={allFolders}
+      />
       <FolderDropdown
         selectedFolder={selectedFolder}
         setSelectedFolder={setSelectedFolder}

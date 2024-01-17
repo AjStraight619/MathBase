@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
+import { getErrorMessage } from "@/lib/utils";
 import { Note, NoteContent, Tag } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -145,9 +146,9 @@ export const addChatContentToNote = async (formData: FormData) => {
       noteMessage: noteMessage,
     };
   } catch (error) {
-    console.error("Error adding message to note:", error);
+    const err = getErrorMessage(error);
     return {
-      error: "Failed to add message to note",
+      error: err,
       noteMessage: null,
     };
   }
@@ -205,7 +206,7 @@ export const getMostRecentNoteMetaData = async () => {
 
 export const updateNoteContent = async (formData: FormData) => {
   const noteContentId = formData.get("noteContentId") as string;
-  const newContent = formData.get("noteContent") as string; // Ensure this matches the form data key
+  const newContent = formData.get("noteContent") as string;
 
   try {
     const updatedNoteContent = await prisma.noteContent.update({
@@ -232,21 +233,35 @@ export const updateNoteContent = async (formData: FormData) => {
 };
 
 export const addNewFolder = async (formData: FormData) => {
+  const folderTitle = formData.get("folderTitle") as string;
   const user = await getUserSession();
   const userId = user?.id;
-  const newFolder = await prisma.folder.create({
-    data: {
-      title: "New Folder",
-      userId: userId,
-    },
-  });
-  revalidatePath("/dashboard");
-  revalidatePath("/note");
-  revalidatePath("/chat");
 
-  if (newFolder) {
-    console.log("Successfully created new folder: ", newFolder);
+  try {
+    const newFolder = await prisma.folder.create({
+      data: {
+        title: folderTitle,
+        userId: userId,
+      },
+    });
+    if (newFolder) {
+      return {
+        error: null,
+        success: true,
+      };
+    } else {
+      return {
+        error: "Failed to create new folder",
+        success: false,
+      };
+    }
+  } catch (error) {
+    const err = getErrorMessage(error);
+    return {
+      error: err,
+      success: false,
+    };
+  } finally {
+    revalidatePath("/");
   }
-
-  return newFolder;
 };

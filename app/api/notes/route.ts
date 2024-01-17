@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  console.log("note info:", JSON.stringify(noteInfo, null, 2));
+  console.log("This is the noteInfo: ", noteInfo);
 
   return NextResponse.json(noteInfo);
 }

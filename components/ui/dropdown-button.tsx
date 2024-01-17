@@ -1,13 +1,11 @@
 import { motion } from "framer-motion";
 import { FaChevronRight } from "react-icons/fa";
 type DropdownButtonProps = {
-  children?: React.ReactNode;
   onClick?: () => void;
   isOpen: boolean;
 };
 
 export default function DropdownButton({
-  children,
   onClick,
   isOpen,
 }: DropdownButtonProps) {

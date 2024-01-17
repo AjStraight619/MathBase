@@ -10,6 +10,9 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "../ui/dialog";
+
+import { motion } from "framer-motion";
+
 type NotePreviewProps = {
   noteInfo: Note | null;
   isNoteLoading: boolean;
@@ -28,8 +31,20 @@ export default function NotePreview({
   };
   return (
     <Dialog open={isDialogOpen} onOpenChange={handleDialogTrigger}>
-      <DialogTrigger>
-        <FaEye className="text-muted-foreground/60" />
+      <DialogTrigger asChild>
+        <motion.button
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 0.5,
+          }}
+        >
+          <FaEye className="text-muted-foreground/60" />
+        </motion.button>
       </DialogTrigger>
       <DialogContent className="flex flex-col justify-between items-center">
         <DialogHeader className="text-center font-semibold">

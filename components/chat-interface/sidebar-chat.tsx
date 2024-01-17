@@ -1,8 +1,9 @@
 import { useItemId } from "@/hooks/useItemId";
 import { useNote } from "@/hooks/useNote";
+import { useNoteId } from "@/hooks/useNoteId";
 import { AllFolders, Folder, ListMetaData } from "@/lib/types";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaFolder } from "react-icons/fa";
 import { IoChatbox } from "react-icons/io5";
@@ -37,11 +38,11 @@ export default function SidebarChat({
   const chatId = useItemId();
   const [listView, setListView] = useState<"Chats" | "Folders">("Chats");
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
-  const searchParams = useSearchParams();
-  const selectedNoteId = searchParams.get("selectedNote");
+
   const { push } = useRouter();
   const { noteInfo, noteError, isNoteLoading } = useNote();
-
+  const { selectedNoteId } = useNoteId();
+  4;
   const handleListViewChange = (newView: "Chats" | "Folders") => {
     if (listView === newView) {
       return;
@@ -102,6 +103,8 @@ export default function SidebarChat({
         ) : (
           <>
             <NewNoteForm
+              setSelectedFolder={setSelectedFolder}
+              selectedFolder={selectedFolder}
               allFolders={allFolders}
               className="w-calc[(100% - 1rem)]"
             />

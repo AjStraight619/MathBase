@@ -53,6 +53,7 @@ export default async function ChatPage({
 
   const id = params.id[0];
   selectedNoteId = searchParams?.selectedNote;
+
   selectedNoteTitle = (await getNote(
     selectedNoteId ?? ""
   )) as unknown as string;

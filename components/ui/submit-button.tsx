@@ -9,6 +9,7 @@ type SubmitButtonProps = {
   onClick?: () => void;
   className?: string;
   disabled?: boolean;
+  size?: "default" | "sm" | "lg" | "icon" | null | undefined;
   variant?:
     | "link"
     | "default"
@@ -26,6 +27,7 @@ export default function SubmitButton({
   className,
   disabled,
   variant,
+  size,
 }: SubmitButtonProps) {
   const { pending } = useFormStatus();
   return (
@@ -35,6 +37,7 @@ export default function SubmitButton({
       type="submit"
       disabled={pending || disabled}
       variant={variant}
+      size={size}
     >
       {pending ? <CgSpinner className="animate-spin" /> : children}
     </Button>

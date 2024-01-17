@@ -1,6 +1,6 @@
 "use client";
 import { addNote } from "@/actions/noteActions";
-import { AllFolders, LocalFile } from "@/lib/types";
+import { Folder, LocalFile } from "@/lib/types";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FiPlus } from "react-icons/fi";
@@ -25,20 +25,22 @@ type NoteForm = {
 
 type NewNoteFormProps = {
   className?: string;
-  allFolders: AllFolders[];
+  allFolders: Folder[];
+  selectedFolder: Folder | null;
+  setSelectedFolder: (folder: Folder | null) => void;
 };
 
 export default function NewNoteForm({
   className,
   allFolders,
+  selectedFolder,
+  setSelectedFolder,
 }: NewNoteFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [noteForm, setNoteForm] = useState<NoteForm>({
     title: "",
     file: undefined,
   });
-
-  const [selectedFolder, setSelectedFolder] = useState<AllFolders | null>(null);
 
   const handleAddNote = async (formData: FormData) => {
     formData.append("title", noteForm.title);

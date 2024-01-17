@@ -1,6 +1,7 @@
 "use client";
 import { addChatContentToNote } from "@/actions/noteActions";
 import { useItemId } from "@/hooks/useItemId";
+import { useNoteId } from "@/hooks/useNoteId";
 import { ExtendedMessage, MathResponseType } from "@/lib/types";
 import toast from "react-hot-toast";
 import MessageItem from "./message-item";
@@ -20,12 +21,9 @@ export default function MessageList({
 }: MessageListProps) {
   const lastMessageId = messages[messages.length - 1]?.id;
   const chatId = useItemId();
-  console.log("This is the selected note title: ", selectedNoteTitle);
+  const { selectedNoteId } = useNoteId();
 
-  const appendToNote = async (
-    messageId: string,
-    selectedNoteId: string | undefined
-  ) => {
+  const appendToNote = async (messageId: string) => {
     if (!selectedNoteId) {
       toast.error("Please select a note!");
       return;
