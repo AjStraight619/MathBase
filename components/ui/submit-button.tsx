@@ -6,7 +6,6 @@ import { Button } from "./button";
 
 type SubmitButtonProps = {
   children: React.ReactNode;
-  onClick?: () => void;
   className?: string;
   disabled?: boolean;
   size?: "default" | "sm" | "lg" | "icon" | null | undefined;
@@ -23,7 +22,6 @@ type SubmitButtonProps = {
 
 export default function SubmitButton({
   children,
-  onClick,
   className,
   disabled,
   variant,
@@ -33,7 +31,6 @@ export default function SubmitButton({
   return (
     <Button
       className={cn(className)}
-      onClick={onClick}
       type="submit"
       disabled={pending || disabled}
       variant={variant}

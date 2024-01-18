@@ -98,7 +98,7 @@ export default function AboutPage() {
             </a>
           </div>
         </motion.div>
-
+        <SectionHeading>{""}</SectionHeading>
         <p className="mb-3">
           My passion for{" "}
           <span className="font-medium">technology and solving problems</span>,
@@ -109,10 +109,10 @@ export default function AboutPage() {
           feeling of finally figuring out a solution to a problem. My core stack
           is{" "}
           <span className="font-medium">
-            React, Next.js, Node.js, and MySQL
+            TypeScript, React, Next.js, Node.js, Prisma and MySQL
           </span>
-          . I am also familiar with TypeScript and Prisma. I am always looking
-          to learn new technologies. I am currently looking for a{" "}
+          . I am also familiar with Python. I am always looking to learn new
+          technologies. I am currently looking for a{" "}
           <span className="font-medium">full-time position or internship</span>
         </p>
         <p>

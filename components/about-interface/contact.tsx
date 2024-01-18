@@ -1,9 +1,10 @@
 "use client";
 import { sendEmail } from "@/actions/sendEmail";
-import EmailSubmitButton from "@/email/email-submit-button";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import toast from "react-hot-toast";
+import { FaPaperPlane } from "react-icons/fa";
+import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import SectionHeading from "../ui/section-heading";
 import { Textarea } from "../ui/textarea";
@@ -13,7 +14,6 @@ export default function Contact() {
 
   return (
     <motion.section
-      id="contact"
       className="mb-20 sm:mb-28 w-[min(100%,38rem)] text-center pt-20 pb-10"
       initial={{
         opacity: 0,
@@ -32,8 +32,8 @@ export default function Contact() {
 
       <p className="text-primary -mt-6 dark:text-primary/80">
         Please contact me directly at{" "}
-        <a className="underline" href="mailto:astraight9409@sdsu.edu">
-          astraight9409@sdsu.edu
+        <a className="underline" href="mailto:AlexStraight619@gmail.com">
+          AlexStraight619@gmail.com
         </a>{" "}
         or through this form.
       </p>
@@ -69,7 +69,15 @@ export default function Contact() {
           maxLength={5000}
         />
 
-        <EmailSubmitButton />
+        <Button
+          className="group flex items-center justify-center gap-2 h-[3rem] w-[4.5rem] rounded-2xl outline-none transition-all focus:scale-110 hover:scale-110  active:scale-105  disabled:scale-100 disabled:bg-opacity-65"
+          type="submit"
+        >
+          Send
+          <span>
+            <FaPaperPlane className="text-xs opacity-70 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
+          </span>
+        </Button>
       </form>
     </motion.section>
   );
