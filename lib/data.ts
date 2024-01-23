@@ -60,35 +60,25 @@ export const featureData = [
 ];
 
 export const buttonCategories: ButtonCategories = {
-  basic: [
-    { symbol: "+", latex: "+", wolfram: "+" },
-    { symbol: "−", latex: "-", wolfram: "-" },
-    { symbol: "×", latex: "\\times", wolfram: "*" },
-    { symbol: "÷", latex: "\\div", wolfram: "/" },
-    { symbol: "^", latex: "^", wolfram: "^" },
-
-    { symbol: "(", latex: "(", wolfram: "(" },
-    { symbol: ")", latex: ")", wolfram: ")" },
-    { symbol: "=", latex: "=", wolfram: "=" },
-  ],
   algebra: [
     { symbol: "x²", latex: "^2", wolfram: "x^2" },
     { symbol: "√x", latex: "\\sqrt{}", wolfram: "sqrt(x)" },
     { symbol: "log", latex: "\\log", wolfram: "log" },
     { symbol: "ln", latex: "\\ln", wolfram: "ln" },
   ],
+  calculus: [
+    { symbol: "∫", latex: "\\int", wolfram: "integrate" },
+    { symbol: "d/dx", latex: "\\frac{d}{dx}", wolfram: "d/dx" },
+    { symbol: "∑", latex: "\\sum", wolfram: "sum" },
+    { symbol: "lim", latex: "\\lim", wolfram: "limit" },
+  ],
+
   misc: [
     { symbol: "|x|", latex: "\\left| x \\right|", wolfram: "abs(x)" },
     { symbol: "∞", latex: "\\infty", wolfram: "infinity" },
     { symbol: "e", latex: "e", wolfram: "e" },
     { symbol: "π", latex: "\\pi", wolfram: "pi" },
     { symbol: "θ", latex: "\\theta", wolfram: "theta" },
-  ],
-  calculus: [
-    { symbol: "∫", latex: "\\int", wolfram: "integrate" },
-    { symbol: "d/dx", latex: "\\frac{d}{dx}", wolfram: "d/dx" },
-    { symbol: "∑", latex: "\\sum", wolfram: "sum" },
-    { symbol: "lim", latex: "\\lim", wolfram: "limit" },
   ],
   greek: [
     { symbol: "α", latex: "\\alpha", wolfram: "alpha" },
@@ -97,3 +87,11 @@ export const buttonCategories: ButtonCategories = {
     { symbol: "δ", latex: "\\delta", wolfram: "delta" },
   ],
 } as const;
+
+export const basicButtons = [
+  { symbol: "+", latex: "+" },
+  { symbol: "−", latex: "-" },
+  { symbol: "×", latex: "\\times" },
+  { symbol: "÷", latex: "\\div" },
+  { symbol: "=", latex: "=" },
+];

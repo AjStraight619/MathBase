@@ -22,10 +22,8 @@ export default function ListItem({ item }: ListItemProps) {
 
   const renderItemContent = (item: any) => {
     if (isChat(item) && item.messages.length > 0) {
-      // Handle chat message content
       return item.messages[0]?.content;
     } else if (!isChat(item) && item.contents.length > 0) {
-      // Handle note content
       const contentString = item.contents[0]?.content;
       if (!contentString) {
         return "No content available";
@@ -37,7 +35,7 @@ export default function ListItem({ item }: ListItemProps) {
         if (contentJSON.blocks) {
           const blocks = contentJSON.blocks;
           const text = blocks.map((block: any) => block.text).join(" ");
-          return text; // Return the concatenated text of all blocks
+          return text;
         } else {
           throw new Error("Not Draft.js content");
         }

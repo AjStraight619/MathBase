@@ -3,7 +3,7 @@ import { useMathModeContext } from "@/context/MathModeProvider";
 import { useItemId } from "@/hooks/useItemId";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import useWolframQuery from "@/hooks/useWolframAlphaQuery";
-import { buttonCategories } from "@/lib/data";
+import { basicButtons, buttonCategories } from "@/lib/data";
 import { ButtonCategories, MathResponseType } from "@/lib/types";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -39,7 +39,7 @@ const MathToolbar = ({
   );
 
   const [selectedCategory, setSelectedCategory] =
-    useState<keyof ButtonCategories>("basic");
+    useState<keyof ButtonCategories>("algebra");
 
   const {
     mutateLaTeXToPlainText,
@@ -54,12 +54,6 @@ const MathToolbar = ({
       mq.addStyles();
     });
   }, []);
-
-  // useEffect(() => {
-  //   if (storedLatex !== null && storedLatex !== latex) {
-  //     setLatex(storedLatex);
-  //   }
-  // }, [storedLatex, latex]);
 
   const handleMathSymbolClick = (symbolLatex: string) => {
     setLatex((prev) => prev + symbolLatex);
@@ -87,7 +81,6 @@ const MathToolbar = ({
           },
           {
             onSuccess: (data) => {
-              console.log(data);
               setMathResponse(data);
               mathFormData.append("mathResponse", JSON.stringify(data));
               // await addMathResponseToChat(mathFormData);
@@ -108,30 +101,6 @@ const MathToolbar = ({
     });
   };
 
-  // const renderPodsData = () => {
-  //   return mathResponse?.podsData.map((pod, index) => {
-  //     const { width, height} = pod;
-  //     return (
-
-  //     )
-  //     <div key={index}>
-  //       <h3>{pod.title}</h3>
-  //       {pod.content.map((contentItem, subIndex) => (
-  //         <div key={subIndex}>
-  //           <p>{contentItem.plaintext}</p>
-  //           {contentItem.imageUrl && (
-  //             <Image
-  //               src={contentItem.imageUrl}
-  //               alt={`Result ${index}-${subIndex}`}
-  //               width={}
-  //             />
-  //           )}
-  //         </div>
-  //       ))}
-  //     </div>
-  // });
-  // };
-
   return (
     <>
       {showMathToolbar && mathMode && (
@@ -148,13 +117,13 @@ const MathToolbar = ({
           className="mb-2 mx-auto max-w-xl"
         >
           <form onSubmit={handleMathSubmit}>
-            <Card className="relative">
+            <Card className="w-[16rem] relative">
               <CardContent className="p-4">
                 <Suspense fallback={<div>Loading...</div>}>
                   <EditableMathField
                     latex={latex}
                     onChange={handleInputChange}
-                    className="w-full border border-border rounded p-2 mb-4 text-lg  bg-primary text-primary-foreground"
+                    className="w-full border border-border rounded p-2 mb-4 text-lg  bg-primary text-primary-foreground text-right"
                   />
                 </Suspense>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -175,18 +144,32 @@ const MathToolbar = ({
                     </Button>
                   ))}
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-6 gap-2">
                   {buttonCategories[selectedCategory].map((button) => (
                     <Button
                       type="button"
                       key={button.symbol}
                       onClick={() => handleMathSymbolClick(button.latex)}
-                      className="p-2 border border-gray-300 rounded text-lg"
+                      className="text-lg"
+                      size="icon"
+                    >
+                      {button.symbol}
+                    </Button>
+                  ))}
+
+                  {basicButtons.map((button) => (
+                    <Button
+                      key={button.symbol}
+                      type="button"
+                      onClick={() => handleMathSymbolClick(button.latex)}
+                      className="text-lg"
+                      size="icon"
                     >
                       {button.symbol}
                     </Button>
                   ))}
                 </div>
+
                 <MathSubmitBtn
                   isLoadingLaTeXToPlainText={isLoadingLaTeXToPlainText}
                   isLoadingPlainTextToWolfram={isLoadingPlainTextToWolfram}

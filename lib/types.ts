@@ -194,7 +194,6 @@ export type MathButton = {
 };
 
 export type ButtonCategories = {
-  basic: MathButton[];
   algebra: MathButton[];
   misc: MathButton[];
   calculus: MathButton[];

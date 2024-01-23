@@ -1,5 +1,4 @@
 "use client";
-// import EquationProcessor from "@/components/math/equation-processor";
 import { useSidebarContext } from "@/context/SidebarContext";
 import { useExtendedChat } from "@/hooks/useExtendedChat";
 import { useItemId } from "@/hooks/useItemId";
@@ -63,10 +62,6 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
   };
 
   useEffect(() => {
-    console.log("This is the current math response: ", mathResponse);
-  }, [mathResponse]);
-
-  useEffect(() => {
     if (autoScroll && bottomOfMessagesRef.current) {
       const timeoutId = setTimeout(() => {
         scrollToBottom();
@@ -80,6 +75,10 @@ export default function Chat({ chatById, selectedNoteTitle }: ChatProps) {
       scrollToBottom();
     }
   }, [showMathToolbar]);
+
+  useEffect(() => {
+    console.log("This is the math response: ", mathResponse);
+  }, [mathResponse]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
